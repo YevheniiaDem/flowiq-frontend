@@ -23,6 +23,10 @@ export type TranslationKey =
   | `analytics.${keyof typeof uk.analytics & string}`
   | `chat.${keyof typeof uk.chat & string}`
   | `chat.suggestions.${keyof (typeof uk.chat)["suggestions"] & string}`
+  | "chat.thinking"
+  | "chat.error"
+  | "chat.you"
+  | "chat.assistant"
   | `forecasts.${keyof typeof uk.forecasts & string}`
   | `reports.${keyof typeof uk.reports & string}`
   | `integrations.${keyof typeof uk.integrations & string}`

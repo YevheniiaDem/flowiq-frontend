@@ -100,6 +100,10 @@ export const en: TranslationKeys = {
       expenses: "What are my biggest expenses?",
       forecast: "What's the cash flow forecast for next quarter?",
     },
+    thinking: "AI is analyzing your data...",
+    error: "Failed to send message",
+    you: "You",
+    assistant: "Flowiq AI",
   },
   forecasts: {
     title: "Forecasts",

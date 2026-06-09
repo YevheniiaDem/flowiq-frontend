@@ -98,6 +98,10 @@ export const uk = {
       expenses: "Які мої найбільші витрати?",
       forecast: "Який прогноз грошового потоку на наступний квартал?",
     },
+    thinking: "AI аналізує дані...",
+    error: "Не вдалося надіслати повідомлення",
+    you: "Ви",
+    assistant: "Flowiq AI",
   },
   forecasts: {
     title: "Прогнози",

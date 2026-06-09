@@ -11,5 +11,5 @@ export type {
   ChatMessage,
   ChatConversation,
   SendMessageRequest,
-  AIInsightResponse,
+  SendMessageResponse,
 } from "./chat.service";
