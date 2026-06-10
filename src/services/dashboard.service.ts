@@ -23,16 +23,22 @@ export const dashboardService = {
   },
 
   async getRevenueTrend(): Promise<{ month: string; amount: number }[]> {
-    const response = await apiClient.get<{ month: string; amount: number }[]>(
+    const response = await apiClient.get<{ month: string; amount: number | string }[]>(
       "/dashboard/charts/revenue-trend"
     );
-    return response.data;
+    return response.data.map((item) => ({
+      month: item.month,
+      amount: Number(item.amount) || 0,
+    }));
   },
 
   async getExpenseBreakdown(): Promise<{ category: string; amount: number }[]> {
-    const response = await apiClient.get<{ category: string; amount: number }[]>(
+    const response = await apiClient.get<{ category: string; amount: number | string }[]>(
       "/dashboard/charts/expense-breakdown"
     );
-    return response.data;
+    return response.data.map((item) => ({
+      category: item.category,
+      amount: Number(item.amount) || 0,
+    }));
   },
 };
