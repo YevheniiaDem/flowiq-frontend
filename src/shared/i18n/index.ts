@@ -20,16 +20,77 @@ export type TranslationKey =
   | `dashboard.stats.${keyof (typeof uk.dashboard)["stats"] & string}`
   | `dashboard.health.${keyof (typeof uk.dashboard)["health"] & string}`
   | `dashboard.badge.${keyof (typeof uk.dashboard)["badge"] & string}`
+  | `dashboard.taxProfile.${keyof (typeof uk.dashboard)["taxProfile"] & string}`
+  | `dashboard.taxProfile.status.${keyof (typeof uk.dashboard)["taxProfile"]["status"] & string}`
+  | `transactions.${keyof typeof uk.transactions & string}`
+  | `transactions.summary.${keyof (typeof uk.transactions)["summary"] & string}`
+  | `transactions.filters.${keyof (typeof uk.transactions)["filters"] & string}`
+  | `transactions.table.${keyof (typeof uk.transactions)["table"] & string}`
+  | `transactions.form.${keyof (typeof uk.transactions)["form"] & string}`
+  | `transactions.pagination.${keyof (typeof uk.transactions)["pagination"] & string}`
+  | `imports.${keyof typeof uk.imports & string}`
+  | `imports.stats.${keyof (typeof uk.imports)["stats"] & string}`
+  | `imports.upload.${keyof (typeof uk.imports)["upload"] & string}`
+  | `imports.history.${keyof (typeof uk.imports)["history"] & string}`
+  | `imports.status.${keyof (typeof uk.imports)["status"] & string}`
   | `analytics.${keyof typeof uk.analytics & string}`
+  | `analytics.stats.${keyof (typeof uk.analytics)["stats"] & string}`
+  | `analytics.charts.${keyof (typeof uk.analytics)["charts"] & string}`
+  | `analytics.fop.${keyof (typeof uk.analytics)["fop"] & string}`
+  | `analytics.taxProfile.${keyof (typeof uk.analytics)["taxProfile"] & string}`
   | `chat.${keyof typeof uk.chat & string}`
   | `chat.suggestions.${keyof (typeof uk.chat)["suggestions"] & string}`
   | "chat.thinking"
   | "chat.error"
   | "chat.you"
   | "chat.assistant"
+  | `aiAccountant.${keyof typeof uk.aiAccountant & string}`
+  | `aiAccountant.health.${keyof (typeof uk.aiAccountant)["health"] & string}`
+  | `aiAccountant.recommendations.${keyof (typeof uk.aiAccountant)["recommendations"] & string}`
+  | `aiAccountant.chat.${keyof (typeof uk.aiAccountant)["chat"] & string}`
+  | `aiAccountant.chat.suggestions.${keyof (typeof uk.aiAccountant)["chat"]["suggestions"] & string}`
+  | `aiAccountant.tax.${keyof (typeof uk.aiAccountant)["tax"] & string}`
+  | `aiAccountant.forecast.${keyof (typeof uk.aiAccountant)["forecast"] & string}`
   | `forecasts.${keyof typeof uk.forecasts & string}`
   | `reports.${keyof typeof uk.reports & string}`
+  | `reports.stats.${keyof (typeof uk.reports)["stats"] & string}`
+  | `reports.types.${keyof (typeof uk.reports)["types"] & string}`
+  | `reports.formats.${keyof (typeof uk.reports)["formats"] & string}`
+  | `reports.periods.${keyof (typeof uk.reports)["periods"] & string}`
+  | `reports.status.${keyof (typeof uk.reports)["status"] & string}`
+  | `reports.preview.${keyof (typeof uk.reports)["preview"] & string}`
+  | `reports.history.${keyof (typeof uk.reports)["history"] & string}`
+  | `reports.dialog.${keyof (typeof uk.reports)["dialog"] & string}`
+  | `notifications.${keyof typeof uk.notifications & string}`
+  | `notifications.stats.${keyof (typeof uk.notifications)["stats"] & string}`
+  | `notifications.filters.${keyof (typeof uk.notifications)["filters"] & string}`
+  | `notifications.groups.${keyof (typeof uk.notifications)["groups"] & string}`
   | `integrations.${keyof typeof uk.integrations & string}`
+  | `integrations.items.${keyof (typeof uk.integrations)["items"] & string}`
+  | `integrations.items.monobank.${keyof (typeof uk.integrations)["items"]["monobank"] & string}`
+  | `integrations.items.privatbank.${keyof (typeof uk.integrations)["items"]["privatbank"] & string}`
+  | `integrations.items.googleSheets.${keyof (typeof uk.integrations)["items"]["googleSheets"] & string}`
+  | `integrations.items.shopify.${keyof (typeof uk.integrations)["items"]["shopify"] & string}`
+  | `integrations.items.telegram.${keyof (typeof uk.integrations)["items"]["telegram"] & string}`
+  | `integrations.items.rozetka.${keyof (typeof uk.integrations)["items"]["rozetka"] & string}`
+  | `businessGuide.${keyof typeof uk.businessGuide & string}`
+  | `businessGuide.profile.${keyof (typeof uk.businessGuide)["profile"] & string}`
+  | `businessGuide.health.${keyof (typeof uk.businessGuide)["health"] & string}`
+  | `businessGuide.groups.${keyof (typeof uk.businessGuide)["groups"] & string}`
+  | `businessGuide.taxes.${keyof (typeof uk.businessGuide)["taxes"] & string}`
+  | `businessGuide.kved.${keyof (typeof uk.businessGuide)["kved"] & string}`
+  | `businessGuide.recommendations.${keyof (typeof uk.businessGuide)["recommendations"] & string}`
+  | `businessGuide.checker.${keyof (typeof uk.businessGuide)["checker"] & string}`
+  | `businessGuide.checker.steps.${keyof (typeof uk.businessGuide)["checker"]["steps"] & string}`
+  | `businessGuide.checker.activity.${keyof (typeof uk.businessGuide)["checker"]["activity"] & string}`
+  | `businessGuide.checker.income.${keyof (typeof uk.businessGuide)["checker"]["income"] & string}`
+  | `businessGuide.checker.employees.${keyof (typeof uk.businessGuide)["checker"]["employees"] & string}`
+  | `businessGuide.checker.businessType.${keyof (typeof uk.businessGuide)["checker"]["businessType"] & string}`
+  | `businessGuide.checker.errors.${keyof (typeof uk.businessGuide)["checker"]["errors"] & string}`
+  | `businessGuide.checker.analyzing.${keyof (typeof uk.businessGuide)["checker"]["analyzing"] & string}`
+  | `businessGuide.checker.result.${keyof (typeof uk.businessGuide)["checker"]["result"] & string}`
+  | `businessGuide.checker.export.${keyof (typeof uk.businessGuide)["checker"]["export"] & string}`
+  | `businessGuide.group.${keyof (typeof uk.businessGuide)["group"] & string}`
   | `settings.${keyof typeof uk.settings & string}`
   | `settings.languages.${keyof (typeof uk.settings)["languages"] & string}`
   | `settings.currencies.${keyof (typeof uk.settings)["currencies"] & string}`

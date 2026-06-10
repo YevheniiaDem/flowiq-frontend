@@ -7,6 +7,7 @@ import { Loader2, UserPlus } from "lucide-react";
 import { authService } from "@/src/services";
 import { usePreferences } from "@/src/shared/context/PreferencesContext";
 import { Button } from "@/src/shared/components/ui/button";
+import { ClearableInput } from "@/src/shared/components/ui/clearable-input";
 import { Input } from "@/src/shared/components/ui/input";
 import {
   Card,
@@ -65,7 +66,7 @@ export function RegisterForm() {
             <label htmlFor="name" className="text-xs font-medium text-muted-foreground">
               {t("auth.fullName")}
             </label>
-            <Input
+            <ClearableInput
               id="name"
               type="text"
               placeholder={t("auth.namePlaceholder")}
@@ -73,6 +74,7 @@ export function RegisterForm() {
               onChange={(e) => setName(e.target.value)}
               required
               autoComplete="name"
+              clearAriaLabel={t("common.clearField")}
               className="h-9 bg-background/50"
             />
           </div>
@@ -80,7 +82,7 @@ export function RegisterForm() {
             <label htmlFor="email" className="text-xs font-medium text-muted-foreground">
               {t("auth.email")}
             </label>
-            <Input
+            <ClearableInput
               id="email"
               type="email"
               placeholder={t("auth.emailPlaceholder")}
@@ -88,6 +90,7 @@ export function RegisterForm() {
               onChange={(e) => setEmail(e.target.value)}
               required
               autoComplete="email"
+              clearAriaLabel={t("common.clearField")}
               className="h-9 bg-background/50"
             />
           </div>
@@ -96,13 +99,14 @@ export function RegisterForm() {
               {t("auth.company")}{" "}
               <span className="text-muted-foreground/60">{t("auth.optional")}</span>
             </label>
-            <Input
+            <ClearableInput
               id="company"
               type="text"
               placeholder={t("auth.companyPlaceholder")}
               value={company}
               onChange={(e) => setCompany(e.target.value)}
               autoComplete="organization"
+              clearAriaLabel={t("common.clearField")}
               className="h-9 bg-background/50"
             />
           </div>

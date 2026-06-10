@@ -21,7 +21,7 @@ export function BusinessHealthCard({ health }: BusinessHealthCardProps) {
   const { t } = usePreferences();
 
   return (
-    <Card className="relative overflow-hidden rounded-xl border-border/50 bg-card/50 p-4 backdrop-blur-sm">
+    <Card className="relative h-full overflow-hidden rounded-xl border-border/50 bg-card/50 p-4 backdrop-blur-sm">
       <div className="flex items-center justify-between">
         <div>
           <p className="text-xs font-medium text-muted-foreground">

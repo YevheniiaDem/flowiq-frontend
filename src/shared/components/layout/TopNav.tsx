@@ -3,11 +3,12 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { Bell, LogOut, Search, Settings, User } from "lucide-react";
+import { LogOut, Search, Settings, User } from "lucide-react";
 import { authService, User as AuthUser } from "@/src/services";
+import { NotificationBell } from "@/src/features/notifications";
 import { usePreferences } from "@/src/shared/context/PreferencesContext";
 import { Button } from "@/src/shared/components/ui/button";
-import { Input } from "@/src/shared/components/ui/input";
+import { ClearableInput } from "@/src/shared/components/ui/clearable-input";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -17,7 +18,6 @@ import {
   DropdownMenuTrigger,
 } from "@/src/shared/components/ui/dropdown-menu";
 import { Avatar, AvatarFallback, AvatarImage } from "@/src/shared/components/ui/avatar";
-import { Badge } from "@/src/shared/components/ui/badge";
 
 function getInitials(name: string): string {
   return name
@@ -43,6 +43,7 @@ export function TopNav() {
   const router = useRouter();
   const { t } = usePreferences();
   const [user, setUser] = useState<AuthUser | null>(null);
+  const [search, setSearch] = useState("");
 
   useEffect(() => {
     const loadUser = async () => {
@@ -70,30 +71,20 @@ export function TopNav() {
   return (
     <header className="sticky top-0 z-30 flex h-14 items-center justify-between border-b border-border/50 bg-background/80 px-4 backdrop-blur-xl">
       <div className="flex flex-1 items-center gap-3">
-        <div className="relative w-full max-w-sm">
-          <Search className="absolute left-2.5 top-1/2 h-3.5 w-3.5 -translate-y-1/2 text-muted-foreground" />
-          <Input
-            type="search"
-            placeholder={t("topNav.search")}
-            className="h-8 rounded-lg border-border/50 bg-card/30 pl-8 pr-3 text-sm backdrop-blur-sm transition-all focus:border-primary/50 focus:bg-card/50"
-          />
-        </div>
+        <ClearableInput
+          containerClassName="w-full max-w-sm"
+          type="search"
+          value={search}
+          onChange={(event) => setSearch(event.target.value)}
+          placeholder={t("topNav.search")}
+          clearAriaLabel={t("common.clearField")}
+          leftIcon={<Search className="h-3.5 w-3.5" />}
+          className="h-8 rounded-lg border-border/50 bg-card/30 text-sm backdrop-blur-sm transition-all focus:border-primary/50 focus:bg-card/50"
+        />
       </div>
 
       <div className="flex items-center gap-2">
-        <Button
-          variant="ghost"
-          size="icon"
-          className="relative h-8 w-8 rounded-lg hover:bg-accent/50"
-        >
-          <Bell className="h-4 w-4" />
-          <Badge
-            variant="destructive"
-            className="absolute -right-0.5 -top-0.5 h-4 w-4 rounded-full p-0 text-[9px]"
-          >
-            3
-          </Badge>
-        </Button>
+        <NotificationBell />
 
         <DropdownMenu>
           <DropdownMenuTrigger asChild>

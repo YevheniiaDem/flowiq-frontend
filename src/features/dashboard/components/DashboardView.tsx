@@ -5,13 +5,20 @@ import { ArrowRight, Loader2 } from "lucide-react";
 import { StatCard } from "./StatCard";
 import { AISummaryCard } from "./AISummaryCard";
 import { BusinessHealthCard } from "./BusinessHealthCard";
+import { TaxProfileCard } from "./TaxProfileCard";
 import { AIInsightCard } from "./AIInsightCard";
 import { RevenueTrendChart } from "./RevenueTrendChart";
 import { ExpenseBreakdownChart } from "./ExpenseBreakdownChart";
-import { dashboardService } from "@/src/services";
+import { RecentNotificationsWidget } from "@/src/features/notifications";
+import { dashboardService, taxProfileService } from "@/src/services";
 import { usePreferences } from "@/src/shared/context/PreferencesContext";
 import { TranslationKey } from "@/src/shared/i18n";
-import { AIInsight, BusinessHealthScore, StatCard as StatCardType } from "@/src/shared/types";
+import {
+  AIInsight,
+  BusinessHealthScore,
+  StatCard as StatCardType,
+  TaxProfile,
+} from "@/src/shared/types";
 import { formatCurrency } from "@/src/shared/utils/currency";
 
 const STAT_LABEL_KEYS: Record<string, TranslationKey> = {
@@ -26,6 +33,7 @@ export function DashboardView() {
   const [stats, setStats] = useState<StatCardType[]>([]);
   const [insights, setInsights] = useState<AIInsight[]>([]);
   const [health, setHealth] = useState<BusinessHealthScore | null>(null);
+  const [taxProfile, setTaxProfile] = useState<TaxProfile | null>(null);
   const [summary, setSummary] = useState<{ text: string; badge: string } | null>(null);
   const [revenueTrend, setRevenueTrend] = useState<{ month: string; amount: number }[]>([]);
   const [expenseBreakdown, setExpenseBreakdown] = useState<{ category: string; amount: number }[]>([]);
@@ -40,6 +48,7 @@ export function DashboardView() {
         statsData,
         insightsData,
         healthData,
+        taxProfileData,
         summaryData,
         revenueData,
         expenseData,
@@ -47,6 +56,7 @@ export function DashboardView() {
         dashboardService.getStats(),
         dashboardService.getInsights(),
         dashboardService.getBusinessHealth(),
+        taxProfileService.getTaxProfile(language),
         dashboardService.getAISummary(),
         dashboardService.getRevenueTrend(),
         dashboardService.getExpenseBreakdown(),
@@ -54,6 +64,7 @@ export function DashboardView() {
       setStats(statsData);
       setInsights(insightsData);
       setHealth(healthData);
+      setTaxProfile(taxProfileData);
       setSummary(summaryData);
       setRevenueTrend(revenueData);
       setExpenseBreakdown(expenseData);
@@ -76,7 +87,7 @@ export function DashboardView() {
     );
   }
 
-  if (error || !health || !summary) {
+  if (error || !health || !taxProfile || !summary) {
     return (
       <div className="flex h-64 flex-col items-center justify-center gap-2 p-4 text-center">
         <p className="text-sm text-destructive">{error || t("dashboard.loadError")}</p>
@@ -107,11 +118,12 @@ export function DashboardView() {
         ))}
       </div>
 
-      <div className="grid gap-3 lg:grid-cols-3">
+      <div className="grid gap-3 lg:grid-cols-2">
         <div className="lg:col-span-2">
           <AISummaryCard text={summary.text} badge={summary.badge} />
         </div>
         <BusinessHealthCard health={health} />
+        <TaxProfileCard profile={taxProfile} />
       </div>
 
       <div>
@@ -134,6 +146,8 @@ export function DashboardView() {
         <RevenueTrendChart data={revenueTrend} period={t("dashboard.last6Months")} />
         <ExpenseBreakdownChart data={expenseBreakdown} period={t("dashboard.thisMonth")} />
       </div>
+
+      <RecentNotificationsWidget />
     </div>
   );
 }

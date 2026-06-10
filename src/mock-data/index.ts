@@ -5,3 +5,4 @@ export * from "./revenue";
 export * from "./expenses";
 export * from "./insights";
 export * from "./forecasts";
+export * from "./tax-profile";

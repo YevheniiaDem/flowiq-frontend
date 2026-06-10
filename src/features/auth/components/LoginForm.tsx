@@ -7,6 +7,7 @@ import { Loader2, LogIn } from "lucide-react";
 import { authService } from "@/src/services";
 import { usePreferences } from "@/src/shared/context/PreferencesContext";
 import { Button } from "@/src/shared/components/ui/button";
+import { ClearableInput } from "@/src/shared/components/ui/clearable-input";
 import { Input } from "@/src/shared/components/ui/input";
 import {
   Card,
@@ -58,7 +59,7 @@ export function LoginForm() {
             <label htmlFor="email" className="text-xs font-medium text-muted-foreground">
               {t("auth.email")}
             </label>
-            <Input
+            <ClearableInput
               id="email"
               type="email"
               placeholder={t("auth.emailPlaceholder")}
@@ -66,6 +67,7 @@ export function LoginForm() {
               onChange={(e) => setEmail(e.target.value)}
               required
               autoComplete="email"
+              clearAriaLabel={t("common.clearField")}
               className="h-9 bg-background/50"
             />
           </div>

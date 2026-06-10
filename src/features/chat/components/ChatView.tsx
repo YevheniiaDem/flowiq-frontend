@@ -2,7 +2,7 @@
 
 import { FormEvent, useEffect, useRef, useState } from "react";
 import { Card } from "@/src/shared/components/ui/card";
-import { Input } from "@/src/shared/components/ui/input";
+import { ClearableInput } from "@/src/shared/components/ui/clearable-input";
 import { Button } from "@/src/shared/components/ui/button";
 import { MessageSquare, Send, Sparkles, Loader2 } from "lucide-react";
 import { usePreferences } from "@/src/shared/context/PreferencesContext";
@@ -133,11 +133,13 @@ export function ChatView() {
             <p className="mb-2 text-xs text-destructive">{error}</p>
           )}
           <form onSubmit={handleSubmit} className="flex gap-2">
-            <Input
+            <ClearableInput
+              containerClassName="flex-1"
               placeholder={t("chat.placeholder")}
               value={input}
               onChange={(e) => setInput(e.target.value)}
               disabled={sending}
+              clearAriaLabel={t("common.clearField")}
               className="h-9 rounded-lg border-border/50 bg-background/50 text-sm"
             />
             <Button

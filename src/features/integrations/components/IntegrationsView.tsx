@@ -15,8 +15,8 @@ export function IntegrationsView() {
       </div>
 
       <div className="grid gap-3 md:grid-cols-2 lg:grid-cols-3">
-        {integrations.map((integration, i) => (
-          <IntegrationCard key={i} integration={integration} />
+        {integrations.map((integration) => (
+          <IntegrationCard key={integration.id} integration={integration} />
         ))}
       </div>
     </div>

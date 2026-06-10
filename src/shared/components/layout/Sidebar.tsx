@@ -5,13 +5,18 @@ import { usePathname } from "next/navigation";
 import { motion } from "framer-motion";
 import {
   LayoutDashboard,
+  Receipt,
+  Upload,
   LineChart,
   MessageSquare,
+  Bot,
   TrendingUp,
   FileText,
   Plug,
+  BookOpen,
   Settings,
   Zap,
+  Bell,
 } from "lucide-react";
 import { cn } from "@/src/shared/utils/utils";
 import { usePreferences } from "@/src/shared/context/PreferencesContext";
@@ -22,11 +27,16 @@ export function Sidebar() {
 
   const navigation = [
     { name: t("nav.dashboard"), href: "/", icon: LayoutDashboard },
+    { name: t("nav.transactions"), href: "/transactions", icon: Receipt },
+    { name: t("nav.imports"), href: "/imports", icon: Upload },
     { name: t("nav.analytics"), href: "/analytics", icon: LineChart },
     { name: t("nav.aiChat"), href: "/chat", icon: MessageSquare },
+    { name: t("nav.aiAccountant"), href: "/ai-accountant", icon: Bot },
     { name: t("nav.forecasts"), href: "/forecasts", icon: TrendingUp },
     { name: t("nav.reports"), href: "/reports", icon: FileText },
+    { name: t("nav.notifications"), href: "/notifications", icon: Bell },
     { name: t("nav.integrations"), href: "/integrations", icon: Plug },
+    { name: t("nav.businessGuide"), href: "/business-guide", icon: BookOpen },
     { name: t("nav.settings"), href: "/settings", icon: Settings },
   ];
 
@@ -44,7 +54,9 @@ export function Sidebar() {
 
         <nav className="flex-1 space-y-0.5 overflow-y-auto px-2 py-3">
           {navigation.map((item) => {
-            const isActive = pathname === item.href;
+            const isActive =
+              pathname === item.href ||
+              (item.href !== "/" && pathname.startsWith(`${item.href}/`));
             const Icon = item.icon;
 
             return (

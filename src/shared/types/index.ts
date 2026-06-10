@@ -15,6 +15,20 @@ export interface BusinessHealthScore {
   status: "excellent" | "good" | "fair" | "poor";
 }
 
+export type TaxStatus = "healthy" | "attention" | "critical";
+
+export interface TaxProfile {
+  currentGroup: string;
+  taxSystem: string;
+  mainKved: string;
+  mainKvedName: string;
+  incomeLimitUsage: number;
+  nextTaxPaymentDays: number;
+  nextTaxPaymentLabel: string;
+  taxStatus: TaxStatus;
+  aiInsight: string;
+}
+
 // Revenue types
 export interface RevenueDataPoint {
   date: string;
@@ -95,10 +109,13 @@ export interface MonthlyForecast {
 
 // Integration types
 export interface Integration {
+  id: string;
   name: string;
   description: string;
   status: "available" | "coming" | "connected";
-  icon: string;
+  icon?: string;
+  logo?: string;
+  logoClassName?: string;
 }
 
 // Report types
