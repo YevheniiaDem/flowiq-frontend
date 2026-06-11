@@ -20,6 +20,8 @@ export type TranslationKey =
   | `dashboard.stats.${keyof (typeof uk.dashboard)["stats"] & string}`
   | `dashboard.health.${keyof (typeof uk.dashboard)["health"] & string}`
   | `dashboard.badge.${keyof (typeof uk.dashboard)["badge"] & string}`
+  | `dashboard.forecastSnapshot.${keyof (typeof uk.dashboard)["forecastSnapshot"] & string}`
+  | `dashboard.tasksSnapshot.${keyof (typeof uk.dashboard)["tasksSnapshot"] & string}`
   | `dashboard.taxProfile.${keyof (typeof uk.dashboard)["taxProfile"] & string}`
   | `dashboard.taxProfile.status.${keyof (typeof uk.dashboard)["taxProfile"]["status"] & string}`
   | `transactions.${keyof typeof uk.transactions & string}`
@@ -52,6 +54,17 @@ export type TranslationKey =
   | `aiAccountant.tax.${keyof (typeof uk.aiAccountant)["tax"] & string}`
   | `aiAccountant.forecast.${keyof (typeof uk.aiAccountant)["forecast"] & string}`
   | `forecasts.${keyof typeof uk.forecasts & string}`
+  | `forecasts.stats.${keyof (typeof uk.forecasts)["stats"] & string}`
+  | `forecasts.charts.${keyof (typeof uk.forecasts)["charts"] & string}`
+  | `forecasts.tax.${keyof (typeof uk.forecasts)["tax"] & string}`
+  | `forecasts.fop.${keyof (typeof uk.forecasts)["fop"] & string}`
+  | `tasks.${keyof typeof uk.tasks & string}`
+  | `tasks.sections.${keyof (typeof uk.tasks)["sections"] & string}`
+  | `tasks.types.${keyof (typeof uk.tasks)["types"] & string}`
+  | `tasks.priorities.${keyof (typeof uk.tasks)["priorities"] & string}`
+  | `tasks.statuses.${keyof (typeof uk.tasks)["statuses"] & string}`
+  | `tasks.calendar.${keyof (typeof uk.tasks)["calendar"] & string}`
+  | `tasks.form.${keyof (typeof uk.tasks)["form"] & string}`
   | `reports.${keyof typeof uk.reports & string}`
   | `reports.stats.${keyof (typeof uk.reports)["stats"] & string}`
   | `reports.types.${keyof (typeof uk.reports)["types"] & string}`

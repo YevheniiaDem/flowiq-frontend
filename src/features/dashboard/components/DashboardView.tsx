@@ -10,6 +10,9 @@ import { AIInsightCard } from "./AIInsightCard";
 import { RevenueTrendChart } from "./RevenueTrendChart";
 import { ExpenseBreakdownChart } from "./ExpenseBreakdownChart";
 import { RecentNotificationsWidget } from "@/src/features/notifications";
+import { ForecastSnapshotWidget } from "./ForecastSnapshotWidget";
+import { TasksDashboardWidget } from "@/src/features/tasks";
+import { ForecastSnapshot } from "@/src/features/forecasts/types";
 import { dashboardService, taxProfileService } from "@/src/services";
 import { usePreferences } from "@/src/shared/context/PreferencesContext";
 import { TranslationKey } from "@/src/shared/i18n";
@@ -37,6 +40,7 @@ export function DashboardView() {
   const [summary, setSummary] = useState<{ text: string; badge: string } | null>(null);
   const [revenueTrend, setRevenueTrend] = useState<{ month: string; amount: number }[]>([]);
   const [expenseBreakdown, setExpenseBreakdown] = useState<{ category: string; amount: number }[]>([]);
+  const [forecastSnapshot, setForecastSnapshot] = useState<ForecastSnapshot | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
@@ -52,6 +56,7 @@ export function DashboardView() {
         summaryData,
         revenueData,
         expenseData,
+        forecastData,
       ] = await Promise.all([
         dashboardService.getStats(),
         dashboardService.getInsights(),
@@ -60,6 +65,7 @@ export function DashboardView() {
         dashboardService.getAISummary(),
         dashboardService.getRevenueTrend(),
         dashboardService.getExpenseBreakdown(),
+        dashboardService.getForecastSnapshot(),
       ]);
       setStats(statsData);
       setInsights(insightsData);
@@ -68,6 +74,7 @@ export function DashboardView() {
       setSummary(summaryData);
       setRevenueTrend(revenueData);
       setExpenseBreakdown(expenseData);
+      setForecastSnapshot(forecastData);
     } catch (err) {
       setError(err instanceof Error ? err.message : t("dashboard.loadError"));
     } finally {
@@ -145,6 +152,11 @@ export function DashboardView() {
       <div className="grid gap-3 lg:grid-cols-2">
         <RevenueTrendChart data={revenueTrend} period={t("dashboard.last6Months")} />
         <ExpenseBreakdownChart data={expenseBreakdown} period={t("dashboard.thisMonth")} />
+      </div>
+
+      <div className="grid gap-3 lg:grid-cols-2">
+        {forecastSnapshot && <ForecastSnapshotWidget snapshot={forecastSnapshot} />}
+        <TasksDashboardWidget />
       </div>
 
       <RecentNotificationsWidget />

@@ -7,6 +7,7 @@ export const uk = {
     aiChat: "AI-чат",
     aiAccountant: "AI-бухгалтер",
     forecasts: "Прогнози",
+    tasks: "Завдання",
     reports: "Звіти",
     notifications: "Сповіщення",
     integrations: "Інтеграції",
@@ -75,6 +76,23 @@ export const uk = {
     },
     badge: {
       active: "Активний",
+    },
+    forecastSnapshot: {
+      title: "Знімок прогнозу",
+      subtitle: "Прогноз на наступні {months} міс.",
+      expectedRevenue: "Очікуваний дохід",
+      expectedProfit: "Очікуваний прибуток",
+      taxForecast: "Податковий прогноз",
+      viewAll: "До прогнозів",
+    },
+    tasksSnapshot: {
+      title: "Завдання на сьогодні",
+      subtitle: "Майбутні дедлайни та пріоритети",
+      today: "Сьогодні",
+      overdue: "Прострочені",
+      todayTasks: "Завдання на сьогодні",
+      upcomingDeadlines: "Найближчі дедлайни",
+      viewAll: "Всі завдання",
     },
     taxProfile: {
       title: "Мій податковий профіль",
@@ -201,8 +219,8 @@ export const uk = {
     },
   },
   forecasts: {
-    title: "Прогнози",
-    subtitle: "AI-прогнози для майбутнього вашого бізнесу",
+    title: "Центр прогнозів",
+    subtitle: "Прогнози на основі реальної історії транзакцій",
     revenueForecast: "Прогноз доходу",
     cashFlow: "Грошовий потік",
     growthTargets: "Цілі зростання",
@@ -211,6 +229,97 @@ export const uk = {
     quarterlyGoals: "Квартальні цілі",
     aiPredictions: "AI-прогнози",
     aiPredictionsHint: "Розширені прогнозні моделі з'являться тут",
+    loadError: "Не вдалося завантажити прогнози",
+    backendHint: "Переконайтесь, що бекенд працює на порту 8080",
+    insights: "Прогнозні інсайти",
+    stats: {
+      revenue: "Очікуваний дохід",
+      expenses: "Очікувані витрати",
+      profit: "Очікуваний прибуток",
+      tax: "Очікувані податки",
+    },
+    charts: {
+      revenue: "Прогноз доходу",
+      expenses: "Прогноз витрат",
+      profit: "Прогноз прибутку",
+      period: "12 міс. історії + прогноз",
+      actual: "Факт",
+      forecast: "Прогноз",
+    },
+    tax: {
+      title: "Податковий прогноз",
+      currentBurden: "Поточне навантаження (YTD)",
+      annualForecast: "Річний податковий прогноз",
+      projected: "Прогноз",
+    },
+    fop: {
+      title: "Прогноз ліміту ФОП",
+      currentGroup: "Поточна група ФОП",
+      currentUsage: "Поточне використання ліміту",
+      incomeLimit: "Ліміт доходу",
+      monthsUntilLimit: "Місяців до ліміту",
+      projectedUsage: "Прогноз використання",
+      limitExceeded: "Ліміт перевищено",
+    },
+  },
+  tasks: {
+    title: "Завдання та дедлайни",
+    subtitle: "Централізований планувальник для ФОП та бізнес-операцій",
+    addTask: "Додати завдання",
+    search: "Пошук завдань...",
+    empty: "Немає завдань у цій секції",
+    loadError: "Не вдалося завантажити завдання",
+    backendHint: "Переконайтесь, що бекенд працює на порту 8080",
+    suggestions: "AI-рекомендації",
+    addSuggestion: "Додати до завдань",
+    sections: {
+      today: "Сьогодні",
+      upcoming: "Майбутні",
+      overdue: "Прострочені",
+      completed: "Виконані",
+      all: "Всі",
+    },
+    types: {
+      tax: "Податки",
+      reporting: "Звітність",
+      business: "Бізнес",
+      custom: "Власне",
+      system: "Система",
+    },
+    priorities: {
+      low: "Низький",
+      medium: "Середній",
+      high: "Високий",
+      critical: "Критичний",
+    },
+    statuses: {
+      todo: "До виконання",
+      inProgress: "В процесі",
+      completed: "Виконано",
+      overdue: "Прострочено",
+    },
+    calendar: {
+      month: "Місяць",
+      week: "Тиждень",
+      list: "Список",
+      mon: "Пн",
+      tue: "Вт",
+      wed: "Ср",
+      thu: "Чт",
+      fri: "Пт",
+      sat: "Сб",
+      sun: "Нд",
+    },
+    form: {
+      title: "Нове завдання",
+      taskTitle: "Назва",
+      description: "Опис",
+      dueDate: "Дедлайн",
+      priority: "Пріоритет",
+      type: "Тип",
+      create: "Створити",
+      cancel: "Скасувати",
+    },
   },
   reports: {
     title: "Центр звітів",
@@ -639,7 +748,8 @@ export type TranslationKeys = {
   analytics: Record<string, string | Record<string, string>>;
   chat: Record<string, string | Record<string, string>>;
   aiAccountant: Record<string, string | Record<string, string | Record<string, string>>>;
-  forecasts: Record<string, string>;
+  forecasts: Record<string, string | Record<string, string>>;
+  tasks: Record<string, string | Record<string, string>>;
   reports: Record<string, string | Record<string, string>>;
   notifications: Record<string, string | Record<string, string>>;
   integrations: Record<string, string | Record<string, string | Record<string, string>>>;

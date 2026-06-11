@@ -41,4 +41,22 @@ export const dashboardService = {
       amount: Number(item.amount) || 0,
     }));
   },
+
+  async getForecastSnapshot(): Promise<{
+    expectedRevenue: number;
+    expectedProfit: number;
+    taxForecast: number;
+    revenueTrendPercent: number;
+    forecastMonths: number;
+  }> {
+    const response = await apiClient.get("/dashboard/forecast-snapshot");
+    const data = response.data;
+    return {
+      expectedRevenue: Number(data.expectedRevenue) || 0,
+      expectedProfit: Number(data.expectedProfit) || 0,
+      taxForecast: Number(data.taxForecast) || 0,
+      revenueTrendPercent: data.revenueTrendPercent,
+      forecastMonths: data.forecastMonths,
+    };
+  },
 };

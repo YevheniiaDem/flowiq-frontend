@@ -17,6 +17,7 @@ import {
   Settings,
   Zap,
   Bell,
+  ClipboardCheck,
 } from "lucide-react";
 import { cn } from "@/src/shared/utils/utils";
 import { usePreferences } from "@/src/shared/context/PreferencesContext";
@@ -33,6 +34,7 @@ export function Sidebar() {
     { name: t("nav.aiChat"), href: "/chat", icon: MessageSquare },
     { name: t("nav.aiAccountant"), href: "/ai-accountant", icon: Bot },
     { name: t("nav.forecasts"), href: "/forecasts", icon: TrendingUp },
+    { name: t("nav.tasks"), href: "/tasks", icon: ClipboardCheck },
     { name: t("nav.reports"), href: "/reports", icon: FileText },
     { name: t("nav.notifications"), href: "/notifications", icon: Bell },
     { name: t("nav.integrations"), href: "/integrations", icon: Plug },

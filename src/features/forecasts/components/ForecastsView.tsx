@@ -1,11 +1,78 @@
 "use client";
 
-import { Card } from "@/src/shared/components/ui/card";
-import { TrendingUp, Calendar, Target } from "lucide-react";
+import { useMemo } from "react";
+import { Loader2 } from "lucide-react";
 import { usePreferences } from "@/src/shared/context/PreferencesContext";
+import { useForecasts } from "../hooks/useForecasts";
+import { ForecastSummaryCards } from "./ForecastSummaryCards";
+import { RevenueForecastChart } from "./RevenueForecastChart";
+import { ExpenseForecastChart } from "./ExpenseForecastChart";
+import { ProfitForecastChart } from "./ProfitForecastChart";
+import { TaxForecastCard } from "./TaxForecastCard";
+import { FopLimitForecastCard } from "./FopLimitForecastCard";
+import { ForecastInsights } from "./ForecastInsights";
+import { ForecastWarningBanners } from "./ForecastWarningBanners";
 
 export function ForecastsView() {
-  const { t } = usePreferences();
+  const { t, language, currency } = usePreferences();
+  const locale = language === "uk" ? "uk-UA" : "en-US";
+
+  const { summary, revenue, expenses, profit, taxes, fopLimit, loading, error } =
+    useForecasts();
+
+  const labels = useMemo(
+    () => ({
+      summary: {
+        revenue: t("forecasts.stats.revenue"),
+        expenses: t("forecasts.stats.expenses"),
+        profit: t("forecasts.stats.profit"),
+        tax: t("forecasts.stats.tax"),
+        next3Months: t("forecasts.next3Months"),
+      },
+      charts: {
+        revenue: t("forecasts.charts.revenue"),
+        expenses: t("forecasts.charts.expenses"),
+        profit: t("forecasts.charts.profit"),
+        period: t("forecasts.charts.period"),
+        actual: t("forecasts.charts.actual"),
+        forecast: t("forecasts.charts.forecast"),
+      },
+      tax: {
+        title: t("forecasts.tax.title"),
+        currentBurden: t("forecasts.tax.currentBurden"),
+        annualForecast: t("forecasts.tax.annualForecast"),
+        projected: t("forecasts.tax.projected"),
+      },
+      fop: {
+        title: t("forecasts.fop.title"),
+        currentGroup: t("forecasts.fop.currentGroup"),
+        currentUsage: t("forecasts.fop.currentUsage"),
+        incomeLimit: t("forecasts.fop.incomeLimit"),
+        monthsUntilLimit: t("forecasts.fop.monthsUntilLimit"),
+        projectedUsage: t("forecasts.fop.projectedUsage"),
+        limitExceeded: t("forecasts.fop.limitExceeded"),
+      },
+      insights: t("forecasts.insights"),
+    }),
+    [t]
+  );
+
+  if (loading) {
+    return (
+      <div className="flex h-64 items-center justify-center">
+        <Loader2 className="h-6 w-6 animate-spin text-primary" />
+      </div>
+    );
+  }
+
+  if (error || !summary || !revenue || !expenses || !profit || !taxes || !fopLimit) {
+    return (
+      <div className="flex h-64 flex-col items-center justify-center gap-2 p-4 text-center">
+        <p className="text-sm text-destructive">{error || t("forecasts.loadError")}</p>
+        <p className="text-xs text-muted-foreground">{t("forecasts.backendHint")}</p>
+      </div>
+    );
+  }
 
   return (
     <div className="space-y-4 p-4">
@@ -14,48 +81,59 @@ export function ForecastsView() {
         <p className="text-sm text-muted-foreground">{t("forecasts.subtitle")}</p>
       </div>
 
-      <div className="grid gap-3 md:grid-cols-3">
-        <Card className="rounded-xl border-border/50 bg-card/50 p-4 backdrop-blur-sm">
-          <div className="flex items-center gap-3">
-            <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-primary/10">
-              <TrendingUp className="h-5 w-5 text-primary" />
-            </div>
-            <div>
-              <h3 className="text-sm font-semibold">{t("forecasts.revenueForecast")}</h3>
-              <p className="text-xs text-muted-foreground">{t("forecasts.next3Months")}</p>
-            </div>
-          </div>
-        </Card>
+      <ForecastWarningBanners warnings={summary.warnings} />
 
-        <Card className="rounded-xl border-border/50 bg-card/50 p-4 backdrop-blur-sm">
-          <div className="flex items-center gap-3">
-            <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-accent/10">
-              <Calendar className="h-5 w-5 text-accent" />
-            </div>
-            <div>
-              <h3 className="text-sm font-semibold">{t("forecasts.cashFlow")}</h3>
-              <p className="text-xs text-muted-foreground">{t("forecasts.upcomingPeriods")}</p>
-            </div>
-          </div>
-        </Card>
+      <ForecastSummaryCards
+        summary={summary}
+        labels={labels.summary}
+        currency={currency}
+        locale={locale}
+      />
 
-        <Card className="rounded-xl border-border/50 bg-card/50 p-4 backdrop-blur-sm">
-          <div className="flex items-center gap-3">
-            <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-emerald-500/10">
-              <Target className="h-5 w-5 text-emerald-500" />
-            </div>
-            <div>
-              <h3 className="text-sm font-semibold">{t("forecasts.growthTargets")}</h3>
-              <p className="text-xs text-muted-foreground">{t("forecasts.quarterlyGoals")}</p>
-            </div>
-          </div>
-        </Card>
+      <div className="grid gap-3 lg:grid-cols-2">
+        <RevenueForecastChart
+          data={revenue}
+          title={labels.charts.revenue}
+          period={labels.charts.period}
+          actualLabel={labels.charts.actual}
+          forecastLabel={labels.charts.forecast}
+          language={language}
+          currency={currency}
+        />
+        <ExpenseForecastChart
+          data={expenses}
+          title={labels.charts.expenses}
+          period={labels.charts.period}
+          expenseLabel={labels.charts.expenses}
+          language={language}
+          currency={currency}
+        />
       </div>
 
-      <Card className="rounded-xl border-border/50 bg-card/50 p-4 backdrop-blur-sm">
-        <h3 className="mb-2 text-sm font-semibold">{t("forecasts.aiPredictions")}</h3>
-        <p className="text-xs text-muted-foreground">{t("forecasts.aiPredictionsHint")}</p>
-      </Card>
+      <ProfitForecastChart
+        data={profit}
+        title={labels.charts.profit}
+        period={labels.charts.period}
+        profitLabel={labels.charts.profit}
+        language={language}
+        currency={currency}
+      />
+
+      <TaxForecastCard
+        data={taxes}
+        labels={labels.tax}
+        currency={currency}
+        locale={locale}
+      />
+
+      <FopLimitForecastCard
+        data={fopLimit}
+        labels={labels.fop}
+        currency={currency}
+        locale={locale}
+      />
+
+      <ForecastInsights insights={summary.insights} title={labels.insights} />
     </div>
   );
 }
