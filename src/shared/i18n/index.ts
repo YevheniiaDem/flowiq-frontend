@@ -104,6 +104,13 @@ export type TranslationKey =
   | `businessGuide.checker.result.${keyof (typeof uk.businessGuide)["checker"]["result"] & string}`
   | `businessGuide.checker.export.${keyof (typeof uk.businessGuide)["checker"]["export"] & string}`
   | `businessGuide.group.${keyof (typeof uk.businessGuide)["group"] & string}`
+  | `businessGuide.tabs.${keyof (typeof uk.businessGuide)["tabs"] & string}`
+  | `businessGuide.categories.${keyof (typeof uk.businessGuide)["categories"] & string}`
+  | `businessGuide.article.${keyof (typeof uk.businessGuide)["article"] & string}`
+  | `businessGuide.search.${keyof (typeof uk.businessGuide)["search"] & string}`
+  | `businessGuide.updates.${keyof (typeof uk.businessGuide)["updates"] & string}`
+  | `businessGuide.widgets.${keyof (typeof uk.businessGuide)["widgets"] & string}`
+  | `businessGuide.pagination.${keyof (typeof uk.businessGuide)["pagination"] & string}`
   | `settings.${keyof typeof uk.settings & string}`
   | `settings.languages.${keyof (typeof uk.settings)["languages"] & string}`
   | `settings.currencies.${keyof (typeof uk.settings)["currencies"] & string}`

@@ -2,14 +2,24 @@
 
 import { motion } from "framer-motion";
 import Link from "next/link";
-import { Search, Sparkles } from "lucide-react";
+import { Search, Sparkles, Wand2 } from "lucide-react";
 import { ClearableInput } from "@/src/shared/components/ui/clearable-input";
+import { Card } from "@/src/shared/components/ui/card";
 import { usePreferences } from "@/src/shared/context/PreferencesContext";
 import { useBusinessGuideSearch } from "../hooks/useBusinessGuideSearch";
+import { highlightText } from "../utils/highlight.utils";
 
 export function BusinessGuideHero() {
   const { t } = usePreferences();
-  const { query, setQuery, results, loading } = useBusinessGuideSearch();
+  const {
+    query,
+    setQuery,
+    results,
+    primaryArticle,
+    relatedArticles,
+    quickSummary,
+    loading,
+  } = useBusinessGuideSearch();
 
   return (
     <motion.section
@@ -60,27 +70,79 @@ export function BusinessGuideHero() {
                 <p className="px-4 py-3 text-xs text-muted-foreground">
                   {t("common.loading")}
                 </p>
-              ) : results.length === 0 ? (
+              ) : results.length === 0 && !quickSummary ? (
                 <p className="px-4 py-3 text-xs text-muted-foreground">
                   {t("businessGuide.noResults")}
                 </p>
               ) : (
-                <ul className="max-h-64 overflow-y-auto py-1">
-                  {results.map((result) => (
-                    <li key={`${result.type}-${result.id}`}>
-                      <Link
-                        href={result.href ?? "#"}
-                        onClick={() => setQuery("")}
-                        className="block px-4 py-2.5 transition-colors hover:bg-muted/50"
-                      >
-                        <p className="text-sm font-medium">{result.title}</p>
-                        <p className="line-clamp-1 text-xs text-muted-foreground">
-                          {result.subtitle}
-                        </p>
-                      </Link>
-                    </li>
-                  ))}
-                </ul>
+                <div className="max-h-96 overflow-y-auto py-1">
+                  {quickSummary && (
+                    <Card className="mx-2 mb-2 mt-1 rounded-lg border-primary/20 bg-primary/5 p-3">
+                      <div className="mb-1 flex items-center gap-1.5 text-xs font-medium text-primary">
+                        <Wand2 className="h-3.5 w-3.5" />
+                        {t("businessGuide.search.aiSummary")}
+                      </div>
+                      <p className="text-xs leading-relaxed text-foreground">
+                        {quickSummary}
+                      </p>
+                      {primaryArticle && (
+                        <Link
+                          href={`/business-guide/articles/${primaryArticle.slug}`}
+                          onClick={() => setQuery("")}
+                          className="mt-2 inline-block text-xs font-medium text-primary hover:underline"
+                        >
+                          {primaryArticle.title} →
+                        </Link>
+                      )}
+                    </Card>
+                  )}
+                  <ul>
+                    {results.map((result) => (
+                      <li key={result.id}>
+                        <Link
+                          href={`/business-guide/articles/${result.slug}`}
+                          onClick={() => setQuery("")}
+                          className="block px-4 py-2.5 transition-colors hover:bg-muted/50"
+                        >
+                          <p
+                            className="text-sm font-medium"
+                            dangerouslySetInnerHTML={{
+                              __html: highlightText(result.title, query),
+                            }}
+                          />
+                          <p
+                            className="line-clamp-2 text-xs text-muted-foreground"
+                            dangerouslySetInnerHTML={{
+                              __html: highlightText(
+                                result.highlight || result.summary,
+                                query
+                              ),
+                            }}
+                          />
+                        </Link>
+                      </li>
+                    ))}
+                  </ul>
+                  {relatedArticles.length > 0 && (
+                    <div className="border-t border-border/50 px-4 py-2">
+                      <p className="mb-1 text-[10px] font-medium uppercase tracking-wider text-muted-foreground">
+                        {t("businessGuide.search.related")}
+                      </p>
+                      <div className="flex flex-wrap gap-2">
+                        {relatedArticles.map((article) => (
+                          <Link
+                            key={article.id}
+                            href={`/business-guide/articles/${article.slug}`}
+                            onClick={() => setQuery("")}
+                            className="rounded-md bg-muted/50 px-2 py-1 text-[10px] hover:bg-primary/10 hover:text-primary"
+                          >
+                            {article.title}
+                          </Link>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+                </div>
               )}
             </motion.div>
           )}
