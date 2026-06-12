@@ -68,8 +68,9 @@ export function TransactionFilters({
   };
 
   return (
-    <div className="space-y-3">
+    <div data-testid="transactions-filters" className="space-y-3">
       <ClearableInput
+        data-testid="transactions-search"
         containerClassName="max-w-md"
         type="search"
         value={search}

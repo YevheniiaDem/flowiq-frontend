@@ -23,11 +23,12 @@ const FILTERS: NotificationFilter[] = [
 
 export function NotificationFilters({ active, onChange, labels }: NotificationFiltersProps) {
   return (
-    <div className="flex flex-wrap gap-2">
+    <div data-testid="notifications-filters" className="flex flex-wrap gap-2">
       {FILTERS.map((filter) => (
         <button
           key={filter}
           type="button"
+          data-testid={`notifications-filter-${filter}`}
           onClick={() => onChange(filter)}
           className={cn(
             "rounded-lg px-3 py-1.5 text-xs font-medium transition-all",

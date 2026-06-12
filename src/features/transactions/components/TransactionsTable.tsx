@@ -75,7 +75,7 @@ export function TransactionsTable({
   locale,
 }: TransactionsTableProps) {
   return (
-    <Card className="overflow-hidden rounded-xl border-border/50 bg-card/50 backdrop-blur-sm">
+    <Card data-testid="transactions-table" className="overflow-hidden rounded-xl border-border/50 bg-card/50 backdrop-blur-sm">
       <div className="overflow-x-auto">
         <table className="w-full table-fixed text-sm">
           <colgroup>

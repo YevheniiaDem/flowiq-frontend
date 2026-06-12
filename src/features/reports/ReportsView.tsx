@@ -134,6 +134,7 @@ export function ReportsView() {
 
   return (
     <motion.div
+      data-testid="reports-page"
       initial={{ opacity: 0, y: 8 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ type: "spring", stiffness: 300, damping: 30 }}
@@ -144,7 +145,7 @@ export function ReportsView() {
           <h1 className="text-2xl font-bold tracking-tight">{t("reports.title")}</h1>
           <p className="text-sm text-muted-foreground">{t("reports.subtitle")}</p>
         </div>
-        <Button className="rounded-lg" size="sm" onClick={() => setDialogOpen(true)}>
+        <Button data-testid="reports-generate-btn" className="rounded-lg" size="sm" onClick={() => setDialogOpen(true)}>
           <Download className="mr-2 h-3.5 w-3.5" />
           {t("reports.generate")}
         </Button>

@@ -1,25 +1,39 @@
 "use client";
 
 import { useState } from "react";
+import { Moon, Sun, User, Bell, Shield, Palette, Globe } from "lucide-react";
 import { Card } from "@/src/shared/components/ui/card";
-import { User, Bell, Shield, Palette, Globe } from "lucide-react";
 import { usePreferences } from "@/src/shared/context/PreferencesContext";
-import { AppCurrency, AppLanguage } from "@/src/shared/i18n";
+import { AppCurrency, AppLanguage, AppTheme } from "@/src/shared/i18n";
+import { cn } from "@/src/shared/utils/utils";
 
 export function SettingsView() {
-  const { t, language, currency, setLanguage, setCurrency } = usePreferences();
+  const { t, language, currency, theme, setLanguage, setCurrency, setTheme } =
+    usePreferences();
   const [saved, setSaved] = useState(false);
 
-  const handleLanguageChange = (value: AppLanguage) => {
-    setLanguage(value);
+  const markSaved = () => {
     setSaved(true);
     setTimeout(() => setSaved(false), 2000);
   };
 
+  const handleLanguageChange = (value: AppLanguage) => {
+    setLanguage(value);
+    markSaved();
+  };
+
   const handleCurrencyChange = (value: AppCurrency) => {
     setCurrency(value);
-    setSaved(true);
-    setTimeout(() => setSaved(false), 2000);
+    markSaved();
+  };
+
+  const handleThemeChange = (value: AppTheme) => {
+    if (value === theme) return;
+    setTheme(value, {
+      x: window.innerWidth / 2,
+      y: window.innerHeight / 2,
+    });
+    markSaved();
   };
 
   return (
@@ -107,11 +121,43 @@ export function SettingsView() {
         </Card>
 
         <Card className="rounded-xl border-border/50 bg-card/50 p-4 backdrop-blur-sm">
-          <div className="mb-3 flex h-10 w-10 items-center justify-center rounded-lg bg-pink-500/10">
-            <Palette className="h-5 w-5 text-pink-500" />
+          <div className="mb-4 flex items-center gap-3">
+            <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-pink-500/10">
+              <Palette className="h-5 w-5 text-pink-500" />
+            </div>
+            <div>
+              <h3 className="text-sm font-semibold">{t("settings.appearance")}</h3>
+              <p className="text-xs text-muted-foreground">{t("settings.appearanceHint")}</p>
+            </div>
           </div>
-          <h3 className="mb-1 text-sm font-semibold">{t("settings.appearance")}</h3>
-          <p className="text-xs text-muted-foreground">{t("settings.appearanceHint")}</p>
+
+          <p className="mb-2 text-xs font-medium text-muted-foreground">{t("settings.theme")}</p>
+          <div className="grid grid-cols-2 gap-2">
+            {(
+              [
+                { value: "dark" as const, label: t("settings.themeDark"), icon: Moon },
+                { value: "light" as const, label: t("settings.themeLight"), icon: Sun },
+              ] as const
+            ).map(({ value, label, icon: Icon }) => {
+              const isActive = theme === value;
+              return (
+                <button
+                  key={value}
+                  type="button"
+                  onClick={() => handleThemeChange(value)}
+                  className={cn(
+                    "flex items-center justify-center gap-2 rounded-lg border px-3 py-2.5 text-sm font-medium transition-all",
+                    isActive
+                      ? "border-primary/50 bg-primary/10 text-primary shadow-sm"
+                      : "border-border/50 bg-background/50 text-muted-foreground hover:border-primary/30 hover:bg-muted/50 hover:text-foreground"
+                  )}
+                >
+                  <Icon className="h-4 w-4" />
+                  {label}
+                </button>
+              );
+            })}
+          </div>
         </Card>
       </div>
     </div>

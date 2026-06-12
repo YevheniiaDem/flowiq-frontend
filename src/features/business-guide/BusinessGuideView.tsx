@@ -119,7 +119,7 @@ export function BusinessGuideView() {
   }
 
   return (
-    <div className="space-y-6 p-4">
+    <div data-testid="business-guide-page" className="space-y-6 p-4">
       <BusinessGuideHero />
       <BusinessGuideTabs activeTab={activeTab} onTabChange={handleTabChange} />
 

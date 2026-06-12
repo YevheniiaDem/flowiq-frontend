@@ -144,6 +144,7 @@ export function TasksView() {
 
   return (
     <motion.div
+      data-testid="tasks-page"
       initial={{ opacity: 0, y: 8 }}
       animate={{ opacity: 1, y: 0 }}
       className="space-y-4 p-4"
@@ -153,7 +154,7 @@ export function TasksView() {
           <h1 className="text-2xl font-bold tracking-tight">{t("tasks.title")}</h1>
           <p className="text-sm text-muted-foreground">{t("tasks.subtitle")}</p>
         </div>
-        <Button size="sm" onClick={() => { setSuggestionInitial(undefined); setDialogOpen(true); }}>
+        <Button data-testid="tasks-add-btn" size="sm" onClick={() => { setSuggestionInitial(undefined); setDialogOpen(true); }}>
           <Plus className="mr-1.5 h-4 w-4" />
           {t("tasks.addTask")}
         </Button>

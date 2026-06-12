@@ -106,7 +106,7 @@ export function TransactionFormModal({
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="sm:max-w-md">
+      <DialogContent data-testid="transaction-form-modal" className="sm:max-w-md">
         <DialogHeader>
           <DialogTitle>
             {mode === "create" ? labels.addTitle : labels.editTitle}
@@ -144,6 +144,7 @@ export function TransactionFormModal({
               {labels.amount}
             </label>
             <Input
+              data-testid="transaction-form-amount"
               type="number"
               min="0.01"
               step="0.01"
@@ -170,6 +171,7 @@ export function TransactionFormModal({
               {labels.description}
             </label>
             <ClearableInput
+              data-testid="transaction-form-description"
               value={form.description}
               onChange={(event) =>
                 setForm((prev) => ({ ...prev, description: event.target.value }))
@@ -204,7 +206,7 @@ export function TransactionFormModal({
           <Button variant="outline" onClick={() => onOpenChange(false)}>
             {labels.cancel}
           </Button>
-          <Button onClick={handleSubmit} disabled={submitting}>
+          <Button data-testid="transaction-form-submit" onClick={handleSubmit} disabled={submitting}>
             {labels.save}
           </Button>
         </DialogFooter>

@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import { Providers } from "@/src/shared/components/Providers";
+import { ThemeScript } from "@/src/shared/components/theme/ThemeScript";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -26,9 +27,12 @@ export default function RootLayout({
   return (
     <html
       lang="uk"
-      className={`${geistSans.variable} ${geistMono.variable} dark h-full antialiased`}
+      className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
       suppressHydrationWarning
     >
+      <head>
+        <ThemeScript />
+      </head>
       <body className="min-h-full">
         <Providers>{children}</Providers>
       </body>

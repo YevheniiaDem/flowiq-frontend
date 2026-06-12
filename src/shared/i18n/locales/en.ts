@@ -24,6 +24,8 @@ export const en: TranslationKeys = {
     settings: "Settings",
     logout: "Log out",
     user: "User",
+    themeLight: "Switch to light theme",
+    themeDark: "Switch to dark theme",
   },
   auth: {
     tagline: "AI Business Operator",
@@ -439,6 +441,9 @@ export const en: TranslationKeys = {
     securityHint: "Manage security and privacy settings",
     appearance: "Appearance",
     appearanceHint: "Customize theme and display options",
+    theme: "Theme",
+    themeDark: "Dark",
+    themeLight: "Light",
     regional: "Regional settings",
     regionalHint: "Interface language and display currency",
     language: "Language",

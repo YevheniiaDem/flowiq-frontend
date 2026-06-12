@@ -7,24 +7,42 @@ import {
   useContext,
   useEffect,
   useMemo,
+  useRef,
   useState,
 } from "react";
 import {
   AppCurrency,
   AppLanguage,
+  AppTheme,
   CURRENCY_STORAGE_KEY,
   DEFAULT_CURRENCY,
   DEFAULT_LANGUAGE,
+  DEFAULT_THEME,
   LANGUAGE_STORAGE_KEY,
   translate,
   TranslationKey,
 } from "@/src/shared/i18n";
+import {
+  applyThemeToDocument,
+  getNextTheme,
+  persistTheme,
+  readStoredTheme,
+  runThemeTransition,
+} from "@/src/shared/theme/apply-theme";
+
+interface ThemeTransitionOrigin {
+  x: number;
+  y: number;
+}
 
 interface PreferencesContextValue {
   language: AppLanguage;
   currency: AppCurrency;
+  theme: AppTheme;
   setLanguage: (language: AppLanguage) => void;
   setCurrency: (currency: AppCurrency) => void;
+  setTheme: (theme: AppTheme, origin?: ThemeTransitionOrigin) => void;
+  toggleTheme: (origin?: ThemeTransitionOrigin) => void;
   t: (key: TranslationKey, params?: Record<string, string | number>) => string;
 }
 
@@ -46,14 +64,40 @@ function readStoredCurrency(): AppCurrency {
 export function PreferencesProvider({ children }: { children: ReactNode }) {
   const [language, setLanguageState] = useState<AppLanguage>(DEFAULT_LANGUAGE);
   const [currency, setCurrencyState] = useState<AppCurrency>(DEFAULT_CURRENCY);
+  const [theme, setThemeState] = useState<AppTheme>(DEFAULT_THEME);
+  const themeRef = useRef<AppTheme>(DEFAULT_THEME);
+
+  useEffect(() => {
+    themeRef.current = theme;
+  }, [theme]);
+
   useEffect(() => {
     setLanguageState(readStoredLanguage());
     setCurrencyState(readStoredCurrency());
+    setThemeState(readStoredTheme());
   }, []);
 
   useEffect(() => {
     document.documentElement.lang = language;
   }, [language]);
+
+  const setTheme = useCallback(
+    (next: AppTheme, origin?: ThemeTransitionOrigin) => {
+      runThemeTransition(() => {
+        setThemeState(next);
+        persistTheme(next);
+        applyThemeToDocument(next);
+      }, origin);
+    },
+    []
+  );
+
+  const toggleTheme = useCallback(
+    (origin?: ThemeTransitionOrigin) => {
+      setTheme(getNextTheme(themeRef.current), origin);
+    },
+    [setTheme]
+  );
 
   const setLanguage = useCallback((next: AppLanguage) => {
     setLanguageState(next);
@@ -72,8 +116,17 @@ export function PreferencesProvider({ children }: { children: ReactNode }) {
   );
 
   const value = useMemo(
-    () => ({ language, currency, setLanguage, setCurrency, t }),
-    [language, currency, setLanguage, setCurrency, t]
+    () => ({
+      language,
+      currency,
+      theme,
+      setLanguage,
+      setCurrency,
+      setTheme,
+      toggleTheme,
+      t,
+    }),
+    [language, currency, theme, setLanguage, setCurrency, setTheme, toggleTheme, t]
   );
 
   return (

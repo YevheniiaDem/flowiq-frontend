@@ -22,6 +22,8 @@ export const uk = {
     settings: "Налаштування",
     logout: "Вийти",
     user: "Користувач",
+    themeLight: "Увімкнути світлу тему",
+    themeDark: "Увімкнути темну тему",
   },
   auth: {
     tagline: "AI Business Operator",
@@ -437,6 +439,9 @@ export const uk = {
     securityHint: "Керуйте безпекою та конфіденційністю",
     appearance: "Зовнішній вигляд",
     appearanceHint: "Налаштуйте тему та відображення",
+    theme: "Тема",
+    themeDark: "Темна",
+    themeLight: "Світла",
     regional: "Регіональні налаштування",
     regionalHint: "Мова інтерфейсу та валюта відображення",
     language: "Мова",

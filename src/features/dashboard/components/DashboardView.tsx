@@ -4,7 +4,6 @@ import { useCallback, useEffect, useState } from "react";
 import { ArrowRight, Loader2 } from "lucide-react";
 import { StatCard } from "./StatCard";
 import { AISummaryCard } from "./AISummaryCard";
-import { BusinessHealthCard } from "./BusinessHealthCard";
 import { TaxProfileCard } from "./TaxProfileCard";
 import { AIInsightCard } from "./AIInsightCard";
 import { RevenueTrendChart } from "./RevenueTrendChart";
@@ -19,7 +18,6 @@ import { usePreferences } from "@/src/shared/context/PreferencesContext";
 import { TranslationKey } from "@/src/shared/i18n";
 import {
   AIInsight,
-  BusinessHealthScore,
   StatCard as StatCardType,
   TaxProfile,
 } from "@/src/shared/types";
@@ -36,7 +34,6 @@ export function DashboardView() {
   const { t, language, currency } = usePreferences();
   const [stats, setStats] = useState<StatCardType[]>([]);
   const [insights, setInsights] = useState<AIInsight[]>([]);
-  const [health, setHealth] = useState<BusinessHealthScore | null>(null);
   const [taxProfile, setTaxProfile] = useState<TaxProfile | null>(null);
   const [summary, setSummary] = useState<{ text: string; badge: string } | null>(null);
   const [revenueTrend, setRevenueTrend] = useState<{ month: string; amount: number }[]>([]);
@@ -52,7 +49,6 @@ export function DashboardView() {
       const [
         statsData,
         insightsData,
-        healthData,
         taxProfileData,
         summaryData,
         revenueData,
@@ -61,7 +57,6 @@ export function DashboardView() {
       ] = await Promise.all([
         dashboardService.getStats(),
         dashboardService.getInsights(),
-        dashboardService.getBusinessHealth(),
         taxProfileService.getTaxProfile(language),
         dashboardService.getAISummary(),
         dashboardService.getRevenueTrend(),
@@ -70,7 +65,6 @@ export function DashboardView() {
       ]);
       setStats(statsData);
       setInsights(insightsData);
-      setHealth(healthData);
       setTaxProfile(taxProfileData);
       setSummary(summaryData);
       setRevenueTrend(revenueData);
@@ -95,7 +89,7 @@ export function DashboardView() {
     );
   }
 
-  if (error || !health || !taxProfile || !summary) {
+  if (error || !taxProfile || !summary) {
     return (
       <div className="flex h-64 flex-col items-center justify-center gap-2 p-4 text-center">
         <p className="text-sm text-destructive">{error || t("dashboard.loadError")}</p>
@@ -107,13 +101,13 @@ export function DashboardView() {
   const locale = language === "uk" ? "uk-UA" : "en-US";
 
   return (
-    <div className="space-y-4 p-4">
+    <div data-testid="dashboard-page" className="space-y-4 p-4">
       <div>
         <h1 className="text-2xl font-bold tracking-tight">{t("dashboard.title")}</h1>
         <p className="text-sm text-muted-foreground">{t("dashboard.subtitle")}</p>
       </div>
 
-      <div className="grid gap-3 md:grid-cols-2 lg:grid-cols-4">
+      <div data-testid="dashboard-stats" className="grid gap-3 md:grid-cols-2 lg:grid-cols-4">
         {stats.map((stat, index) => (
           <StatCard
             key={index}
@@ -130,7 +124,7 @@ export function DashboardView() {
         <div className="lg:col-span-2">
           <AISummaryCard text={summary.text} badge={summary.badge} />
         </div>
-        <BusinessHealthCard health={health} />
+        <RecentNotificationsWidget className="h-full" />
         <TaxProfileCard profile={taxProfile} />
       </div>
 
@@ -161,8 +155,6 @@ export function DashboardView() {
       </div>
 
       <BusinessGuideDashboardWidget />
-
-      <RecentNotificationsWidget />
     </div>
   );
 }

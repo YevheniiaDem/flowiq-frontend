@@ -63,7 +63,7 @@ export function ForecastSummaryCards({
   ];
 
   return (
-    <div className="grid gap-3 md:grid-cols-2 lg:grid-cols-4">
+    <div data-testid="forecasts-summary-cards" className="grid gap-3 md:grid-cols-2 lg:grid-cols-4">
       {cards.map(({ key, label, value, trend, icon: Icon, positive }, index) => (
         <motion.div
           key={key}

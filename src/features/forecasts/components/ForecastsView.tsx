@@ -75,7 +75,7 @@ export function ForecastsView() {
   }
 
   return (
-    <div className="space-y-4 p-4">
+    <div data-testid="forecasts-page" className="space-y-4 p-4">
       <div>
         <h1 className="text-2xl font-bold tracking-tight">{t("forecasts.title")}</h1>
         <p className="text-sm text-muted-foreground">{t("forecasts.subtitle")}</p>

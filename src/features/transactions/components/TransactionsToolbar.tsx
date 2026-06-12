@@ -21,11 +21,12 @@ export function TransactionsToolbar({
 
   return (
     <div className="flex flex-wrap items-center gap-2">
-      <Button onClick={onAddTransaction} className="gap-2">
+      <Button data-testid="transactions-add-btn" onClick={onAddTransaction} className="gap-2">
         <Plus className="h-4 w-4" />
         {labels.addTransaction}
       </Button>
       <Button
+        data-testid="transactions-import-btn"
         variant="outline"
         className="gap-2"
         onClick={() => fileInputRef.current?.click()}
@@ -33,12 +34,13 @@ export function TransactionsToolbar({
         <ArrowUpFromLine className="h-4 w-4" />
         {labels.importCsv}
       </Button>
-      <Button variant="outline" className="gap-2" onClick={onExport}>
+      <Button data-testid="transactions-export-btn" variant="outline" className="gap-2" onClick={onExport}>
         <ArrowDownToLine className="h-4 w-4" />
         {labels.exportCsv}
       </Button>
       <input
         ref={fileInputRef}
+        data-testid="transactions-import-input"
         type="file"
         accept=".csv,text/csv"
         className="hidden"

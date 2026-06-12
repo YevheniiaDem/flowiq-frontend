@@ -26,10 +26,11 @@ export function TaskFilters({
   sectionLabels,
 }: TaskFiltersProps) {
   return (
-    <div className="space-y-3">
+    <div data-testid="tasks-filters" className="space-y-3">
       <div className="relative">
         <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
         <Input
+          data-testid="tasks-search"
           value={search}
           onChange={(e) => onSearchChange(e.target.value)}
           placeholder={searchPlaceholder}
@@ -40,6 +41,7 @@ export function TaskFilters({
         {SECTIONS.map((s) => (
           <Button
             key={s}
+            data-testid={`tasks-section-${s}`}
             variant={section === s ? "default" : "outline"}
             size="sm"
             className={cn("h-7 rounded-lg text-xs", section !== s && "bg-transparent")}

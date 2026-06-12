@@ -4,12 +4,14 @@ import { en } from "./locales/en";
 
 const locales = { uk, en } as const;
 
-export type { AppLanguage, AppCurrency } from "./types";
+export type { AppLanguage, AppCurrency, AppTheme } from "./types";
 export {
   DEFAULT_LANGUAGE,
   DEFAULT_CURRENCY,
+  DEFAULT_THEME,
   LANGUAGE_STORAGE_KEY,
   CURRENCY_STORAGE_KEY,
+  THEME_STORAGE_KEY,
 } from "./types";
 
 export type TranslationKey =

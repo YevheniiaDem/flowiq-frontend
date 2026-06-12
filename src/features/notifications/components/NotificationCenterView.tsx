@@ -75,6 +75,7 @@ export function NotificationCenterView() {
 
   return (
     <motion.div
+      data-testid="notifications-page"
       initial={{ opacity: 0, y: 8 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ type: "spring", stiffness: 300, damping: 30 }}
@@ -86,7 +87,7 @@ export function NotificationCenterView() {
           <p className="text-sm text-muted-foreground">{t("notifications.subtitle")}</p>
         </div>
         {summary && summary.unread > 0 && (
-          <Button variant="outline" size="sm" onClick={() => markAllAsRead()}>
+          <Button data-testid="notifications-mark-all-read-btn" variant="outline" size="sm" onClick={() => markAllAsRead()}>
             {t("notifications.markAllRead")}
           </Button>
         )}
@@ -106,7 +107,7 @@ export function NotificationCenterView() {
 
       <NotificationFilters active={filter} onChange={setFilter} labels={filterLabels} />
 
-      <div className="space-y-6">
+      <div data-testid="notifications-list" className="space-y-6">
         {grouped.length === 0 ? (
           <div className="rounded-xl border border-dashed border-border/50 py-16 text-center">
             <p className="text-sm text-muted-foreground">{t("notifications.empty")}</p>

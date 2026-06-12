@@ -132,6 +132,7 @@ export function TransactionsView() {
 
   return (
     <motion.div
+      data-testid="transactions-page"
       initial={{ opacity: 0, y: 8 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ type: "spring", stiffness: 300, damping: 30 }}

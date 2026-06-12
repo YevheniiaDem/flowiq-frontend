@@ -66,7 +66,7 @@ export function ImportUploadZone({
   const recentUploads = recentJobs.slice(0, 3);
 
   return (
-    <div className="space-y-4">
+    <div data-testid="imports-upload-zone" className="space-y-4">
       <Card
         className={cn(
           "relative overflow-hidden rounded-xl border-2 border-dashed p-8 transition-colors",
@@ -81,6 +81,7 @@ export function ImportUploadZone({
       >
         <input
           ref={inputRef}
+          data-testid="imports-file-input"
           type="file"
           accept=".csv"
           className="hidden"
@@ -111,6 +112,7 @@ export function ImportUploadZone({
           <p className="mt-0.5 text-xs text-muted-foreground">{labels.supportedFormats}</p>
           <Button
             type="button"
+            data-testid="imports-browse-btn"
             className="mt-4 gap-2"
             disabled={uploading}
             onClick={() => inputRef.current?.click()}

@@ -66,7 +66,7 @@ export function AIAccountantView() {
   }
 
   return (
-    <div className="space-y-8 p-4">
+    <div data-testid="ai-accountant-page" className="space-y-8 p-4">
       <div>
         <h1 className="text-2xl font-bold tracking-tight">{t("aiAccountant.title")}</h1>
         <p className="text-sm text-muted-foreground">{t("aiAccountant.subtitle")}</p>

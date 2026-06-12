@@ -21,6 +21,7 @@ import {
 } from "lucide-react";
 import { cn } from "@/src/shared/utils/utils";
 import { usePreferences } from "@/src/shared/context/PreferencesContext";
+import { FlowiqIcon } from "@/src/shared/components/brand/FlowiqIcon";
 
 export function Sidebar() {
   const pathname = usePathname();
@@ -42,14 +43,15 @@ export function Sidebar() {
     { name: t("nav.settings"), href: "/settings", icon: Settings },
   ];
 
+  const navTestId = (href: string) =>
+    href === "/" ? "nav-link-dashboard" : `nav-link-${href.slice(1)}`;
+
   return (
-    <aside className="fixed left-0 top-0 z-40 h-screen w-56 border-r border-border/50 bg-sidebar transition-all duration-300">
+    <aside data-testid="sidebar" className="fixed left-0 top-0 z-40 h-screen w-56 border-r border-border/50 bg-sidebar transition-all duration-300">
       <div className="flex h-full flex-col">
         <div className="flex h-14 items-center gap-2.5 border-b border-border/50 px-4">
-          <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-gradient-to-br from-primary to-accent">
-            <Zap className="h-4 w-4 text-primary-foreground" />
-          </div>
-          <span className="text-lg font-bold tracking-tight text-sidebar-foreground">
+          <FlowiqIcon />
+          <span className="text-lg font-bold leading-none tracking-tight text-sidebar-foreground">
             Flowiq
           </span>
         </div>
@@ -65,6 +67,7 @@ export function Sidebar() {
               <Link
                 key={item.href}
                 href={item.href}
+                data-testid={navTestId(item.href)}
                 className={cn(
                   "group relative flex items-center gap-2.5 rounded-xl px-3 py-2 text-sm font-medium transition-all duration-200",
                   isActive

@@ -46,6 +46,7 @@ export function AIAccountantChat({
 
   return (
     <motion.section
+      data-testid="ai-accountant-chat"
       initial={{ opacity: 0, y: 8 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ type: "spring", stiffness: 300, damping: 30, delay: 0.1 }}
@@ -119,17 +120,19 @@ export function AIAccountantChat({
         </div>
 
         <form
+          data-testid="ai-accountant-chat-form"
           onSubmit={handleSubmit}
           className="flex gap-2 border-t border-border/50 p-3"
         >
           <ClearableInput
+            data-testid="ai-accountant-chat-input"
             value={input}
             onChange={(e) => setInput(e.target.value)}
             placeholder={labels.placeholder}
             className="flex-1"
             disabled={sending}
           />
-          <Button type="submit" size="icon" disabled={sending || !input.trim()}>
+          <Button type="submit" data-testid="ai-accountant-chat-send-btn" size="icon" disabled={sending || !input.trim()}>
             <Send className="h-4 w-4" />
           </Button>
         </form>

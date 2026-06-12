@@ -43,7 +43,7 @@ export function LoginForm() {
   };
 
   return (
-    <Card className="rounded-2xl border-border/50 bg-card/50 backdrop-blur-sm">
+    <Card data-testid="login-page" className="rounded-2xl border-border/50 bg-card/50 backdrop-blur-sm">
       <CardHeader>
         <CardTitle>{t("auth.loginTitle")}</CardTitle>
         <CardDescription>{t("auth.loginDescription")}</CardDescription>
@@ -51,7 +51,10 @@ export function LoginForm() {
       <form onSubmit={handleSubmit}>
         <CardContent className="space-y-4">
           {error && (
-            <div className="rounded-lg border border-destructive/30 bg-destructive/10 px-3 py-2 text-xs text-destructive">
+            <div
+              data-testid="login-error"
+              className="rounded-lg border border-destructive/30 bg-destructive/10 px-3 py-2 text-xs text-destructive"
+            >
               {error}
             </div>
           )}
@@ -61,6 +64,7 @@ export function LoginForm() {
             </label>
             <ClearableInput
               id="email"
+              data-testid="login-email"
               type="email"
               placeholder={t("auth.emailPlaceholder")}
               value={email}
@@ -77,6 +81,7 @@ export function LoginForm() {
             </label>
             <Input
               id="password"
+              data-testid="login-password"
               type="password"
               placeholder={t("auth.passwordPlaceholder")}
               value={password}
@@ -88,7 +93,7 @@ export function LoginForm() {
           </div>
         </CardContent>
         <CardFooter className="flex flex-col gap-3 border-t-0 bg-transparent">
-          <Button type="submit" className="w-full" disabled={loading}>
+          <Button type="submit" data-testid="login-submit" className="w-full" disabled={loading}>
             {loading ? (
               <Loader2 className="h-4 w-4 animate-spin" />
             ) : (

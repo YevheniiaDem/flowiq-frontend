@@ -50,6 +50,7 @@ export function BusinessGuideHero() {
 
         <div className="relative mt-6">
           <ClearableInput
+            data-testid="business-guide-search"
             type="search"
             value={query}
             onChange={(e) => setQuery(e.target.value)}

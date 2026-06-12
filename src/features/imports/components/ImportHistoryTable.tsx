@@ -22,7 +22,7 @@ interface ImportHistoryTableProps {
 
 export function ImportHistoryTable({ jobs, labels, locale }: ImportHistoryTableProps) {
   return (
-    <Card className="overflow-hidden rounded-xl border-border/50 bg-card/50">
+    <Card data-testid="imports-history-table" className="overflow-hidden rounded-xl border-border/50 bg-card/50">
       <div className="border-b border-border/50 px-4 py-3">
         <h3 className="text-sm font-semibold">{labels.title}</h3>
       </div>

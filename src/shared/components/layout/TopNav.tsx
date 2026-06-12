@@ -7,6 +7,7 @@ import { LogOut, Search, Settings, User } from "lucide-react";
 import { authService, User as AuthUser } from "@/src/services";
 import { NotificationBell } from "@/src/features/notifications";
 import { usePreferences } from "@/src/shared/context/PreferencesContext";
+import { ThemeToggle } from "@/src/shared/components/theme/ThemeToggle";
 import { Button } from "@/src/shared/components/ui/button";
 import { ClearableInput } from "@/src/shared/components/ui/clearable-input";
 import {
@@ -84,6 +85,7 @@ export function TopNav() {
       </div>
 
       <div className="flex items-center gap-2">
+        <ThemeToggle />
         <NotificationBell />
 
         <DropdownMenu>

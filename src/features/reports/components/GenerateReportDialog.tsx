@@ -116,7 +116,7 @@ export function GenerateReportDialog({
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="max-h-[90vh] max-w-lg overflow-y-auto rounded-xl sm:max-w-xl">
+      <DialogContent data-testid="reports-generate-dialog" className="max-h-[90vh] max-w-lg overflow-y-auto rounded-xl sm:max-w-xl">
         <DialogHeader>
           <DialogTitle>{labels.title}</DialogTitle>
           <DialogDescription>{labels.description}</DialogDescription>
@@ -165,7 +165,7 @@ export function GenerateReportDialog({
           >
             {labels.cancel}
           </Button>
-          <Button className="rounded-lg" onClick={handleGenerate} disabled={generating || previewLoading}>
+          <Button data-testid="reports-generate-submit" className="rounded-lg" onClick={handleGenerate} disabled={generating || previewLoading}>
             {generating ? (
               <>
                 <Loader2 className="mr-2 h-4 w-4 animate-spin" />
