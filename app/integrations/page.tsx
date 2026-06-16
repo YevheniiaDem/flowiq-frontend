@@ -1,10 +1,5 @@
-import { MainLayout } from "@/src/shared/components/layout";
-import { IntegrationsView } from "@/src/features/integrations";
+import { redirect } from "next/navigation";
 
 export default function IntegrationsPage() {
-  return (
-    <MainLayout>
-      <IntegrationsView />
-    </MainLayout>
-  );
+  redirect("/coming-soon/integrations");
 }

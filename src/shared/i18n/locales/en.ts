@@ -98,6 +98,13 @@ export const en: TranslationKeys = {
       upcomingDeadlines: "Upcoming Deadlines",
       viewAll: "View all tasks",
     },
+    importSnapshot: {
+      title: "Import Activity",
+      subtitle: "Bank statements imported into Flowiq",
+      viewAll: "View imports",
+      importHealth: "Import Health",
+      history: "Import History",
+    },
     taxProfile: {
       title: "My Tax Profile",
       currentGroup: "Current Group",
@@ -398,19 +405,19 @@ export const en: TranslationKeys = {
   },
   integrations: {
     title: "Integrations",
-    subtitle: "Connect your business tools and services",
+    subtitle: "Planned business tool connections",
     connect: "Connect",
     connected: "Connected",
-    coming: "Coming soon",
+    coming: "Planned",
     available: "Available",
     items: {
       monobank: {
         name: "Monobank",
-        description: "Connect your Monobank business account",
+        description: "Import your Monobank bank statement (CSV)",
       },
       privatbank: {
         name: "PrivatBank",
-        description: "Sync transactions from PrivatBank",
+        description: "Import your PrivatBank bank statement (CSV)",
       },
       googleSheets: {
         name: "Google Sheets",
@@ -781,6 +788,15 @@ export const en: TranslationKeys = {
       yesterday: "Yesterday",
       thisWeek: "This week",
       older: "Older",
+    },
+  },
+  comingSoon: {
+    integrations: {
+      title: "Bank Integrations",
+      message:
+        "Bank integrations are planned for a future release. Currently Flowiq works through imported bank statements.",
+      hint: "Upload a CSV bank statement to create transactions automatically.",
+      goToImports: "Go to Imports",
     },
   },
   common: {

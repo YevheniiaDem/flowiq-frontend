@@ -1,5 +1,9 @@
 "use client";
 
+/**
+ * Full integrations hub — reserved for Phase 2+ when BANK_INTEGRATIONS_ENABLED is true.
+ * Not linked from sidebar; active route is /coming-soon/integrations.
+ */
 import { IntegrationCard } from "./IntegrationCard";
 import { integrations } from "@/src/mock-data";
 import { usePreferences } from "@/src/shared/context/PreferencesContext";

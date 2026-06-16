@@ -24,6 +24,7 @@ export type TranslationKey =
   | `dashboard.badge.${keyof (typeof uk.dashboard)["badge"] & string}`
   | `dashboard.forecastSnapshot.${keyof (typeof uk.dashboard)["forecastSnapshot"] & string}`
   | `dashboard.tasksSnapshot.${keyof (typeof uk.dashboard)["tasksSnapshot"] & string}`
+  | `dashboard.importSnapshot.${keyof (typeof uk.dashboard)["importSnapshot"] & string}`
   | `dashboard.taxProfile.${keyof (typeof uk.dashboard)["taxProfile"] & string}`
   | `dashboard.taxProfile.status.${keyof (typeof uk.dashboard)["taxProfile"]["status"] & string}`
   | `transactions.${keyof typeof uk.transactions & string}`
@@ -88,6 +89,7 @@ export type TranslationKey =
   | `integrations.items.shopify.${keyof (typeof uk.integrations)["items"]["shopify"] & string}`
   | `integrations.items.telegram.${keyof (typeof uk.integrations)["items"]["telegram"] & string}`
   | `integrations.items.rozetka.${keyof (typeof uk.integrations)["items"]["rozetka"] & string}`
+  | `comingSoon.integrations.${keyof (typeof uk.comingSoon)["integrations"] & string}`
   | `businessGuide.${keyof typeof uk.businessGuide & string}`
   | `businessGuide.profile.${keyof (typeof uk.businessGuide)["profile"] & string}`
   | `businessGuide.health.${keyof (typeof uk.businessGuide)["health"] & string}`

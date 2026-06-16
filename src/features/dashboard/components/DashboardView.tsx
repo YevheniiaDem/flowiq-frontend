@@ -12,6 +12,7 @@ import { RecentNotificationsWidget } from "@/src/features/notifications";
 import { ForecastSnapshotWidget } from "./ForecastSnapshotWidget";
 import { TasksDashboardWidget } from "@/src/features/tasks";
 import { BusinessGuideDashboardWidget } from "@/src/features/business-guide";
+import { ImportDashboardWidget } from "@/src/features/imports";
 import { ForecastSnapshot } from "@/src/features/forecasts/types";
 import { dashboardService, taxProfileService } from "@/src/services";
 import { usePreferences } from "@/src/shared/context/PreferencesContext";
@@ -153,6 +154,8 @@ export function DashboardView() {
         {forecastSnapshot && <ForecastSnapshotWidget snapshot={forecastSnapshot} />}
         <TasksDashboardWidget />
       </div>
+
+      <ImportDashboardWidget />
 
       <BusinessGuideDashboardWidget />
     </div>

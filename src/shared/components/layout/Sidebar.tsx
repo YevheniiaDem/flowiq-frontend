@@ -12,7 +12,6 @@ import {
   Bot,
   TrendingUp,
   FileText,
-  Plug,
   BookOpen,
   Settings,
   Zap,
@@ -38,7 +37,6 @@ export function Sidebar() {
     { name: t("nav.tasks"), href: "/tasks", icon: ClipboardCheck },
     { name: t("nav.reports"), href: "/reports", icon: FileText },
     { name: t("nav.notifications"), href: "/notifications", icon: Bell },
-    { name: t("nav.integrations"), href: "/integrations", icon: Plug },
     { name: t("nav.businessGuide"), href: "/business-guide", icon: BookOpen },
     { name: t("nav.settings"), href: "/settings", icon: Settings },
   ];

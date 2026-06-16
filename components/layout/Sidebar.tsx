@@ -9,7 +9,6 @@ import {
   MessageSquare,
   TrendingUp,
   FileText,
-  Plug,
   Settings,
   Zap,
 } from "lucide-react";
@@ -21,7 +20,6 @@ const navigation = [
   { name: "AI Chat", href: "/chat", icon: MessageSquare },
   { name: "Forecasts", href: "/forecasts", icon: TrendingUp },
   { name: "Reports", href: "/reports", icon: FileText },
-  { name: "Integrations", href: "/integrations", icon: Plug },
   { name: "Settings", href: "/settings", icon: Settings },
 ];
 

@@ -96,6 +96,13 @@ export const uk = {
       upcomingDeadlines: "Найближчі дедлайни",
       viewAll: "Всі завдання",
     },
+    importSnapshot: {
+      title: "Активність імпорту",
+      subtitle: "Банківські виписки, імпортовані в Flowiq",
+      viewAll: "До імпорту",
+      importHealth: "Стан імпорту",
+      history: "Історія імпорту",
+    },
     taxProfile: {
       title: "Мій податковий профіль",
       currentGroup: "Поточна група",
@@ -396,19 +403,19 @@ export const uk = {
   },
   integrations: {
     title: "Інтеграції",
-    subtitle: "Підключайте бізнес-інструменти та сервіси",
+    subtitle: "Заплановані підключення бізнес-інструментів",
     connect: "Підключити",
     connected: "Підключено",
-    coming: "Незабаром",
+    coming: "Заплановано",
     available: "Доступно",
     items: {
       monobank: {
         name: "monobank",
-        description: "Підключіть бізнес-рахунок monobank",
+        description: "Імпортуйте банківську виписку monobank (CSV)",
       },
       privatbank: {
         name: "ПриватБанк",
-        description: "Синхронізація транзакцій з ПриватБанку",
+        description: "Імпортуйте банківську виписку ПриватБанку (CSV)",
       },
       googleSheets: {
         name: "Google Sheets",
@@ -781,6 +788,15 @@ export const uk = {
       older: "Раніше",
     },
   },
+  comingSoon: {
+    integrations: {
+      title: "Банківські інтеграції",
+      message:
+        "Банківські інтеграції заплановані на майбутній реліз. Наразі Flowiq працює через імпорт банківських виписок.",
+      hint: "Завантажте CSV-виписку, щоб автоматично створити транзакції.",
+      goToImports: "Перейти до імпорту",
+    },
+  },
   common: {
     loading: "Завантаження...",
     comingSoon: "Незабаром",
@@ -805,6 +821,7 @@ export type TranslationKeys = {
   reports: Record<string, string | Record<string, string>>;
   notifications: Record<string, string | Record<string, string>>;
   integrations: Record<string, string | Record<string, string | Record<string, string>>>;
+  comingSoon: Record<string, string | Record<string, string>>;
   businessGuide: Record<string, string | Record<string, string | Record<string, string>>>;
   settings: Record<string, string | Record<string, string>>;
   common: Record<string, string>;
