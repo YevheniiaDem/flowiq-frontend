@@ -1,5 +1,6 @@
 import { apiClient } from "./api";
 import { AxiosError } from "axios";
+import { clearAuthStorage, refreshTokensSingleFlight, setAuthTokens } from "./tokenRefresh";
 
 export interface User {
   id: string;
@@ -32,17 +33,12 @@ export interface AuthResponse {
 function persistAuth(authResponse: AuthResponse): void {
   if (typeof window === "undefined") return;
 
-  localStorage.setItem("token", authResponse.token);
-  localStorage.setItem("refreshToken", authResponse.refreshToken);
+  setAuthTokens(authResponse.token, authResponse.refreshToken);
   localStorage.setItem("user", JSON.stringify(authResponse.user));
 }
 
 function clearAuth(): void {
-  if (typeof window === "undefined") return;
-
-  localStorage.removeItem("token");
-  localStorage.removeItem("refreshToken");
-  localStorage.removeItem("user");
+  clearAuthStorage();
 }
 
 interface ApiErrorBody {
@@ -131,8 +127,7 @@ export const authService = {
   },
 
   async refreshToken(): Promise<{ token: string; refreshToken: string }> {
-    // Backend refresh endpoint not implemented yet
-    throw new Error("Refresh token endpoint is not available yet");
+    return refreshTokensSingleFlight();
   },
 
   async verifyEmail(_token: string): Promise<{ success: boolean }> {
