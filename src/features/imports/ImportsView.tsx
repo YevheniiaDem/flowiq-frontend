@@ -2,8 +2,14 @@
 
 import { useMemo } from "react";
 import { motion } from "framer-motion";
-import { Loader2 } from "lucide-react";
+import { Loader2, Upload } from "lucide-react";
 import { usePreferences } from "@/src/shared/context/PreferencesContext";
+import {
+  useContextualHint,
+  useFirstImportSuccess,
+  FirstImportSuccessModal,
+  EmptyState,
+} from "@/src/features/onboarding";
 import { ImportDashboardCards } from "./components/ImportDashboardCards";
 import { ImportUploadZone } from "./components/ImportUploadZone";
 import { ImportHistoryTable } from "./components/ImportHistoryTable";
@@ -13,6 +19,9 @@ export function ImportsView() {
   const { t, language } = usePreferences();
   const locale = language === "uk" ? "uk-UA" : "en-US";
   const { jobs, stats, loading, uploading, error, uploadFile } = useImports();
+
+  useContextualHint("imports", !loading);
+  const firstImport = useFirstImportSuccess(jobs, !loading);
 
   const statusLabels = useMemo(
     () => ({
@@ -101,6 +110,34 @@ export function ImportsView() {
       />
 
       <ImportHistoryTable jobs={jobs} labels={labels.history} locale={locale} />
+
+      {jobs.length === 0 && (
+        <EmptyState
+          testId="imports-empty-state"
+          icon={Upload}
+          title={t("activation.empty.imports.title")}
+          description={t("activation.empty.imports.description")}
+          primaryAction={{
+            label: t("activation.empty.imports.cta"),
+            testId: "imports-empty-upload-hint",
+          }}
+        />
+      )}
+
+      <FirstImportSuccessModal
+        open={firstImport.showModal}
+        transactionCount={firstImport.importedCount}
+        labels={{
+          title: t("activation.firstImport.title"),
+          description: t("activation.firstImport.description"),
+          viewTransactions: t("activation.firstImport.viewTransactions"),
+          exploreDashboard: t("activation.firstImport.exploreDashboard"),
+          aiInsight: t("activation.firstImport.aiInsight"),
+        }}
+        onViewTransactions={firstImport.viewTransactions}
+        onExploreDashboard={firstImport.exploreDashboard}
+        onClose={firstImport.dismiss}
+      />
     </motion.div>
   );
 }

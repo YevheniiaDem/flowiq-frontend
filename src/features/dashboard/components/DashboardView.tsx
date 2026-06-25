@@ -1,7 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useState } from "react";
-import { ArrowRight, Loader2 } from "lucide-react";
+import { ArrowRight, Loader2, LayoutDashboard } from "lucide-react";
 import { StatCard } from "./StatCard";
 import { AISummaryCard } from "./AISummaryCard";
 import { TaxProfileCard } from "./TaxProfileCard";
@@ -18,11 +18,18 @@ import { dashboardService, taxProfileService } from "@/src/services";
 import { usePreferences } from "@/src/shared/context/PreferencesContext";
 import { TranslationKey } from "@/src/shared/i18n";
 import {
+  ActivationChecklist,
+  EmptyState,
+  getDemoDashboardData,
+  useDemoWorkspace,
+} from "@/src/features/onboarding";
+import {
   AIInsight,
   StatCard as StatCardType,
   TaxProfile,
 } from "@/src/shared/types";
 import { formatCurrency } from "@/src/shared/utils/currency";
+import { trackEvent } from "@/src/features/onboarding/services/productAnalytics";
 
 const STAT_LABEL_KEYS: Record<string, TranslationKey> = {
   revenue: "dashboard.stats.revenue",
@@ -31,8 +38,16 @@ const STAT_LABEL_KEYS: Record<string, TranslationKey> = {
   cashFlow: "dashboard.stats.cashFlow",
 };
 
+const STAT_TOOLTIP_KEYS: Record<string, TranslationKey> = {
+  revenue: "activation.metrics.revenue",
+  expenses: "activation.metrics.expenses",
+  profit: "activation.metrics.profit",
+  cashFlow: "activation.metrics.cashFlow",
+};
+
 export function DashboardView() {
   const { t, language, currency } = usePreferences();
+  const { isDemoMode, enableDemo } = useDemoWorkspace();
   const [stats, setStats] = useState<StatCardType[]>([]);
   const [insights, setInsights] = useState<AIInsight[]>([]);
   const [taxProfile, setTaxProfile] = useState<TaxProfile | null>(null);
@@ -43,7 +58,25 @@ export function DashboardView() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
+  const loadDemoData = useCallback(() => {
+    const demo = getDemoDashboardData(language);
+    setStats(demo.stats);
+    setInsights(demo.insights);
+    setTaxProfile(demo.taxProfile);
+    setSummary(demo.summary);
+    setRevenueTrend(demo.revenueTrend);
+    setExpenseBreakdown(demo.expenseBreakdown);
+    setForecastSnapshot(demo.forecastSnapshot);
+    setError(null);
+    setLoading(false);
+  }, [language]);
+
   const loadDashboard = useCallback(async () => {
+    if (isDemoMode) {
+      loadDemoData();
+      return;
+    }
+
     setLoading(true);
     setError(null);
     try {
@@ -76,7 +109,7 @@ export function DashboardView() {
     } finally {
       setLoading(false);
     }
-  }, [t, language, currency]);
+  }, [isDemoMode, language, loadDemoData, t, currency]);
 
   useEffect(() => {
     loadDashboard();
@@ -90,13 +123,39 @@ export function DashboardView() {
     );
   }
 
-  if (error || !taxProfile || !summary) {
+  if (error && !isDemoMode) {
     return (
-      <div className="flex h-64 flex-col items-center justify-center gap-2 p-4 text-center">
-        <p className="text-sm text-destructive">{error || t("dashboard.loadError")}</p>
-        <p className="text-xs text-muted-foreground">{t("dashboard.backendHint")}</p>
+      <div data-testid="dashboard-page" className="space-y-4 p-4">
+        <div>
+          <h1 className="text-2xl font-bold tracking-tight">{t("dashboard.title")}</h1>
+          <p className="text-sm text-muted-foreground">{t("dashboard.subtitle")}</p>
+        </div>
+        <ActivationChecklist />
+        <EmptyState
+          testId="dashboard-empty-state"
+          icon={LayoutDashboard}
+          title={t("activation.empty.dashboard.title")}
+          description={t("activation.empty.dashboard.description")}
+          primaryAction={{
+            label: t("activation.empty.dashboard.importCta"),
+            href: "/imports",
+            testId: "dashboard-empty-import-btn",
+          }}
+          secondaryAction={{
+            label: t("activation.empty.dashboard.demoCta"),
+            onClick: () => {
+              trackEvent("onboarding_demo_workspace_enabled", { source: "dashboard_empty" });
+              enableDemo();
+            },
+            testId: "dashboard-empty-demo-btn",
+          }}
+        />
       </div>
     );
+  }
+
+  if (!taxProfile || !summary) {
+    return null;
   }
 
   const locale = language === "uk" ? "uk-UA" : "en-US";
@@ -108,6 +167,8 @@ export function DashboardView() {
         <p className="text-sm text-muted-foreground">{t("dashboard.subtitle")}</p>
       </div>
 
+      <ActivationChecklist />
+
       <div data-testid="dashboard-stats" className="grid gap-3 md:grid-cols-2 lg:grid-cols-4">
         {stats.map((stat, index) => (
           <StatCard
@@ -117,6 +178,8 @@ export function DashboardView() {
             change={stat.change}
             changeType={stat.changeType}
             icon={stat.icon}
+            metricId={stat.labelKey}
+            metricTooltip={t(STAT_TOOLTIP_KEYS[stat.labelKey] ?? "activation.metrics.revenue")}
           />
         ))}
       </div>

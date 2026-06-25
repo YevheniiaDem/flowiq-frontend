@@ -31,6 +31,7 @@ export function NotificationBell() {
         <Button
           variant="ghost"
           size="icon"
+          data-testid="top-nav-notifications"
           className="relative h-8 w-8 rounded-lg hover:bg-accent/50"
           aria-label={t("notifications.title")}
         >

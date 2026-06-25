@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import {
   Dialog,
   DialogContent,
@@ -10,6 +10,7 @@ import {
 import { Button } from "@/src/shared/components/ui/button";
 import { Input } from "@/src/shared/components/ui/input";
 import { CreateTaskPayload, TaskPriority, TaskType } from "../types";
+import { DueDateInput } from "./DueDateInput";
 
 interface TaskFormDialogProps {
   open: boolean;
@@ -20,6 +21,7 @@ interface TaskFormDialogProps {
     taskTitle: string;
     description: string;
     dueDate: string;
+    dueDatePlaceholder: string;
     priority: string;
     type: string;
     create: string;
@@ -30,6 +32,23 @@ interface TaskFormDialogProps {
   initial?: Partial<CreateTaskPayload>;
 }
 
+const DEFAULT_PRIORITY: TaskPriority = "MEDIUM";
+const DEFAULT_TYPE: TaskType = "CUSTOM";
+
+function formFromInitial(initial?: Partial<CreateTaskPayload>) {
+  return {
+    title: initial?.title ?? "",
+    description: initial?.description ?? "",
+    dueDate: initial?.dueDate ?? "",
+    priority: initial?.priority ?? DEFAULT_PRIORITY,
+    type: initial?.type ?? DEFAULT_TYPE,
+  };
+}
+
+function emptyForm() {
+  return formFromInitial();
+}
+
 export function TaskFormDialog({
   open,
   onOpenChange,
@@ -37,12 +56,40 @@ export function TaskFormDialog({
   labels,
   initial,
 }: TaskFormDialogProps) {
-  const [title, setTitle] = useState(initial?.title ?? "");
-  const [description, setDescription] = useState(initial?.description ?? "");
-  const [dueDate, setDueDate] = useState(initial?.dueDate ?? "");
-  const [priority, setPriority] = useState<TaskPriority>(initial?.priority ?? "MEDIUM");
-  const [type, setType] = useState<TaskType>(initial?.type ?? "CUSTOM");
+  const [title, setTitle] = useState("");
+  const [description, setDescription] = useState("");
+  const [dueDate, setDueDate] = useState("");
+  const [priority, setPriority] = useState<TaskPriority>(DEFAULT_PRIORITY);
+  const [type, setType] = useState<TaskType>(DEFAULT_TYPE);
   const [submitting, setSubmitting] = useState(false);
+
+  const applyForm = useCallback((values: ReturnType<typeof formFromInitial>) => {
+    setTitle(values.title);
+    setDescription(values.description);
+    setDueDate(values.dueDate);
+    setPriority(values.priority);
+    setType(values.type);
+  }, []);
+
+  useEffect(() => {
+    if (open) {
+      applyForm(formFromInitial(initial));
+    } else {
+      applyForm(emptyForm());
+    }
+  }, [open, initial, applyForm]);
+
+  const handleOpenChange = (nextOpen: boolean) => {
+    if (!nextOpen) {
+      applyForm(emptyForm());
+    }
+    onOpenChange(nextOpen);
+  };
+
+  const handleCancel = () => {
+    applyForm(emptyForm());
+    onOpenChange(false);
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -56,9 +103,7 @@ export function TaskFormDialog({
         priority,
         type,
       });
-      setTitle("");
-      setDescription("");
-      setDueDate("");
+      applyForm(emptyForm());
       onOpenChange(false);
     } finally {
       setSubmitting(false);
@@ -66,7 +111,7 @@ export function TaskFormDialog({
   };
 
   return (
-    <Dialog open={open} onOpenChange={onOpenChange}>
+    <Dialog open={open} onOpenChange={handleOpenChange}>
       <DialogContent className="sm:max-w-md">
         <DialogHeader>
           <DialogTitle>{labels.title}</DialogTitle>
@@ -83,7 +128,11 @@ export function TaskFormDialog({
           <div className="grid grid-cols-2 gap-3">
             <div>
               <label className="text-xs text-muted-foreground">{labels.dueDate}</label>
-              <Input type="date" value={dueDate} onChange={(e) => setDueDate(e.target.value)} />
+              <DueDateInput
+                value={dueDate}
+                onChange={setDueDate}
+                placeholder={labels.dueDatePlaceholder}
+              />
             </div>
             <div>
               <label className="text-xs text-muted-foreground">{labels.priority}</label>
@@ -115,7 +164,7 @@ export function TaskFormDialog({
             </select>
           </div>
           <div className="flex justify-end gap-2 pt-2">
-            <Button type="button" variant="outline" onClick={() => onOpenChange(false)}>
+            <Button type="button" variant="outline" onClick={handleCancel}>
               {labels.cancel}
             </Button>
             <Button type="submit" disabled={submitting}>

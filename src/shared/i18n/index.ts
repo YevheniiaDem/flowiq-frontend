@@ -67,6 +67,7 @@ export type TranslationKey =
   | `tasks.priorities.${keyof (typeof uk.tasks)["priorities"] & string}`
   | `tasks.statuses.${keyof (typeof uk.tasks)["statuses"] & string}`
   | `tasks.calendar.${keyof (typeof uk.tasks)["calendar"] & string}`
+  | `tasks.search.${keyof (typeof uk.tasks)["search"] & string}`
   | `tasks.form.${keyof (typeof uk.tasks)["form"] & string}`
   | `reports.${keyof typeof uk.reports & string}`
   | `reports.stats.${keyof (typeof uk.reports)["stats"] & string}`
@@ -118,6 +119,53 @@ export type TranslationKey =
   | `settings.${keyof typeof uk.settings & string}`
   | `settings.languages.${keyof (typeof uk.settings)["languages"] & string}`
   | `settings.currencies.${keyof (typeof uk.settings)["currencies"] & string}`
+  | `activation.${keyof typeof uk.activation & string}`
+  | `activation.checklist.${keyof (typeof uk.activation)["checklist"] & string}`
+  | `activation.checklist.productTour.${keyof (typeof uk.activation)["checklist"]["productTour"] & string}`
+  | `activation.checklist.firstImport.${keyof (typeof uk.activation)["checklist"]["firstImport"] & string}`
+  | `activation.checklist.reviewTransactions.${keyof (typeof uk.activation)["checklist"]["reviewTransactions"] & string}`
+  | `activation.checklist.aiAccountant.${keyof (typeof uk.activation)["checklist"]["aiAccountant"] & string}`
+  | `activation.checklist.forecasts.${keyof (typeof uk.activation)["checklist"]["forecasts"] & string}`
+  | `activation.checklist.firstTask.${keyof (typeof uk.activation)["checklist"]["firstTask"] & string}`
+  | `activation.empty.${keyof (typeof uk.activation)["empty"] & string}`
+  | `activation.empty.dashboard.${keyof (typeof uk.activation)["empty"]["dashboard"] & string}`
+  | `activation.empty.imports.${keyof (typeof uk.activation)["empty"]["imports"] & string}`
+  | `activation.empty.transactions.${keyof (typeof uk.activation)["empty"]["transactions"] & string}`
+  | `activation.empty.analytics.${keyof (typeof uk.activation)["empty"]["analytics"] & string}`
+  | `activation.empty.forecasts.${keyof (typeof uk.activation)["empty"]["forecasts"] & string}`
+  | `activation.empty.tasks.${keyof (typeof uk.activation)["empty"]["tasks"] & string}`
+  | `activation.empty.notifications.${keyof (typeof uk.activation)["empty"]["notifications"] & string}`
+  | `activation.empty.reports.${keyof (typeof uk.activation)["empty"]["reports"] & string}`
+  | `activation.firstImport.${keyof (typeof uk.activation)["firstImport"] & string}`
+  | `activation.metrics.${keyof (typeof uk.activation)["metrics"] & string}`
+  | `activation.demo.${keyof (typeof uk.activation)["demo"] & string}`
+  | `activation.help.${keyof (typeof uk.activation)["help"] & string}`
+  | `activation.celebrations.${keyof (typeof uk.activation)["celebrations"] & string}`
+  | `activation.celebrations.firstImport.${keyof (typeof uk.activation)["celebrations"]["firstImport"] & string}`
+  | `activation.celebrations.checklistComplete.${keyof (typeof uk.activation)["celebrations"]["checklistComplete"] & string}`
+  | `activation.celebrations.tourComplete.${keyof (typeof uk.activation)["celebrations"]["tourComplete"] & string}`
+  | `activation.whatsNew.${keyof (typeof uk.activation)["whatsNew"] & string}`
+  | `activation.whatsNew.v020.${keyof (typeof uk.activation)["whatsNew"]["v020"] & string}`
+  | `activation.whatsNew.v020.features.${keyof (typeof uk.activation)["whatsNew"]["v020"]["features"] & string}`
+  | `activation.whatsNew.v020.features.checklist.${keyof (typeof uk.activation)["whatsNew"]["v020"]["features"]["checklist"] & string}`
+  | `activation.whatsNew.v020.features.demo.${keyof (typeof uk.activation)["whatsNew"]["v020"]["features"]["demo"] & string}`
+  | `activation.whatsNew.v020.features.success.${keyof (typeof uk.activation)["whatsNew"]["v020"]["features"]["success"] & string}`
+  | `activation.whatsNew.v020.features.help.${keyof (typeof uk.activation)["whatsNew"]["v020"]["features"]["help"] & string}`
+  | `onboarding.${keyof typeof uk.onboarding & string}`
+  | `onboarding.welcome.${keyof (typeof uk.onboarding)["welcome"] & string}`
+  | `onboarding.tour.${keyof (typeof uk.onboarding)["tour"] & string}`
+  | `onboarding.tour.steps.${keyof (typeof uk.onboarding)["tour"]["steps"] & string}`
+  | `onboarding.tour.steps.dashboard.${keyof (typeof uk.onboarding)["tour"]["steps"]["dashboard"] & string}`
+  | `onboarding.tour.steps.imports.${keyof (typeof uk.onboarding)["tour"]["steps"]["imports"] & string}`
+  | `onboarding.tour.steps.aiAccountant.${keyof (typeof uk.onboarding)["tour"]["steps"]["aiAccountant"] & string}`
+  | `onboarding.tour.steps.forecasts.${keyof (typeof uk.onboarding)["tour"]["steps"]["forecasts"] & string}`
+  | `onboarding.tour.steps.tasksNotifications.${keyof (typeof uk.onboarding)["tour"]["steps"]["tasksNotifications"] & string}`
+  | `onboarding.tour.steps.success.${keyof (typeof uk.onboarding)["tour"]["steps"]["success"] & string}`
+  | `onboarding.hints.${keyof (typeof uk.onboarding)["hints"] & string}`
+  | `onboarding.hints.aiAccountant.${keyof (typeof uk.onboarding)["hints"]["aiAccountant"] & string}`
+  | `onboarding.hints.forecasts.${keyof (typeof uk.onboarding)["hints"]["forecasts"] & string}`
+  | `onboarding.hints.imports.${keyof (typeof uk.onboarding)["hints"]["imports"] & string}`
+  | `onboarding.hints.tasks.${keyof (typeof uk.onboarding)["hints"]["tasks"] & string}`
   | `common.${keyof typeof uk.common & string}`;
 
 export function getTranslations(language: AppLanguage) {

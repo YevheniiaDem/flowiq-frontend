@@ -5,6 +5,9 @@ import { useRouter } from "next/navigation";
 import { motion } from "framer-motion";
 import { Loader2 } from "lucide-react";
 import { authService } from "@/src/services";
+import { OnboardingProvider } from "@/src/features/onboarding";
+import { ActivationProvider } from "@/src/features/onboarding/components/ActivationProvider";
+import { DemoWorkspaceBanner } from "@/src/features/onboarding/components/DemoWorkspaceBanner";
 import { AmbientBackground } from "./AmbientBackground";
 import { Sidebar } from "./Sidebar";
 import { TopNav } from "./TopNav";
@@ -34,22 +37,27 @@ export function MainLayout({ children }: MainLayoutProps) {
   }
 
   return (
-    <div className="relative flex h-screen overflow-hidden bg-background">
-      <Sidebar />
-      <div className="flex flex-1 flex-col pl-56">
-        <TopNav />
-        <main data-testid="main-content" className="flex-1 overflow-y-auto">
-          <motion.div
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.3, ease: "easeOut" }}
-            className="h-full"
-          >
-            {children}
-          </motion.div>
-        </main>
+    <ActivationProvider>
+      <OnboardingProvider>
+        <div className="relative flex h-screen overflow-hidden bg-background">
+          <Sidebar />
+          <div className="flex flex-1 flex-col pl-56">
+            <DemoWorkspaceBanner />
+            <TopNav />
+          <main data-testid="main-content" className="flex-1 overflow-y-auto">
+            <motion.div
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.3, ease: "easeOut" }}
+              className="h-full"
+            >
+              {children}
+            </motion.div>
+          </main>
+        </div>
+        <AmbientBackground />
       </div>
-      <AmbientBackground />
-    </div>
+      </OnboardingProvider>
+    </ActivationProvider>
   );
 }

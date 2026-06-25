@@ -2,8 +2,9 @@
 
 import { useMemo } from "react";
 import { motion } from "framer-motion";
-import { Loader2 } from "lucide-react";
+import { Loader2, LineChart } from "lucide-react";
 import { usePreferences } from "@/src/shared/context/PreferencesContext";
+import { EmptyState } from "@/src/features/onboarding";
 import { useAnalytics } from "../hooks/useAnalytics";
 import { AnalyticsSummaryCards } from "./AnalyticsSummaryCards";
 import { AnalyticsRevenueTrendChart } from "./AnalyticsRevenueTrendChart";
@@ -76,9 +77,21 @@ export function AnalyticsView() {
 
   if (error || !overview || !fopInsights) {
     return (
-      <div className="flex h-64 flex-col items-center justify-center gap-2 p-4 text-center">
-        <p className="text-sm text-destructive">{error || t("analytics.loadError")}</p>
-        <p className="text-xs text-muted-foreground">{t("dashboard.backendHint")}</p>
+      <div data-testid="analytics-page" className="space-y-4 p-4">
+        <div>
+          <h1 className="text-2xl font-bold tracking-tight">{t("analytics.title")}</h1>
+          <p className="text-sm text-muted-foreground">{t("analytics.subtitle")}</p>
+        </div>
+        <EmptyState
+          testId="analytics-empty-state"
+          icon={LineChart}
+          title={t("activation.empty.analytics.title")}
+          description={t("activation.empty.analytics.description")}
+          primaryAction={{
+            label: t("activation.empty.analytics.importCta"),
+            href: "/imports",
+          }}
+        />
       </div>
     );
   }
@@ -102,6 +115,12 @@ export function AnalyticsView() {
         labels={labels.summary}
         currency={currency}
         locale={locale}
+        metricTooltips={{
+          revenue: t("activation.metrics.revenue"),
+          expenses: t("activation.metrics.expenses"),
+          profit: t("activation.metrics.profit"),
+          taxBurden: t("activation.metrics.taxBurden"),
+        }}
       />
 
       <div className="grid gap-3 lg:grid-cols-2">

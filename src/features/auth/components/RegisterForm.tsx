@@ -5,6 +5,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { Loader2, UserPlus } from "lucide-react";
 import { authService } from "@/src/services";
+import { onboardingStorage } from "@/src/features/onboarding";
 import { usePreferences } from "@/src/shared/context/PreferencesContext";
 import { Button } from "@/src/shared/components/ui/button";
 import { ClearableInput } from "@/src/shared/components/ui/clearable-input";
@@ -40,6 +41,7 @@ export function RegisterForm() {
         password,
         company: company || undefined,
       });
+      onboardingStorage.setPendingWelcome();
       router.push("/");
       router.refresh();
     } catch (err) {

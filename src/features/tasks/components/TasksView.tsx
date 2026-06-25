@@ -1,20 +1,28 @@
 "use client";
 
-import { useMemo, useState } from "react";
-import { motion } from "framer-motion";
-import { Loader2, Plus } from "lucide-react";
+import { useEffect, useMemo, useState } from "react";
+import { AnimatePresence, motion } from "framer-motion";
+import { Loader2, Plus, ClipboardCheck } from "lucide-react";
 import { usePreferences } from "@/src/shared/context/PreferencesContext";
+import { useContextualHint, usePageActivation, EmptyState, useActivation } from "@/src/features/onboarding";
 import { Button } from "@/src/shared/components/ui/button";
 import { useTasks } from "../hooks/useTasks";
 import { TaskCard } from "./TaskCard";
 import { TaskFilters } from "./TaskFilters";
 import { TaskFormDialog } from "./TaskFormDialog";
+import { TaskSearchResultsPanel } from "./TaskSearchResultsPanel";
 import { TasksCalendar } from "./TasksCalendar";
 import { TaskSuggestions } from "./TaskSuggestions";
 import { CalendarView, TaskPriority, TaskSection, TaskSuggestion, TaskType } from "../types";
+import {
+  allTasksFromGroups,
+  filterTasksBySearch,
+  tasksForSection,
+} from "../utils/task.utils";
 
 export function TasksView() {
   const { t, language } = usePreferences();
+  const { markChecklistItem } = useActivation();
   const locale = language === "uk" ? "uk-UA" : "en-US";
 
   const [search, setSearch] = useState("");
@@ -29,10 +37,8 @@ export function TasksView() {
     dueDate?: string;
   } | undefined>();
 
-  const filters = useMemo(
-    () => ({ search: search || undefined, section }),
-    [search, section]
-  );
+  const filters = useMemo(() => ({ section }), [section]);
+  const isSearching = search.trim().length > 0;
 
   const {
     groups,
@@ -44,6 +50,15 @@ export function TasksView() {
     completeTask,
     deleteTask,
   } = useTasks({ filters });
+
+  useContextualHint("tasks", !loading && !error);
+  usePageActivation("tasks");
+
+  useEffect(() => {
+    if (tasks.length > 0) {
+      markChecklistItem("first_task");
+    }
+  }, [tasks.length, markChecklistItem]);
 
   const labels = useMemo(
     () => ({
@@ -77,6 +92,8 @@ export function TasksView() {
         month: t("tasks.calendar.month"),
         week: t("tasks.calendar.week"),
         list: t("tasks.calendar.list"),
+        delete: t("tasks.delete"),
+        moreTasks: t("tasks.calendar.moreTasks"),
         weekdays: [
           t("tasks.calendar.mon"),
           t("tasks.calendar.tue"),
@@ -92,6 +109,7 @@ export function TasksView() {
         taskTitle: t("tasks.form.taskTitle"),
         description: t("tasks.form.description"),
         dueDate: t("tasks.form.dueDate"),
+        dueDatePlaceholder: t("tasks.form.dueDatePlaceholder"),
         priority: t("tasks.form.priority"),
         type: t("tasks.form.type"),
         create: t("tasks.form.create"),
@@ -113,6 +131,19 @@ export function TasksView() {
     }),
     [t]
   );
+
+  const searchResults = useMemo(() => {
+    if (!groups || !isSearching) return [];
+    return filterTasksBySearch(allTasksFromGroups(groups), search);
+  }, [groups, isSearching, search]);
+
+  const sectionTasks = useMemo(() => {
+    if (!groups) return [];
+    if (section === "all") {
+      return tasks;
+    }
+    return tasksForSection(groups, section);
+  }, [groups, section, tasks]);
 
   const handleAddSuggestion = (suggestion: TaskSuggestion) => {
     setSuggestionInitial({
@@ -142,6 +173,12 @@ export function TasksView() {
     );
   }
 
+  const calendarGroups = {
+    today: groups.today,
+    upcoming: groups.upcoming,
+    overdue: groups.overdue,
+  };
+
   return (
     <motion.div
       data-testid="tasks-page"
@@ -163,60 +200,97 @@ export function TasksView() {
       <TaskFilters
         search={search}
         section={section}
-        searchPlaceholder={t("tasks.search")}
+        searchPlaceholder={t("tasks.search.placeholder")}
+        clearSearchLabel={t("tasks.search.clear")}
+        isSearching={isSearching}
+        searchHint={isSearching ? t("tasks.search.hint") : undefined}
+        searchResults={
+          isSearching ? (
+            <AnimatePresence mode="wait">
+              <TaskSearchResultsPanel
+                tasks={searchResults}
+                locale={locale}
+                title={t("tasks.search.results", { count: searchResults.length })}
+                noResultsTitle={t("tasks.search.noResults")}
+                noResultsHint={t("tasks.search.noResultsHint", { query: search.trim() })}
+                clearLabel={t("tasks.search.clear")}
+                typeLabels={labels.types}
+                priorityLabels={labels.priorities}
+                statusLabels={labels.statuses}
+                onClear={() => setSearch("")}
+                onComplete={completeTask}
+                onDelete={deleteTask}
+              />
+            </AnimatePresence>
+          ) : undefined
+        }
         onSearchChange={setSearch}
+        onSearchSubmit={() => {}}
         onSectionChange={setSection}
         sectionLabels={labels.sections}
       />
 
-      {groups && (
-        <TasksCalendar
-          groups={groups}
-          view={calendarView}
-          onViewChange={setCalendarView}
-          locale={locale}
-          labels={labels.calendar}
-        />
+      {!isSearching && (
+        <>
+          <TasksCalendar
+            groups={calendarGroups}
+            view={calendarView}
+            onViewChange={setCalendarView}
+            locale={locale}
+            onDelete={deleteTask}
+            labels={labels.calendar}
+          />
+
+          <section data-testid="tasks-results" className="space-y-3">
+            <h2 className="text-lg font-semibold">{labels.sections[section]}</h2>
+            {sectionTasks.length === 0 ? (
+              <EmptyState
+                testId="tasks-empty-state"
+                icon={ClipboardCheck}
+                title={t("activation.empty.tasks.title")}
+                description={t("activation.empty.tasks.description")}
+                primaryAction={{
+                  label: t("activation.empty.tasks.addCta"),
+                  onClick: () => {
+                    setSuggestionInitial(undefined);
+                    setDialogOpen(true);
+                  },
+                  testId: "tasks-empty-add-btn",
+                }}
+              />
+            ) : (
+              <div className="space-y-2">
+                {sectionTasks.map((task) => (
+                  <TaskCard
+                    key={task.id}
+                    task={task}
+                    locale={locale}
+                    typeLabel={labels.types[task.type]}
+                    priorityLabel={labels.priorities[task.priority]}
+                    statusLabel={labels.statuses[task.status]}
+                    onComplete={completeTask}
+                    onDelete={deleteTask}
+                  />
+                ))}
+              </div>
+            )}
+          </section>
+
+          <TaskSuggestions
+            suggestions={suggestions}
+            title={t("tasks.suggestions")}
+            addLabel={t("tasks.addSuggestion")}
+            onAdd={handleAddSuggestion}
+          />
+        </>
       )}
-
-      <section className="space-y-3">
-        <h2 className="text-lg font-semibold">{labels.sections[section]}</h2>
-        {tasks.length === 0 ? (
-          <p className="py-8 text-center text-sm text-muted-foreground">{t("tasks.empty")}</p>
-        ) : (
-          <div className="space-y-2">
-            {tasks
-              .filter((task) =>
-                !search ||
-                task.title.toLowerCase().includes(search.toLowerCase()) ||
-                task.description?.toLowerCase().includes(search.toLowerCase())
-              )
-              .map((task) => (
-                <TaskCard
-                  key={task.id}
-                  task={task}
-                  locale={locale}
-                  typeLabel={labels.types[task.type]}
-                  priorityLabel={labels.priorities[task.priority]}
-                  statusLabel={labels.statuses[task.status]}
-                  onComplete={completeTask}
-                  onDelete={deleteTask}
-                />
-              ))}
-          </div>
-        )}
-      </section>
-
-      <TaskSuggestions
-        suggestions={suggestions}
-        title={t("tasks.suggestions")}
-        addLabel={t("tasks.addSuggestion")}
-        onAdd={handleAddSuggestion}
-      />
 
       <TaskFormDialog
         open={dialogOpen}
-        onOpenChange={setDialogOpen}
+        onOpenChange={(open) => {
+          setDialogOpen(open);
+          if (!open) setSuggestionInitial(undefined);
+        }}
         onSubmit={async (payload) => { await createTask(payload); }}
         labels={labels.form}
         initial={suggestionInitial}

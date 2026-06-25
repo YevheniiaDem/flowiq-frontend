@@ -1,4 +1,5 @@
 import { Card } from "@/src/shared/components/ui/card";
+import { MetricTooltip } from "@/src/features/onboarding/components/MetricTooltip";
 import {
   TrendingUp,
   TrendingDown,
@@ -13,6 +14,8 @@ interface StatCardProps {
   change: string;
   changeType: "positive" | "negative";
   icon: string;
+  metricId?: string;
+  metricTooltip?: string;
 }
 
 const iconMap = {
@@ -23,7 +26,15 @@ const iconMap = {
   "trending-up": TrendingUp,
 };
 
-export function StatCard({ label, value, change, changeType, icon }: StatCardProps) {
+export function StatCard({
+  label,
+  value,
+  change,
+  changeType,
+  icon,
+  metricId,
+  metricTooltip,
+}: StatCardProps) {
   const Icon = iconMap[icon as keyof typeof iconMap] || DollarSign;
   const isPositive = changeType === "positive";
 
@@ -31,7 +42,11 @@ export function StatCard({ label, value, change, changeType, icon }: StatCardPro
     <Card className="relative overflow-hidden rounded-xl border-border/50 bg-card/50 p-4 backdrop-blur-sm">
       <div className="flex items-center justify-between">
         <div>
-          <p className="text-xs font-medium text-muted-foreground">{label}</p>
+          {metricId && metricTooltip ? (
+            <MetricTooltip metricId={metricId} label={label} tooltip={metricTooltip} />
+          ) : (
+            <p className="text-xs font-medium text-muted-foreground">{label}</p>
+          )}
           <h3 className="mt-1.5 text-xl font-bold">{value}</h3>
           <div
             className={`mt-1 flex items-center gap-1 text-xs ${

@@ -277,12 +277,20 @@ export const en: TranslationKeys = {
     title: "Tasks & Deadlines",
     subtitle: "Centralized business planner for FOP compliance and operations",
     addTask: "Add Task",
-    search: "Search tasks...",
+    search: {
+      placeholder: "Search tasks...",
+      hint: "Searching by title and description across all tasks",
+      results: "Search results ({count})",
+      noResults: "No tasks found",
+      noResultsHint: 'No tasks match "{query}". Try different keywords.',
+      clear: "Clear search",
+    },
     empty: "No tasks in this section",
     loadError: "Failed to load tasks",
     backendHint: "Make sure the backend is running on port 8080",
     suggestions: "AI Suggestions",
     addSuggestion: "Add to tasks",
+    delete: "Delete task",
     sections: {
       today: "Today",
       upcoming: "Upcoming",
@@ -320,12 +328,14 @@ export const en: TranslationKeys = {
       fri: "Fri",
       sat: "Sat",
       sun: "Sun",
+      moreTasks: "+{count} more",
     },
     form: {
       title: "New Task",
       taskTitle: "Title",
       description: "Description",
       dueDate: "Due Date",
+      dueDatePlaceholder: "dd/mm/yyyy",
       priority: "Priority",
       type: "Type",
       create: "Create",
@@ -466,6 +476,251 @@ export const en: TranslationKeys = {
       UAH: "Hryvnia (₴)",
       USD: "US Dollar ($)",
       EUR: "Euro (€)",
+    },
+    help: "Help",
+    helpHint: "Product guides and support resources",
+    startProductTour: "Start Product Tour",
+    startProductTourHint: "Replay the guided walkthrough of Flowiq features",
+  },
+  activation: {
+    checklist: {
+      title: "Get started with Flowiq",
+      subtitle: "{completed} of {total} steps completed",
+      progress: "Activation progress",
+      dismiss: "Dismiss checklist",
+      productTour: {
+        title: "Take the product tour",
+        description: "Learn where key features live in 2 minutes",
+        cta: "Start tour",
+      },
+      firstImport: {
+        title: "Import your first statement",
+        description: "Upload a CSV bank statement to unlock insights",
+        cta: "Go to Imports",
+      },
+      reviewTransactions: {
+        title: "Review imported transactions",
+        description: "Verify categories and amounts look correct",
+        cta: "View transactions",
+      },
+      aiAccountant: {
+        title: "Ask the AI Accountant",
+        description: "Get tax and finance advice tailored to your business",
+        cta: "Open AI Accountant",
+      },
+      forecasts: {
+        title: "Explore forecasts",
+        description: "See projected revenue, profit, and tax obligations",
+        cta: "View forecasts",
+      },
+      firstTask: {
+        title: "Create your first task",
+        description: "Track tax deadlines and business to-dos",
+        cta: "Add task",
+      },
+    },
+    empty: {
+      dashboard: {
+        title: "Your financial dashboard awaits",
+        description:
+          "Import a bank statement or explore the demo workspace to see Flowiq in action with real-looking data.",
+        importCta: "Import statement",
+        demoCta: "Try demo workspace",
+      },
+      imports: {
+        title: "No imports yet",
+        description:
+          "Upload a CSV bank statement from Monobank, PrivatBank, or Universal format to automatically create transactions.",
+        cta: "Use the upload zone above",
+      },
+      transactions: {
+        title: "No transactions yet",
+        description: "Import a bank statement or add a transaction manually to get started.",
+        importCta: "Import statement",
+        addCta: "Add transaction",
+      },
+      analytics: {
+        title: "Analytics needs data",
+        description: "Import transactions to unlock revenue trends, expense breakdowns, and tax insights.",
+        importCta: "Import statement",
+      },
+      forecasts: {
+        title: "Forecasts need history",
+        description: "Import at least one month of transactions to generate financial projections.",
+        importCta: "Import statement",
+      },
+      tasks: {
+        title: "No tasks yet",
+        description: "Create tasks for tax payments, reporting deadlines, and daily operations.",
+        addCta: "Create first task",
+      },
+      notifications: {
+        title: "All caught up",
+        description: "Tax alerts, FOP limit warnings, and AI insights will appear here.",
+      },
+      reports: {
+        title: "No reports yet",
+        description: "Generate your first financial report once you have transaction data.",
+        generateCta: "Generate report",
+      },
+    },
+    firstImport: {
+      title: "First import successful!",
+      description:
+        "We imported {count} transactions from your statement. Your dashboard and AI insights are now being updated.",
+      viewTransactions: "Review transactions",
+      exploreDashboard: "Explore dashboard",
+      aiInsight:
+        "Flowiq AI will now analyze your transactions and surface tax opportunities and cash-flow alerts.",
+    },
+    metrics: {
+      revenue: "Total income from sales and services in the selected period.",
+      expenses: "Total business spending including taxes, supplies, and operating costs.",
+      profit: "Revenue minus expenses — your net business result before personal withdrawals.",
+      cashFlow: "Net cash movement showing how much money entered vs left your accounts.",
+      taxBurden: "Share of revenue paid as taxes — helps track FOP tax efficiency.",
+      expectedRevenue: "Projected income based on historical trends and seasonality.",
+      expectedExpenses: "Projected spending based on recent expense patterns.",
+      expectedProfit: "Forecasted net profit after expected revenue and expenses.",
+      expectedTax: "Estimated tax obligations for the forecast period.",
+      successRate: "Percentage of import jobs completed without critical errors.",
+      importedTransactions: "Total transactions created from bank statement imports.",
+    },
+    demo: {
+      banner: "Demo workspace active",
+      bannerHint: "Sample data is shown — import real statements to replace it.",
+      exit: "Exit demo",
+    },
+    help: {
+      title: "Help & Learn Center",
+      subtitle: "Guides, tours, and resources to get the most from Flowiq",
+      productTour: "Product tour",
+      productTourHint: "Interactive walkthrough of all key features",
+      importGuide: "Import guide",
+      importGuideHint: "How to upload bank statements and review results",
+      goToImports: "Go to Imports",
+      businessGuide: "Business Guide",
+      businessGuideHint: "FOP groups, taxes, KVED codes, and legal articles",
+      openGuide: "Open guide",
+      demoWorkspace: "Demo workspace",
+      demoWorkspaceHint: "Explore Flowiq with sample data — no import needed",
+      tryDemo: "Try demo",
+      checklist: "Activation checklist",
+      checklistHint: "{completed} of {total} activation steps done",
+      viewChecklist: "View on dashboard",
+      aiAccountant: "AI Accountant",
+      aiAccountantHint: "Ask questions about taxes, expenses, and business health",
+      askAi: "Ask AI",
+    },
+    celebrations: {
+      firstImport: {
+        title: "Great start!",
+        description: "Your first bank statement is imported. Flowiq is now learning your business.",
+        cta: "Review transactions",
+        secondary: "Back to dashboard",
+      },
+      checklistComplete: {
+        title: "You're fully activated!",
+        description: "You've completed all onboarding steps. Time to grow your business with data.",
+        cta: "Explore analytics",
+      },
+      tourComplete: {
+        title: "Tour complete!",
+        description: "You know the basics. Import your first statement to unlock the full power of Flowiq.",
+        cta: "Import statement",
+      },
+    },
+    whatsNew: {
+      label: "What's new",
+      gotIt: "Got it",
+      v020: {
+        title: "Activation-focused onboarding",
+        features: {
+          checklist: {
+            title: "Activation checklist",
+            description: "Track your progress toward first value with a guided checklist on the dashboard.",
+          },
+          demo: {
+            title: "Demo workspace",
+            description: "Explore Flowiq with realistic sample data before importing your statements.",
+          },
+          success: {
+            title: "First import celebration",
+            description: "Get guided next steps immediately after your first successful import.",
+          },
+          help: {
+            title: "Help & Learn Center",
+            description: "Central hub for tours, guides, demo mode, and AI assistance.",
+          },
+        },
+      },
+    },
+  },
+  onboarding: {
+    welcome: {
+      title: "Welcome to Flowiq!",
+      description:
+        "Take a quick tour to discover how to manage your finances, import transactions, and get AI-powered insights.",
+      startTour: "Start Tour",
+      skip: "Skip",
+    },
+    tour: {
+      progress: "Step {current} of {total}",
+      next: "Next",
+      back: "Back",
+      skip: "Skip tour",
+      steps: {
+        dashboard: {
+          title: "Dashboard overview",
+          description:
+            "Your command center — track revenue, expenses, profit, and cash flow at a glance.",
+        },
+        imports: {
+          title: "Import transactions",
+          description:
+            "Upload bank statements (CSV) to automatically import and categorize your transactions.",
+        },
+        aiAccountant: {
+          title: "AI Accountant",
+          description:
+            "Ask questions about taxes, expenses, and business health. Get personalized AI recommendations.",
+        },
+        forecasts: {
+          title: "Forecasts",
+          description:
+            "See projected revenue, profit, and tax obligations to plan ahead with confidence.",
+        },
+        tasksNotifications: {
+          title: "Tasks & notifications",
+          description:
+            "Create tasks for tax deadlines and business to-dos. Check the bell icon for important alerts.",
+        },
+        success: {
+          title: "You're all set!",
+          description:
+            "You now know the essentials. Start by importing your first bank statement to see Flowiq in action.",
+          cta: "Import your first statement",
+        },
+      },
+    },
+    hints: {
+      gotIt: "Got it",
+      aiAccountant: {
+        title: "Your AI Accountant",
+        description: "Type a question or pick a suggestion to get instant tax and finance advice.",
+      },
+      forecasts: {
+        title: "Financial forecasts",
+        description: "Review projected income, expenses, and taxes based on your data.",
+      },
+      imports: {
+        title: "Import bank statements",
+        description: "Drag and drop a CSV file or click Browse to upload your bank statement.",
+      },
+      tasks: {
+        title: "Manage your tasks",
+        description: "Add tasks for tax payments, reporting deadlines, and daily business operations.",
+      },
     },
   },
   businessGuide: {

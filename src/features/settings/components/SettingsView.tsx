@@ -4,6 +4,7 @@ import { useState } from "react";
 import { Moon, Sun, User, Bell, Shield, Palette, Globe } from "lucide-react";
 import { Card } from "@/src/shared/components/ui/card";
 import { usePreferences } from "@/src/shared/context/PreferencesContext";
+import { HelpLearnCenter } from "@/src/features/onboarding";
 import { AppCurrency, AppLanguage, AppTheme } from "@/src/shared/i18n";
 import { cn } from "@/src/shared/utils/utils";
 
@@ -37,7 +38,7 @@ export function SettingsView() {
   };
 
   return (
-    <div className="space-y-4 p-4">
+    <div data-testid="settings-page" className="space-y-4 p-4">
       <div className="flex items-center justify-between">
         <div>
           <h1 className="text-2xl font-bold tracking-tight">{t("settings.title")}</h1>
@@ -94,6 +95,8 @@ export function SettingsView() {
           </div>
         </div>
       </Card>
+
+      <HelpLearnCenter />
 
       <div className="grid gap-3 md:grid-cols-2">
         <Card className="rounded-xl border-border/50 bg-card/50 p-4 backdrop-blur-sm">

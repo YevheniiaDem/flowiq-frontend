@@ -3,6 +3,7 @@
 import { useMemo } from "react";
 import { Loader2 } from "lucide-react";
 import { usePreferences } from "@/src/shared/context/PreferencesContext";
+import { useContextualHint, usePageActivation } from "@/src/features/onboarding";
 import { useAIAccountant } from "./hooks/useAIAccountant";
 import { AIHealthSummaryCard } from "./components/AIHealthSummaryCard";
 import { AIRecommendationsSection } from "./components/AIRecommendationsSection";
@@ -26,6 +27,9 @@ export function AIAccountantView() {
     chatSending,
     sendMessage,
   } = useAIAccountant();
+
+  useContextualHint("ai_accountant", !loading && !error && !!health);
+  usePageActivation("ai-accountant", "ai_accountant");
 
   const typeLabels = useMemo(
     (): Record<RecommendationType, string> => ({

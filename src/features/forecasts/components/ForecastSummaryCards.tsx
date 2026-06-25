@@ -3,6 +3,7 @@
 import { motion } from "framer-motion";
 import { DollarSign, Receipt, TrendingDown, TrendingUp } from "lucide-react";
 import { Card } from "@/src/shared/components/ui/card";
+import { MetricTooltip } from "@/src/features/onboarding/components/MetricTooltip";
 import { AppCurrency } from "@/src/shared/i18n/types";
 import { formatCurrency } from "@/src/shared/utils/currency";
 import { cn } from "@/src/shared/utils/utils";
@@ -19,6 +20,7 @@ interface ForecastSummaryCardsProps {
   };
   currency: AppCurrency;
   locale: string;
+  metricTooltips?: Partial<Record<"revenue" | "expenses" | "profit" | "tax", string>>;
 }
 
 export function ForecastSummaryCards({
@@ -26,6 +28,7 @@ export function ForecastSummaryCards({
   labels,
   currency,
   locale,
+  metricTooltips,
 }: ForecastSummaryCardsProps) {
   const cards = [
     {
@@ -74,7 +77,15 @@ export function ForecastSummaryCards({
           <Card className="rounded-xl border-border/50 bg-card/50 p-4 backdrop-blur-sm">
             <div className="flex items-start justify-between">
               <div className="space-y-1">
-                <p className="text-xs text-muted-foreground">{label}</p>
+                {metricTooltips?.[key as keyof typeof metricTooltips] ? (
+                  <MetricTooltip
+                    metricId={key}
+                    label={label}
+                    tooltip={metricTooltips[key as keyof typeof metricTooltips]!}
+                  />
+                ) : (
+                  <p className="text-xs text-muted-foreground">{label}</p>
+                )}
                 <p className="text-lg font-bold">
                   {formatCurrency(value, currency, locale)}
                 </p>

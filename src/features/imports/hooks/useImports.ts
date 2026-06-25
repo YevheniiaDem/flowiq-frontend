@@ -2,6 +2,7 @@
 
 import { useCallback, useEffect, useState } from "react";
 import { importService } from "../services/importService";
+import { trackEvent } from "@/src/features/onboarding/services/productAnalytics";
 import { ImportJob, ImportStats } from "../types";
 
 export function useImports() {
@@ -33,9 +34,11 @@ export function useImports() {
     setUploading(true);
     setError(null);
     try {
+      trackEvent("import_upload_started", { fileName: file.name });
       await importService.uploadFile(file);
       await load();
     } catch (err) {
+      trackEvent("import_upload_failed");
       setError(err instanceof Error ? err.message : "Failed to upload file");
       throw err;
     } finally {

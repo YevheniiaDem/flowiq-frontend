@@ -1,8 +1,9 @@
 "use client";
 
 import { useMemo } from "react";
-import { Loader2 } from "lucide-react";
+import { Loader2, TrendingUp } from "lucide-react";
 import { usePreferences } from "@/src/shared/context/PreferencesContext";
+import { useContextualHint, usePageActivation, EmptyState } from "@/src/features/onboarding";
 import { useForecasts } from "../hooks/useForecasts";
 import { ForecastSummaryCards } from "./ForecastSummaryCards";
 import { RevenueForecastChart } from "./RevenueForecastChart";
@@ -19,6 +20,9 @@ export function ForecastsView() {
 
   const { summary, revenue, expenses, profit, taxes, fopLimit, loading, error } =
     useForecasts();
+
+  useContextualHint("forecasts", !loading && !error && !!summary);
+  usePageActivation("forecasts", "forecasts");
 
   const labels = useMemo(
     () => ({
@@ -67,9 +71,21 @@ export function ForecastsView() {
 
   if (error || !summary || !revenue || !expenses || !profit || !taxes || !fopLimit) {
     return (
-      <div className="flex h-64 flex-col items-center justify-center gap-2 p-4 text-center">
-        <p className="text-sm text-destructive">{error || t("forecasts.loadError")}</p>
-        <p className="text-xs text-muted-foreground">{t("forecasts.backendHint")}</p>
+      <div data-testid="forecasts-page" className="space-y-4 p-4">
+        <div>
+          <h1 className="text-2xl font-bold tracking-tight">{t("forecasts.title")}</h1>
+          <p className="text-sm text-muted-foreground">{t("forecasts.subtitle")}</p>
+        </div>
+        <EmptyState
+          testId="forecasts-empty-state"
+          icon={TrendingUp}
+          title={t("activation.empty.forecasts.title")}
+          description={t("activation.empty.forecasts.description")}
+          primaryAction={{
+            label: t("activation.empty.forecasts.importCta"),
+            href: "/imports",
+          }}
+        />
       </div>
     );
   }
@@ -88,6 +104,12 @@ export function ForecastsView() {
         labels={labels.summary}
         currency={currency}
         locale={locale}
+        metricTooltips={{
+          revenue: t("activation.metrics.expectedRevenue"),
+          expenses: t("activation.metrics.expectedExpenses"),
+          profit: t("activation.metrics.expectedProfit"),
+          tax: t("activation.metrics.expectedTax"),
+        }}
       />
 
       <div className="grid gap-3 lg:grid-cols-2">

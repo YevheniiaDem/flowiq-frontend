@@ -1,5 +1,6 @@
 "use client";
 
+import { MetricTooltip } from "@/src/features/onboarding/components/MetricTooltip";
 import { Card } from "@/src/shared/components/ui/card";
 import {
   Activity,
@@ -21,8 +22,15 @@ interface AnalyticsSummaryCardsProps {
     profit: string;
     taxBurden: string;
   };
+  tooltips?: {
+    revenue: string;
+    expenses: string;
+    profit: string;
+    taxBurden: string;
+  };
   currency: AppCurrency;
   locale: string;
+  metricTooltips?: Partial<Record<"revenue" | "expenses" | "profit" | "taxBurden", string>>;
 }
 
 const cards = [
@@ -65,6 +73,7 @@ export function AnalyticsSummaryCards({
   labels,
   currency,
   locale,
+  metricTooltips,
 }: AnalyticsSummaryCardsProps) {
   return (
     <div className="grid gap-3 md:grid-cols-2 lg:grid-cols-4">
@@ -79,7 +88,15 @@ export function AnalyticsSummaryCards({
           >
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-xs font-medium text-muted-foreground">{labels[key]}</p>
+                {metricTooltips?.[key] ? (
+                  <MetricTooltip
+                    metricId={key}
+                    label={labels[key]}
+                    tooltip={metricTooltips[key]!}
+                  />
+                ) : (
+                  <p className="text-xs font-medium text-muted-foreground">{labels[key]}</p>
+                )}
                 <h3 className="mt-1.5 text-xl font-bold">
                   {formatCurrency(overview[key], currency, locale)}
                 </h3>
