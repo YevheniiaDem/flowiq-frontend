@@ -4,6 +4,7 @@ import { useCallback, useEffect, useMemo, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { Loader2 } from "lucide-react";
 import { usePreferences } from "@/src/shared/context/PreferencesContext";
+import { usePendingHelpGuide } from "@/src/features/onboarding";
 import { useBusinessGuide } from "./hooks/useBusinessGuide";
 import { useKnowledgeArticles } from "./hooks/useKnowledgeArticles";
 import { knowledgeService } from "./services/knowledge.service";
@@ -45,6 +46,8 @@ export function BusinessGuideView() {
   const [snapshotLoading, setSnapshotLoading] = useState(true);
 
   const { profile, groups, taxes, loading, error } = useBusinessGuide();
+
+  usePendingHelpGuide("business_guide", !loading && !error && !!profile);
 
   const apiCategory = useMemo(() => {
     const categories = TAB_CATEGORIES[activeTab];

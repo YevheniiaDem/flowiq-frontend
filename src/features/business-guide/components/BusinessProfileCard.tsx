@@ -32,7 +32,7 @@ export function BusinessProfileCard({ profile }: BusinessProfileCardProps) {
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.35, delay: 0.1 }}
     >
-      <Card className="rounded-xl border-border/50 bg-card/50 p-5 backdrop-blur-sm">
+      <Card className="rounded-xl border-border/50 bg-card/50 p-5 backdrop-blur-sm" data-testid="business-guide-profile">
         <div className="mb-4 flex items-start justify-between">
           <div className="flex items-center gap-3">
             <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-primary/10">

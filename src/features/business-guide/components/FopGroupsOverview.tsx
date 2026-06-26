@@ -12,7 +12,7 @@ export function FopGroupsOverview({ groups }: FopGroupsOverviewProps) {
   const { t } = usePreferences();
 
   return (
-    <section>
+    <section data-testid="business-guide-fop-groups">
       <div className="mb-3">
         <h2 className="text-lg font-semibold">{t("businessGuide.groups.title")}</h2>
         <p className="text-xs text-muted-foreground">

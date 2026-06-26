@@ -119,6 +119,17 @@ export type TranslationKey =
   | `settings.${keyof typeof uk.settings & string}`
   | `settings.languages.${keyof (typeof uk.settings)["languages"] & string}`
   | `settings.currencies.${keyof (typeof uk.settings)["currencies"] & string}`
+  | `settings.tabs.${keyof (typeof uk.settings)["tabs"] & string}`
+  | `notificationPreferences.${keyof typeof uk.notificationPreferences & string}`
+  | `notificationPreferences.channels.${keyof (typeof uk.notificationPreferences)["channels"] & string}`
+  | `notificationPreferences.categories.${keyof (typeof uk.notificationPreferences)["categories"] & string}`
+  | `notificationPreferences.items.${keyof (typeof uk.notificationPreferences)["items"] & string}`
+  | `profile.${keyof typeof uk.profile & string}`
+  | `profile.personal.${keyof (typeof uk.profile)["personal"] & string}`
+  | `profile.fop.${keyof (typeof uk.profile)["fop"] & string}`
+  | `profile.fop.groups.${keyof (typeof uk.profile)["fop"]["groups"] & string}`
+  | `profile.fop.taxSystems.${keyof (typeof uk.profile)["fop"]["taxSystems"] & string}`
+  | `profile.security.${keyof (typeof uk.profile)["security"] & string}`
   | `activation.${keyof typeof uk.activation & string}`
   | `activation.checklist.${keyof (typeof uk.activation)["checklist"] & string}`
   | `activation.checklist.productTour.${keyof (typeof uk.activation)["checklist"]["productTour"] & string}`
@@ -166,6 +177,35 @@ export type TranslationKey =
   | `onboarding.hints.forecasts.${keyof (typeof uk.onboarding)["hints"]["forecasts"] & string}`
   | `onboarding.hints.imports.${keyof (typeof uk.onboarding)["hints"]["imports"] & string}`
   | `onboarding.hints.tasks.${keyof (typeof uk.onboarding)["hints"]["tasks"] & string}`
+  | `onboarding.helpGuides.${keyof (typeof uk.onboarding)["helpGuides"] & string}`
+  | `onboarding.helpGuides.checklist.${keyof (typeof uk.onboarding)["helpGuides"]["checklist"] & string}`
+  | `onboarding.helpGuides.checklist.step1.${keyof (typeof uk.onboarding)["helpGuides"]["checklist"]["step1"] & string}`
+  | `onboarding.helpGuides.checklist.step2.${keyof (typeof uk.onboarding)["helpGuides"]["checklist"]["step2"] & string}`
+  | `onboarding.helpGuides.import.${keyof (typeof uk.onboarding)["helpGuides"]["import"] & string}`
+  | `onboarding.helpGuides.import.step1.${keyof (typeof uk.onboarding)["helpGuides"]["import"]["step1"] & string}`
+  | `onboarding.helpGuides.import.step2.${keyof (typeof uk.onboarding)["helpGuides"]["import"]["step2"] & string}`
+  | `onboarding.helpGuides.import.step3.${keyof (typeof uk.onboarding)["helpGuides"]["import"]["step3"] & string}`
+  | `onboarding.helpGuides.business.${keyof (typeof uk.onboarding)["helpGuides"]["business"] & string}`
+  | `onboarding.helpGuides.business.step1.${keyof (typeof uk.onboarding)["helpGuides"]["business"]["step1"] & string}`
+  | `onboarding.helpGuides.business.step2.${keyof (typeof uk.onboarding)["helpGuides"]["business"]["step2"] & string}`
+  | `onboarding.helpGuides.business.step3.${keyof (typeof uk.onboarding)["helpGuides"]["business"]["step3"] & string}`
+  | `onboarding.helpGuides.business.step4.${keyof (typeof uk.onboarding)["helpGuides"]["business"]["step4"] & string}`
+  | `onboarding.helpGuides.ai.${keyof (typeof uk.onboarding)["helpGuides"]["ai"] & string}`
+  | `onboarding.helpGuides.ai.step1.${keyof (typeof uk.onboarding)["helpGuides"]["ai"]["step1"] & string}`
+  | `onboarding.helpGuides.ai.step2.${keyof (typeof uk.onboarding)["helpGuides"]["ai"]["step2"] & string}`
+  | `onboarding.helpGuides.ai.step3.${keyof (typeof uk.onboarding)["helpGuides"]["ai"]["step3"] & string}`
+  | `onboarding.helpGuides.ai.step4.${keyof (typeof uk.onboarding)["helpGuides"]["ai"]["step4"] & string}`
+  | `onboarding.helpGuides.transactions.${keyof (typeof uk.onboarding)["helpGuides"]["transactions"] & string}`
+  | `onboarding.helpGuides.transactions.step1.${keyof (typeof uk.onboarding)["helpGuides"]["transactions"]["step1"] & string}`
+  | `onboarding.helpGuides.transactions.step2.${keyof (typeof uk.onboarding)["helpGuides"]["transactions"]["step2"] & string}`
+  | `onboarding.helpGuides.transactions.step3.${keyof (typeof uk.onboarding)["helpGuides"]["transactions"]["step3"] & string}`
+  | `onboarding.helpGuides.forecasts.${keyof (typeof uk.onboarding)["helpGuides"]["forecasts"] & string}`
+  | `onboarding.helpGuides.forecasts.step1.${keyof (typeof uk.onboarding)["helpGuides"]["forecasts"]["step1"] & string}`
+  | `onboarding.helpGuides.forecasts.step2.${keyof (typeof uk.onboarding)["helpGuides"]["forecasts"]["step2"] & string}`
+  | `onboarding.helpGuides.tasks.${keyof (typeof uk.onboarding)["helpGuides"]["tasks"] & string}`
+  | `onboarding.helpGuides.tasks.step1.${keyof (typeof uk.onboarding)["helpGuides"]["tasks"]["step1"] & string}`
+  | `onboarding.helpGuides.tasks.step2.${keyof (typeof uk.onboarding)["helpGuides"]["tasks"]["step2"] & string}`
+  | `onboarding.helpGuides.tasks.step3.${keyof (typeof uk.onboarding)["helpGuides"]["tasks"]["step3"] & string}`
   | `common.${keyof typeof uk.common & string}`;
 
 export function getTranslations(language: AppLanguage) {

@@ -107,6 +107,9 @@ Events are emitted via `trackEvent()` in `src/features/onboarding/services/produ
 | `onboarding_celebration_shown` | Celebration modal | `celebration` |
 | `onboarding_whats_new_shown` | What's New modal | `version` |
 | `onboarding_help_article_opened` | Help center link | `resource` |
+| `onboarding_help_guide_requested` | Help guide started from Settings/checklist | `guide`, `source` |
+| `onboarding_help_guide_started` | Driver.js help guide running | `guide` |
+| `onboarding_help_guide_completed` | Help guide finished or dismissed | `guide` |
 | `import_upload_started` | File upload begins | `fileName` |
 | `import_upload_succeeded` | Upload OK | `rows`, `first` |
 | `import_upload_failed` | Upload error | — |
@@ -206,6 +209,9 @@ MainLayout
 - [x] Product analytics event layer
 - [x] What's New framework (v0.2.0)
 - [x] Celebration moments (tour, checklist, import)
+- [x] Contextual help guides from checklist and Settings (imports, transactions, AI, forecasts, tasks, business guide)
+- [x] Smart Driver.js popover placement (arrow toward highlight, auto-flip on overlap)
+- [x] Settings → Profile (personal + FOP) and Notifications preferences UI
 
 ### Phase 2 — Near term
 

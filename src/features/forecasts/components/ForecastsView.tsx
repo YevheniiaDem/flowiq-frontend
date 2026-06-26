@@ -3,7 +3,7 @@
 import { useMemo } from "react";
 import { Loader2, TrendingUp } from "lucide-react";
 import { usePreferences } from "@/src/shared/context/PreferencesContext";
-import { useContextualHint, usePageActivation, EmptyState } from "@/src/features/onboarding";
+import { useContextualHint, usePageActivation, EmptyState, usePendingHelpGuide } from "@/src/features/onboarding";
 import { useForecasts } from "../hooks/useForecasts";
 import { ForecastSummaryCards } from "./ForecastSummaryCards";
 import { RevenueForecastChart } from "./RevenueForecastChart";
@@ -22,6 +22,7 @@ export function ForecastsView() {
     useForecasts();
 
   useContextualHint("forecasts", !loading && !error && !!summary);
+  usePendingHelpGuide("forecasts_guide", !loading && !error && !!summary);
   usePageActivation("forecasts", "forecasts");
 
   const labels = useMemo(
@@ -46,6 +47,8 @@ export function ForecastsView() {
         currentBurden: t("forecasts.tax.currentBurden"),
         annualForecast: t("forecasts.tax.annualForecast"),
         projected: t("forecasts.tax.projected"),
+        projectedTax: t("forecasts.tax.projectedTax"),
+        horizonMonths: t("forecasts.tax.horizonMonths"),
       },
       fop: {
         title: t("forecasts.fop.title"),
@@ -54,6 +57,7 @@ export function ForecastsView() {
         incomeLimit: t("forecasts.fop.incomeLimit"),
         monthsUntilLimit: t("forecasts.fop.monthsUntilLimit"),
         projectedUsage: t("forecasts.fop.projectedUsage"),
+        horizonMonths: t("forecasts.fop.horizonMonths"),
         limitExceeded: t("forecasts.fop.limitExceeded"),
       },
       insights: t("forecasts.insights"),
@@ -112,7 +116,7 @@ export function ForecastsView() {
         }}
       />
 
-      <div className="grid gap-3 lg:grid-cols-2">
+      <div data-testid="forecasts-charts" className="grid gap-3 lg:grid-cols-2">
         <RevenueForecastChart
           data={revenue}
           title={labels.charts.revenue}

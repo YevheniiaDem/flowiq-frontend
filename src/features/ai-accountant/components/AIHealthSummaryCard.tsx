@@ -44,11 +44,14 @@ export function AIHealthSummaryCard({ health, labels }: AIHealthSummaryCardProps
 
   return (
     <motion.div
+      data-testid="ai-accountant-health"
       initial={{ opacity: 0, y: 8 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ type: "spring", stiffness: 300, damping: 30 }}
     >
-      <Card className="relative overflow-hidden rounded-2xl border-border/50 bg-gradient-to-br from-card/80 to-card/40 p-6 backdrop-blur-sm">
+      <Card
+        className="relative overflow-hidden rounded-2xl border-border/50 bg-gradient-to-br from-card/80 to-card/40 p-6 backdrop-blur-sm"
+      >
         <div className="absolute -right-8 -top-8 h-32 w-32 rounded-full bg-primary/5" />
         <div className="absolute -bottom-4 -left-4 h-24 w-24 rounded-full bg-accent/5" />
 

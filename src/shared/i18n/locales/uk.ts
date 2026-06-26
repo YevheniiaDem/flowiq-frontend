@@ -202,6 +202,7 @@ export const uk = {
       you: "Ви",
       assistant: "AI-бухгалтер",
       thinking: "Аналізую ваші фінансові дані...",
+      quickQuestions: "Швидкі запити",
       suggestions: {
         earnings: "Скільки я заробив за останні 3 місяці?",
         expenses: "Які мої найбільші витрати?",
@@ -217,6 +218,8 @@ export const uk = {
       estimatedTaxes: "Орієнтовні податки",
       daysUntilDeadline: "Днів до дедлайну",
       forecastTax: "Прогноз податків",
+      incomeLimit: "Річний ліміт доходу ФОП",
+      limitWarning: "Ліміт доходу майже вичерпано. Перевірте прогноз і плануйте податки.",
     },
     forecast: {
       title: "Центр прогнозів",
@@ -260,6 +263,8 @@ export const uk = {
       currentBurden: "Поточне навантаження (YTD)",
       annualForecast: "Річний податковий прогноз",
       projected: "Прогноз",
+      projectedTax: "Прогноз податку",
+      horizonMonths: "{count} міс.",
     },
     fop: {
       title: "Прогноз ліміту ФОП",
@@ -267,7 +272,8 @@ export const uk = {
       currentUsage: "Поточне використання ліміту",
       incomeLimit: "Ліміт доходу",
       monthsUntilLimit: "Місяців до ліміту",
-      projectedUsage: "Прогноз використання",
+      projectedUsage: "Використання ліміту",
+      horizonMonths: "{count} міс.",
       limitExceeded: "Ліміт перевищено",
     },
   },
@@ -479,6 +485,139 @@ export const uk = {
     helpHint: "Посібники та ресурси підтримки",
     startProductTour: "Запустити тур по продукту",
     startProductTourHint: "Повторно переглянути огляд можливостей Flowiq",
+    tabs: {
+      general: "Загальні",
+      profile: "Профіль",
+      security: "Безпека",
+      notifications: "Сповіщення",
+      appearance: "Зовнішній вигляд",
+    },
+  },
+  notificationPreferences: {
+    title: "Налаштування сповіщень",
+    subtitle: "Оберіть, які сповіщення отримувати та як їх доставляти",
+    search: "Пошук сповіщень…",
+    masterSwitch: "Усі сповіщення",
+    enableAll: "Увімкнути все",
+    disableAll: "Вимкнути все",
+    resetDefaults: "Скинути до типових",
+    resetSuccess: "Налаштування сповіщень скинуто",
+    saveChanges: "Зберегти зміни",
+    saved: "Налаштування сповіщень збережено",
+    saveError: "Не вдалося зберегти налаштування",
+    loadError: "Не вдалося завантажити налаштування",
+    unsavedChanges: "Є незбережені зміни",
+    noResults: "Немає відповідних типів сповіщень",
+    columnNotification: "Сповіщення",
+    channelFuture: "Скоро",
+    channels: {
+      IN_APP: "В додатку",
+      EMAIL: "Email",
+      PUSH: "Push",
+      TELEGRAM: "Telegram",
+    },
+    categories: {
+      FINANCIAL: "Фінансові",
+      TASKS: "Завдання",
+      AI: "AI",
+      IMPORTS: "Імпорт",
+      REPORTS: "Звіти",
+    },
+    items: {
+      financialTaxes: "Податки",
+      financialLargeExpense: "Крупні витрати",
+      financialLargeIncome: "Крупні надходження",
+      financialNegativeCashFlow: "Від'ємний Cash Flow",
+      financialLowBalance: "Закінчуються гроші",
+      financialOverduePayment: "Прострочені платежі",
+      financialTaxWarning: "Податкові попередження",
+      taskReminderToday: "Сьогодні",
+      taskReminder3Days: "За 3 дні",
+      taskReminderWeek: "За тиждень",
+      taskReminderOverdue: "Прострочено",
+      aiAccountantRecommendations: "Рекомендації AI Accountant",
+      aiFinancialTips: "Фінансові поради",
+      aiTaxOptimization: "Оптимізація податків",
+      aiWarnings: "Попередження",
+      aiForecastAnomaly: "Аномалії прогнозу",
+      importCompleted: "Імпорт завершено",
+      importFailed: "Імпорт завершено з помилками",
+      importPartial: "Імпорт частково успішний",
+      importCsvProcessing: "Обробка CSV",
+      reportReady: "Звіт готовий",
+      reportGenerationError: "Помилка генерації",
+      reportPdfAvailable: "Доступний PDF",
+      reportExcelAvailable: "Доступний Excel",
+    },
+  },
+  profile: {
+    saveChanges: "Зберегти зміни",
+    unsavedChanges: "Є незбережені зміни",
+    personal: {
+      title: "Особиста інформація",
+      hint: "Ім'я, контакти та аватар",
+      firstName: "Ім'я",
+      lastName: "Прізвище",
+      email: "Електронна пошта",
+      emailHint: "Зміна email потребує підтвердження (скоро)",
+      phone: "Телефон",
+      company: "Назва ФОП / компанії",
+      uploadAvatar: "Завантажити фото",
+      avatarHint: "JPEG, PNG, WebP або GIF до 5 МБ",
+      saved: "Профіль збережено",
+      saveError: "Не вдалося зберегти профіль",
+      avatarSaved: "Аватар оновлено",
+      avatarError: "Не вдалося завантажити аватар",
+    },
+    fop: {
+      title: "Інформація про ФОП",
+      hint: "Група, податки та КВЕД — впливає на аналітику та прогнози",
+      fopGroup: "Група ФОП",
+      taxSystem: "Система оподаткування",
+      vatPayer: "Платник ПДВ",
+      taxRate: "Ставка податку",
+      registrationDate: "Дата реєстрації",
+      region: "Регіон",
+      mainKved: "Основний КВЕД",
+      mainKvedName: "Назва основного КВЕД",
+      kvedList: "Список КВЕД",
+      addKved: "Додати КВЕД",
+      removeKved: "Видалити КВЕД",
+      saved: "Дані ФОП збережено",
+      saveError: "Не вдалося зберегти дані ФОП",
+      groups: {
+        "1": "Група 1",
+        "2": "Група 2",
+        "3": "Група 3",
+        general: "Загальна система",
+      },
+      taxSystems: {
+        SINGLE_TAX: "Єдиний податок",
+        GENERAL: "Загальна система",
+      },
+    },
+    security: {
+      changePassword: "Зміна пароля",
+      changePasswordHint: "Мінімум 10 символів, великі/малі літери, цифра та спецсимвол",
+      currentPassword: "Поточний пароль",
+      newPassword: "Новий пароль",
+      confirmPassword: "Підтвердіть пароль",
+      passwordRules: "Мін. 10 символів, велика/мала літера, цифра, спецсимвол",
+      updatePassword: "Оновити пароль",
+      passwordChanged: "Пароль успішно змінено",
+      passwordError: "Не вдалося змінити пароль",
+      sessionsTitle: "Активні сесії",
+      sessionsHint: "Пристрої, з яких виконано вхід",
+      currentDevice: "Поточний",
+      unknownDevice: "Невідомий пристрій",
+      loginTime: "Вхід",
+      lastActivity: "Остання активність",
+      logoutCurrent: "Вийти з поточної сесії",
+      logoutAll: "Вийти з усіх пристроїв",
+      refreshSessions: "Оновити список",
+      noSessions: "Немає активних сесій",
+      sessionError: "Помилка керування сесіями",
+    },
   },
   activation: {
     checklist: {
@@ -718,6 +857,132 @@ export const uk = {
       tasks: {
         title: "Керування завданнями",
         description: "Додавайте завдання для податкових платежів, звітності та щоденних операцій.",
+      },
+    },
+    helpGuides: {
+      progress: "Крок {current} з {total}",
+      checklist: {
+        completeTitle: "Активацію завершено!",
+        completeSubtitle: "Усі кроки онбордингу виконано. Продовжуйте рости разом із даними.",
+        ctaAnalytics: "Відкрити аналітику",
+        ctaImport: "Імпортувати ще",
+        step1: {
+          title: "Ваш чекліст активації",
+          description:
+            "Тут відстежується прогрес онбордингу. Виконайте кожен крок, щоб отримати максимум від Flowiq.",
+        },
+        step2: {
+          title: "Огляд панелі",
+          description:
+            "Після активації стежте за доходом, витратами, прибутком і грошовим потоком на цій панелі.",
+        },
+      },
+      import: {
+        step1: {
+          title: "Завантаження виписок",
+          description:
+            "Перетягніть CSV-файл сюди або натисніть «Огляд». Flowiq розпізнає та категоризує транзакції.",
+        },
+        step2: {
+          title: "Оберіть файл",
+          description:
+            "Підтримуються CSV з Monobank, PrivatBank та інших банків. Ліміт розміру файлу вказано на зоні завантаження.",
+        },
+        step3: {
+          title: "Історія імпорту",
+          description:
+            "Після завантаження перевіряйте статус, кількість рядків і помилки в таблиці нижче.",
+        },
+      },
+      business: {
+        step1: {
+          title: "Пошук у базі знань",
+          description:
+            "Запитуйте про групи ФОП, податки, КВЕДи чи правила — відповіді з актуальних статей.",
+        },
+        step2: {
+          title: "Ваш бізнес-профіль",
+          description:
+            "Група ФОП, використання ліміту доходу та стан бізнесу — на одному екрані.",
+        },
+        step3: {
+          title: "Групи ФОП",
+          description:
+            "Порівняйте ставки податків і ліміти доходу для груп 1–3 і оберіть оптимальну.",
+        },
+        step4: {
+          title: "Перевірка відповідності",
+          description:
+            "Відповідайте на кілька питань, щоб дізнатися, яка група ФОП підходить вашому бізнесу.",
+        },
+      },
+      ai: {
+        step1: {
+          title: "Оцінка здоров'я бізнесу",
+          description:
+            "AI аналізує ваші фінанси та показує загальний бал здоров'я бізнесу.",
+        },
+        step2: {
+          title: "Рекомендації AI",
+          description:
+            "Персональні поради щодо податків, витрат і зростання — оновлюються разом із даними.",
+        },
+        step3: {
+          title: "Чат з AI-бухгалтером",
+          description:
+            "Задавайте питання простою мовою. Скористайтесь підказками або введіть власний запит.",
+        },
+        step4: {
+          title: "Податковий радник",
+          description:
+            "Оцінка податкового навантаження, поради з оптимізації та нагадування про дедлайни для вашого ФОП.",
+        },
+      },
+      transactions: {
+        step1: {
+          title: "Зведення по транзакціях",
+          description:
+            "Тут видно загальний дохід, витрати, прибуток і кількість операцій за обраний період.",
+        },
+        step2: {
+          title: "Пошук і фільтри",
+          description:
+            "Шукайте за описом, фільтруйте за типом і датою, щоб швидко знайти потрібні операції.",
+        },
+        step3: {
+          title: "Таблиця транзакцій",
+          description:
+            "Перевіряйте категорії та суми. Натисніть на рядок, щоб відредагувати категорію або деталі.",
+        },
+      },
+      forecasts: {
+        step1: {
+          title: "Ключові показники",
+          description:
+            "Огляд прогнозованого доходу, витрат і грошового потоку на основі ваших даних.",
+        },
+        step2: {
+          title: "Графіки прогнозів",
+          description:
+            "Порівнюйте тренди доходів і витрат, щоб планувати бюджет на наступні місяці.",
+        },
+      },
+      tasks: {
+        step1: {
+          title: "Створення завдання",
+          description:
+            "Додавайте завдання для податкових платежів, звітності та щоденних операцій.",
+        },
+        step2: {
+          title: "Фільтри завдань",
+          description:
+            "Фільтруйте за статусом і пріоритетом, щоб зосередитись на найважливішому.",
+        },
+        step3: {
+          title: "Список завдань",
+          description:
+            "Відмічайте виконані, редагуйте дедлайни та слідкуйте за податковими зобов'язаннями.",
+        },
       },
     },
   },
@@ -1079,6 +1344,8 @@ export type TranslationKeys = {
   comingSoon: Record<string, string | Record<string, string>>;
   businessGuide: Record<string, string | Record<string, string | Record<string, string>>>;
   settings: Record<string, string | Record<string, string>>;
+  notificationPreferences: Record<string, string | Record<string, string>>;
+  profile: Record<string, string | Record<string, string | Record<string, string>>>;
   activation: Record<string, string | Record<string, string | Record<string, string | Record<string, string | Record<string, string>>>>>;
   onboarding: Record<string, string | Record<string, string | Record<string, string | Record<string, string>>>>;
   common: Record<string, string>;

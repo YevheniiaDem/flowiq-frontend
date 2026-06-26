@@ -5,6 +5,7 @@ import { motion } from "framer-motion";
 import { Loader2 } from "lucide-react";
 import { Button } from "@/src/shared/components/ui/button";
 import { usePreferences } from "@/src/shared/context/PreferencesContext";
+import { usePageActivation, usePendingHelpGuide } from "@/src/features/onboarding";
 import { TransactionSummaryCards } from "./components/TransactionSummaryCards";
 import { TransactionFilters } from "./components/TransactionFilters";
 import { TransactionsTable } from "./components/TransactionsTable";
@@ -51,6 +52,9 @@ export function TransactionsView() {
   const [editingTransaction, setEditingTransaction] = useState<Transaction | null>(null);
   const [deleteOpen, setDeleteOpen] = useState(false);
   const [deletingTransaction, setDeletingTransaction] = useState<Transaction | null>(null);
+
+  usePageActivation("transactions", "review_transactions");
+  usePendingHelpGuide("transactions_guide", !loading && !!summary);
 
   const labels = useMemo(
     () => ({

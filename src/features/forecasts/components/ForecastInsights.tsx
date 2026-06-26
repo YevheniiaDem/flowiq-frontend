@@ -14,22 +14,25 @@ interface ForecastInsightsProps {
 
 const severityConfig: Record<
   ForecastSeverity,
-  { icon: typeof Info; badgeClass: string; iconClass: string }
+  { icon: typeof Info; badgeClass: string; iconBoxClass: string; iconClass: string }
 > = {
   INFO: {
     icon: Info,
-    badgeClass: "bg-blue-500/10 text-blue-500",
-    iconClass: "text-blue-500",
+    badgeClass: "bg-blue-500/10 text-blue-700 dark:text-blue-400",
+    iconBoxClass: "bg-blue-500/12 ring-1 ring-blue-500/20",
+    iconClass: "text-blue-600 dark:text-blue-400",
   },
   WARNING: {
     icon: AlertTriangle,
-    badgeClass: "bg-amber-500/10 text-amber-500",
-    iconClass: "text-amber-500",
+    badgeClass: "bg-amber-500/10 text-amber-800 dark:text-amber-400",
+    iconBoxClass: "bg-amber-500/12 ring-1 ring-amber-500/20",
+    iconClass: "text-amber-600 dark:text-amber-400",
   },
   CRITICAL: {
     icon: XCircle,
-    badgeClass: "bg-red-500/10 text-red-500",
-    iconClass: "text-red-500",
+    badgeClass: "bg-red-500/10 text-red-700 dark:text-red-400",
+    iconBoxClass: "bg-red-500/12 ring-1 ring-red-500/20",
+    iconClass: "text-red-600 dark:text-red-400",
   },
 };
 
@@ -55,20 +58,20 @@ export function ForecastInsights({ insights, title }: ForecastInsightsProps) {
               transition={{ delay: 0.05 * index }}
             >
               <Card className="rounded-xl border-border/50 bg-card/50 p-4 backdrop-blur-sm">
-                <div className="flex items-start gap-3">
+                <div className="flex items-center gap-3">
                   <div
                     className={cn(
-                      "flex h-8 w-8 shrink-0 items-center justify-center rounded-lg",
-                      config.badgeClass
+                      "flex h-9 w-9 shrink-0 items-center justify-center self-center rounded-lg",
+                      config.iconBoxClass
                     )}
                   >
-                    <Icon className={cn("h-4 w-4", config.iconClass)} />
+                    <Icon className={cn("h-4 w-4", config.iconClass)} strokeWidth={2.25} />
                   </div>
-                  <div className="space-y-1">
-                    <Badge className={cn("rounded-md text-[10px]", config.badgeClass)}>
+                  <div className="min-w-0 flex-1 space-y-1">
+                    <Badge className={cn("rounded-md text-[10px] font-medium", config.badgeClass)}>
                       {insight.severity}
                     </Badge>
-                    <p className="text-sm leading-relaxed">{insight.message}</p>
+                    <p className="text-sm leading-relaxed text-foreground/90">{insight.message}</p>
                   </div>
                 </div>
               </Card>

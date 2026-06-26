@@ -32,11 +32,13 @@ export const onboardingStorage = {
   setCompleted: () => {
     writeFlag(ONBOARDING_STORAGE_KEYS.completed, true);
     writeFlag(ONBOARDING_STORAGE_KEYS.pending, false);
+    onboardingStorage.clearTourProgress();
   },
 
   setSkipped: () => {
     writeFlag(ONBOARDING_STORAGE_KEYS.skipped, true);
     writeFlag(ONBOARDING_STORAGE_KEYS.pending, false);
+    onboardingStorage.clearTourProgress();
   },
 
   setPendingWelcome: () => writeFlag(ONBOARDING_STORAGE_KEYS.pending, true),
@@ -61,5 +63,23 @@ export const onboardingStorage = {
   resetForReplay: () => {
     writeFlag(ONBOARDING_STORAGE_KEYS.completed, false);
     writeFlag(ONBOARDING_STORAGE_KEYS.skipped, false);
+    onboardingStorage.clearTourProgress();
+  },
+
+  getTourProgress: (): number => {
+    if (typeof window === "undefined") return 0;
+    const raw = sessionStorage.getItem(ONBOARDING_STORAGE_KEYS.tourStep);
+    const step = raw ? Number.parseInt(raw, 10) : 0;
+    return Number.isFinite(step) && step >= 0 ? step : 0;
+  },
+
+  setTourProgress: (step: number) => {
+    if (typeof window === "undefined") return;
+    sessionStorage.setItem(ONBOARDING_STORAGE_KEYS.tourStep, String(step));
+  },
+
+  clearTourProgress: () => {
+    if (typeof window === "undefined") return;
+    sessionStorage.removeItem(ONBOARDING_STORAGE_KEYS.tourStep);
   },
 };

@@ -3,7 +3,7 @@
 import { useMemo } from "react";
 import { Loader2 } from "lucide-react";
 import { usePreferences } from "@/src/shared/context/PreferencesContext";
-import { useContextualHint, usePageActivation } from "@/src/features/onboarding";
+import { useContextualHint, usePageActivation, usePendingHelpGuide } from "@/src/features/onboarding";
 import { useAIAccountant } from "./hooks/useAIAccountant";
 import { AIHealthSummaryCard } from "./components/AIHealthSummaryCard";
 import { AIRecommendationsSection } from "./components/AIRecommendationsSection";
@@ -29,6 +29,7 @@ export function AIAccountantView() {
   } = useAIAccountant();
 
   useContextualHint("ai_accountant", !loading && !error && !!health);
+  usePendingHelpGuide("ai_accountant", !loading && !error && !!health);
   usePageActivation("ai-accountant", "ai_accountant");
 
   const typeLabels = useMemo(
@@ -94,38 +95,46 @@ export function AIAccountantView() {
         typeLabels={typeLabels}
       />
 
-      <div className="grid gap-6 lg:grid-cols-2">
-        <AIAccountantChat
-          messages={chatMessages}
-          sending={chatSending}
-          onSend={sendMessage}
-          labels={{
-            title: t("aiAccountant.chat.title"),
-            subtitle: t("aiAccountant.chat.subtitle"),
-            placeholder: t("aiAccountant.chat.placeholder"),
-            you: t("aiAccountant.chat.you"),
-            assistant: t("aiAccountant.chat.assistant"),
-            thinking: t("aiAccountant.chat.thinking"),
-            suggestions: chatSuggestions,
-          }}
-        />
+      <section
+        data-testid="ai-accountant-workspace"
+        className="grid gap-4 lg:grid-cols-5 lg:items-stretch"
+      >
+        <div className="lg:col-span-3">
+          <AIAccountantChat
+            messages={chatMessages}
+            sending={chatSending}
+            onSend={sendMessage}
+            labels={{
+              title: t("aiAccountant.chat.title"),
+              subtitle: t("aiAccountant.chat.subtitle"),
+              placeholder: t("aiAccountant.chat.placeholder"),
+              you: t("aiAccountant.chat.you"),
+              assistant: t("aiAccountant.chat.assistant"),
+              thinking: t("aiAccountant.chat.thinking"),
+              quickQuestions: t("aiAccountant.chat.quickQuestions"),
+              suggestions: chatSuggestions,
+            }}
+          />
+        </div>
 
-        <div className="space-y-6">
+        <div className="lg:col-span-2">
           <TaxAdvisorSection
             tax={taxAdvisor}
             labels={{
               title: t("aiAccountant.tax.title"),
               currentGroup: t("aiAccountant.tax.currentGroup"),
               incomeLimitUsage: t("aiAccountant.tax.incomeLimitUsage"),
+              incomeLimit: t("aiAccountant.tax.incomeLimit"),
               estimatedTaxes: t("aiAccountant.tax.estimatedTaxes"),
               daysUntilDeadline: t("aiAccountant.tax.daysUntilDeadline"),
               forecastTax: t("aiAccountant.tax.forecastTax"),
+              limitWarning: t("aiAccountant.tax.limitWarning"),
             }}
             currency={currency}
             locale={locale}
           />
         </div>
-      </div>
+      </section>
 
       <ForecastCenterSection
         forecasts={forecasts}

@@ -1,17 +1,28 @@
 "use client";
 
-import { useState } from "react";
-import { Moon, Sun, User, Bell, Shield, Palette, Globe } from "lucide-react";
+import { useState, useMemo } from "react";
+import { Moon, Sun, Globe } from "lucide-react";
 import { Card } from "@/src/shared/components/ui/card";
+import { DropdownSelect } from "@/src/shared/components/ui/dropdown-select";
 import { usePreferences } from "@/src/shared/context/PreferencesContext";
 import { HelpLearnCenter } from "@/src/features/onboarding";
+import {
+  ProfileSettingsView,
+  SecurityTab,
+  SettingsTabs,
+  SuccessToast,
+  type SettingsTab,
+} from "@/src/features/profile";
+import { NotificationPreferencesView } from "@/src/features/notification-preferences";
 import { AppCurrency, AppLanguage, AppTheme } from "@/src/shared/i18n";
 import { cn } from "@/src/shared/utils/utils";
 
 export function SettingsView() {
   const { t, language, currency, theme, setLanguage, setCurrency, setTheme } =
     usePreferences();
+  const [activeTab, setActiveTab] = useState<SettingsTab>("general");
   const [saved, setSaved] = useState(false);
+  const [toastMessage, setToastMessage] = useState<string | null>(null);
 
   const markSaved = () => {
     setSaved(true);
@@ -37,6 +48,23 @@ export function SettingsView() {
     markSaved();
   };
 
+  const languageOptions = useMemo(
+    () => [
+      { value: "uk", label: t("settings.languages.uk") },
+      { value: "en", label: t("settings.languages.en") },
+    ],
+    [t]
+  );
+
+  const currencyOptions = useMemo(
+    () => [
+      { value: "UAH", label: t("settings.currencies.UAH") },
+      { value: "USD", label: t("settings.currencies.USD") },
+      { value: "EUR", label: t("settings.currencies.EUR") },
+    ],
+    [t]
+  );
+
   return (
     <div data-testid="settings-page" className="space-y-4 p-4">
       <div className="flex items-center justify-between">
@@ -49,85 +77,71 @@ export function SettingsView() {
         )}
       </div>
 
-      <Card className="rounded-xl border-border/50 bg-card/50 p-4 backdrop-blur-sm">
-        <div className="mb-4 flex items-center gap-3">
-          <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-primary/10">
-            <Globe className="h-5 w-5 text-primary" />
-          </div>
-          <div>
-            <h3 className="text-sm font-semibold">{t("settings.regional")}</h3>
-            <p className="text-xs text-muted-foreground">{t("settings.regionalHint")}</p>
-          </div>
-        </div>
+      <SettingsTabs activeTab={activeTab} onTabChange={setActiveTab} />
 
-        <div className="grid gap-4 md:grid-cols-2">
-          <div className="space-y-1.5">
-            <label htmlFor="language" className="text-xs font-medium text-muted-foreground">
-              {t("settings.language")}
-            </label>
-            <select
-              id="language"
-              value={language}
-              onChange={(e) => handleLanguageChange(e.target.value as AppLanguage)}
-              className="h-9 w-full rounded-lg border border-border/50 bg-background/50 px-3 text-sm outline-none focus:border-primary/50"
-            >
-              <option value="uk">{t("settings.languages.uk")}</option>
-              <option value="en">{t("settings.languages.en")}</option>
-            </select>
-            <p className="text-[10px] text-muted-foreground">{t("settings.languageHint")}</p>
-          </div>
+      {activeTab === "general" && (
+        <>
+          <Card className="rounded-xl border-border/50 bg-card/50 p-4 backdrop-blur-sm">
+            <div className="mb-4 flex items-center gap-3">
+              <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-primary/10">
+                <Globe className="h-5 w-5 text-primary" />
+              </div>
+              <div>
+                <h3 className="text-sm font-semibold">{t("settings.regional")}</h3>
+                <p className="text-xs text-muted-foreground">{t("settings.regionalHint")}</p>
+              </div>
+            </div>
 
-          <div className="space-y-1.5">
-            <label htmlFor="currency" className="text-xs font-medium text-muted-foreground">
-              {t("settings.currency")}
-            </label>
-            <select
-              id="currency"
-              value={currency}
-              onChange={(e) => handleCurrencyChange(e.target.value as AppCurrency)}
-              className="h-9 w-full rounded-lg border border-border/50 bg-background/50 px-3 text-sm outline-none focus:border-primary/50"
-            >
-              <option value="UAH">{t("settings.currencies.UAH")}</option>
-              <option value="USD">{t("settings.currencies.USD")}</option>
-              <option value="EUR">{t("settings.currencies.EUR")}</option>
-            </select>
-            <p className="text-[10px] text-muted-foreground">{t("settings.currencyHint")}</p>
-          </div>
-        </div>
-      </Card>
+            <div className="grid gap-4 md:grid-cols-2">
+              <div className="space-y-1.5">
+                <label htmlFor="language" className="text-xs font-medium text-muted-foreground">
+                  {t("settings.language")}
+                </label>
+                <DropdownSelect
+                  id="language"
+                  value={language}
+                  options={languageOptions}
+                  onChange={(value) => handleLanguageChange(value as AppLanguage)}
+                  aria-label={t("settings.language")}
+                />
+                <p className="text-[10px] text-muted-foreground">{t("settings.languageHint")}</p>
+              </div>
 
-      <HelpLearnCenter />
+              <div className="space-y-1.5">
+                <label htmlFor="currency" className="text-xs font-medium text-muted-foreground">
+                  {t("settings.currency")}
+                </label>
+                <DropdownSelect
+                  id="currency"
+                  value={currency}
+                  options={currencyOptions}
+                  onChange={(value) => handleCurrencyChange(value as AppCurrency)}
+                  aria-label={t("settings.currency")}
+                />
+                <p className="text-[10px] text-muted-foreground">{t("settings.currencyHint")}</p>
+              </div>
+            </div>
+          </Card>
 
-      <div className="grid gap-3 md:grid-cols-2">
-        <Card className="rounded-xl border-border/50 bg-card/50 p-4 backdrop-blur-sm">
-          <div className="mb-3 flex h-10 w-10 items-center justify-center rounded-lg bg-primary/10">
-            <User className="h-5 w-5 text-primary" />
-          </div>
-          <h3 className="mb-1 text-sm font-semibold">{t("settings.profile")}</h3>
-          <p className="text-xs text-muted-foreground">{t("settings.profileHint")}</p>
-        </Card>
+          <HelpLearnCenter />
+        </>
+      )}
 
-        <Card className="rounded-xl border-border/50 bg-card/50 p-4 backdrop-blur-sm">
-          <div className="mb-3 flex h-10 w-10 items-center justify-center rounded-lg bg-accent/10">
-            <Bell className="h-5 w-5 text-accent" />
-          </div>
-          <h3 className="mb-1 text-sm font-semibold">{t("settings.notifications")}</h3>
-          <p className="text-xs text-muted-foreground">{t("settings.notificationsHint")}</p>
-        </Card>
+      {activeTab === "profile" && <ProfileSettingsView />}
 
-        <Card className="rounded-xl border-border/50 bg-card/50 p-4 backdrop-blur-sm">
-          <div className="mb-3 flex h-10 w-10 items-center justify-center rounded-lg bg-emerald-500/10">
-            <Shield className="h-5 w-5 text-emerald-500" />
-          </div>
-          <h3 className="mb-1 text-sm font-semibold">{t("settings.security")}</h3>
-          <p className="text-xs text-muted-foreground">{t("settings.securityHint")}</p>
-        </Card>
+      {activeTab === "security" && (
+        <SecurityTab
+          onSuccess={(message) => {
+            setToastMessage(message);
+          }}
+        />
+      )}
 
+      {activeTab === "notifications" && <NotificationPreferencesView />}
+
+      {activeTab === "appearance" && (
         <Card className="rounded-xl border-border/50 bg-card/50 p-4 backdrop-blur-sm">
           <div className="mb-4 flex items-center gap-3">
-            <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-pink-500/10">
-              <Palette className="h-5 w-5 text-pink-500" />
-            </div>
             <div>
               <h3 className="text-sm font-semibold">{t("settings.appearance")}</h3>
               <p className="text-xs text-muted-foreground">{t("settings.appearanceHint")}</p>
@@ -162,7 +176,13 @@ export function SettingsView() {
             })}
           </div>
         </Card>
-      </div>
+      )}
+
+      <SuccessToast
+        message={toastMessage ?? ""}
+        open={!!toastMessage}
+        onClose={() => setToastMessage(null)}
+      />
     </div>
   );
 }

@@ -1,6 +1,7 @@
 import type { DriveStep, PopoverDOM } from "driver.js";
 import type { TranslationKey } from "@/src/shared/i18n";
 import type { ContextualHintId } from "../types";
+import { withPopoverPlacement } from "../services/popoverPlacement";
 
 type TranslateFn = (key: TranslationKey, params?: Record<string, string | number>) => string;
 
@@ -49,7 +50,7 @@ export function buildContextualHintStep(
 ): DriveStep {
   return {
     element: config.element,
-    popover: {
+    popover: withPopoverPlacement({
       title: t(config.titleKey),
       description: t(config.descriptionKey),
       side: config.side ?? "bottom",
@@ -60,7 +61,7 @@ export function buildContextualHintStep(
         const closeBtn = dom.footerButtons.querySelector(".driver-popover-close-btn");
         closeBtn?.setAttribute("aria-label", t("onboarding.hints.gotIt"));
       },
-    },
+    }),
   };
 }
 

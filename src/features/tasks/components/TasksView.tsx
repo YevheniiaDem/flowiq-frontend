@@ -4,7 +4,7 @@ import { useEffect, useMemo, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { Loader2, Plus, ClipboardCheck } from "lucide-react";
 import { usePreferences } from "@/src/shared/context/PreferencesContext";
-import { useContextualHint, usePageActivation, EmptyState, useActivation } from "@/src/features/onboarding";
+import { useContextualHint, usePageActivation, EmptyState, useActivation, usePendingHelpGuide } from "@/src/features/onboarding";
 import { Button } from "@/src/shared/components/ui/button";
 import { useTasks } from "../hooks/useTasks";
 import { TaskCard } from "./TaskCard";
@@ -52,6 +52,7 @@ export function TasksView() {
   } = useTasks({ filters });
 
   useContextualHint("tasks", !loading && !error);
+  usePendingHelpGuide("tasks_guide", !loading && !error);
   usePageActivation("tasks");
 
   useEffect(() => {

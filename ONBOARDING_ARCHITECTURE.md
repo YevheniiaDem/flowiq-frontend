@@ -14,10 +14,14 @@ src/features/onboarding/
 │   └── useContextualHint.ts     # Per-page first-visit hints
 ├── services/
 │   ├── onboardingStorage.ts     # localStorage state machine
+│   ├── helpGuideStorage.ts      # sessionStorage pending help-guide id
 │   ├── createDriver.ts          # Driver.js factory with FlowIQ theme
-│   └── domUtils.ts              # Element wait / focus helpers
+│   ├── domUtils.ts              # Element wait, focus, popover placement
+│   ├── popoverPlacement.ts      # withPopoverPlacement() wrapper for tours
+│   └── tourNavigation.ts        # Cross-route tour targets + waitForElement
 ├── tour-config/
 │   ├── productTour.ts           # 6-step guided tour definition
+│   ├── helpGuides.ts            # Settings/help checklist contextual guides
 │   └── contextualHints.ts       # One-time page hints
 ├── styles/
 │   └── onboarding.css           # Driver.js popover theming + responsive rules
@@ -32,11 +36,14 @@ src/features/onboarding/
 |----------|------|
 | `MainLayout.tsx` | Wraps authenticated shell with `OnboardingProvider` |
 | `RegisterForm.tsx` | Sets `onboarding_pending` after successful registration |
-| `SettingsView.tsx` | Help section → **Start Product Tour** (replay) |
-| `AIAccountantView.tsx` | `useContextualHint("ai_accountant")` |
-| `ForecastsView.tsx` | `useContextualHint("forecasts")` |
-| `ImportsView.tsx` | `useContextualHint("imports")` |
-| `TasksView.tsx` | `useContextualHint("tasks")` |
+| `SettingsView.tsx` | Help section → tours/guides; **Notifications** preferences tab |
+| `DashboardView.tsx` | `usePendingHelpGuide("checklist")` when opened from Help |
+| `ImportsView.tsx` | `useContextualHint("imports")` + `usePendingHelpGuide("import_guide")` |
+| `TransactionsView.tsx` | `usePendingHelpGuide("transactions_guide")` |
+| `BusinessGuideView.tsx` | `usePendingHelpGuide("business_guide")` |
+| `AIAccountantView.tsx` | `useContextualHint("ai_accountant")` + `usePendingHelpGuide("ai_accountant")` |
+| `ForecastsView.tsx` | `useContextualHint("forecasts")` + `usePendingHelpGuide("forecasts_guide")` |
+| `TasksView.tsx` | `useContextualHint("tasks")` + `usePendingHelpGuide("tasks_guide")` |
 
 Auth flow is unchanged: login/register still redirect to `/`. Onboarding only activates inside `MainLayout` after the existing client-side auth check passes.
 
@@ -57,7 +64,7 @@ Register → onboarding_pending=true → Dashboard (MainLayout)
 |------|-------|------------------|
 | 1. Dashboard overview | `/` | `[data-testid="dashboard-stats"]` |
 | 2. Import transactions | `/imports` | `[data-testid="imports-upload-zone"]` |
-| 3. AI Accountant | `/ai-accountant` | `[data-testid="ai-accountant-chat"]` |
+| 3. AI Accountant | `/ai-accountant` | `[data-testid="ai-accountant-chat"]` (popover below, auto-flip if overlap) |
 | 4. Forecasts | `/forecasts` | `[data-testid="forecasts-summary-cards"]` |
 | 5. Tasks & notifications | `/tasks` | `[data-testid="tasks-add-btn"]` |
 | 6. Success + CTA | overlay | Centered popover → **Import your first statement** |
@@ -75,6 +82,24 @@ Blocked while welcome modal or product tour is active.
 ### 4. Replay from Settings
 
 **Settings → Help → Start Product Tour** calls `startTour({ fromSettings: true })`. Skipping or closing mid-replay does **not** write `onboarding_skipped`.
+
+### 5. Help guides (Settings & checklist)
+
+Checklist items and Help & Learn Center links call `startHelpGuide(guideId)` instead of plain navigation. The target route opens and `usePendingHelpGuide()` on that page starts a Driver.js walkthrough when the DOM is ready.
+
+| Guide ID | Route | Trigger |
+|----------|-------|---------|
+| `checklist` | `/` | Help → Activation checklist |
+| `import_guide` | `/imports` | Checklist / Help |
+| `transactions_guide` | `/transactions` | Checklist / first-import success CTA |
+| `business_guide` | `/business-guide` | Help |
+| `ai_accountant` | `/ai-accountant` | Checklist / Help |
+| `forecasts_guide` | `/forecasts` | Checklist |
+| `tasks_guide` | `/tasks` | Checklist |
+
+Pending guide id is stored in `sessionStorage` (`onboarding_pending_help_guide`). Mapping: `config/checklistItemGuides.ts`.
+
+**Popover placement:** `forcePopoverPlacement()` in `domUtils.ts` positions the tooltip and arrow toward the highlighted element. If the preferred side would overlap the target (e.g. wide chat card with `side: left`), the side is auto-flipped (`bottom` → `top` → `right`).
 
 ## localStorage State Machine
 

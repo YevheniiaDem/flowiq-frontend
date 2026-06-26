@@ -18,6 +18,9 @@ export type OnboardingAnalyticsEvent =
   | "onboarding_whats_new_shown"
   | "onboarding_whats_new_dismissed"
   | "onboarding_help_article_opened"
+  | "onboarding_help_guide_requested"
+  | "onboarding_help_guide_started"
+  | "onboarding_help_guide_completed"
   | "import_upload_started"
   | "import_upload_succeeded"
   | "import_upload_failed";

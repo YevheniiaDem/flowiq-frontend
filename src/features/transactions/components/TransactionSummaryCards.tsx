@@ -32,7 +32,7 @@ export function TransactionSummaryCards({
   locale,
 }: TransactionSummaryCardsProps) {
   return (
-    <div className="grid gap-3 md:grid-cols-2 lg:grid-cols-4">
+    <div data-testid="transactions-summary" className="grid gap-3 md:grid-cols-2 lg:grid-cols-4">
       {cards.map(({ key, icon: Icon, color, bg }) => {
         const value =
           key === "transactionCount"

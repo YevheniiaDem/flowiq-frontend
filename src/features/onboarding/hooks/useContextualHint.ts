@@ -6,12 +6,21 @@ import { usePreferences } from "@/src/shared/context/PreferencesContext";
 import { createFlowiqDriver } from "../services/createDriver";
 import { waitForElement } from "../services/domUtils";
 import { onboardingStorage } from "../services/onboardingStorage";
+import { helpGuideStorage } from "../services/helpGuideStorage";
+import { isTourActiveSync } from "../services/tourState";
 import {
   buildContextualHintStep,
   getContextualHintConfig,
 } from "../tour-config/contextualHints";
-import type { ContextualHintId } from "../types";
+import type { ContextualHintId, HelpGuideId } from "../types";
 import { useOnboardingOptional } from "./useOnboardingContext";
+
+const HINT_GUIDE_MAP: Partial<Record<ContextualHintId, HelpGuideId>> = {
+  imports: "import_guide",
+  ai_accountant: "ai_accountant",
+  forecasts: "forecasts_guide",
+  tasks: "tasks_guide",
+};
 
 export function useContextualHint(hintId: ContextualHintId, enabled = true): void {
   const { t } = usePreferences();
@@ -20,9 +29,12 @@ export function useContextualHint(hintId: ContextualHintId, enabled = true): voi
   const shownRef = useRef(false);
 
   const isBlocked =
+    isTourActiveSync() ||
     onboarding?.isTourActive ||
     onboarding?.isWelcomeOpen ||
-    onboardingStorage.isHintShown(hintId);
+    onboardingStorage.isHintShown(hintId) ||
+    (HINT_GUIDE_MAP[hintId] != null &&
+      helpGuideStorage.isPending(HINT_GUIDE_MAP[hintId]!));
 
   useEffect(() => {
     if (!enabled || isBlocked || shownRef.current) return;
@@ -33,9 +45,27 @@ export function useContextualHint(hintId: ContextualHintId, enabled = true): voi
     let cancelled = false;
 
     const showHint = async () => {
-      await waitForElement(config.element);
-      if (cancelled || shownRef.current || onboardingStorage.isHintShown(hintId)) return;
-      if (onboarding?.isTourActive || onboarding?.isWelcomeOpen) return;
+      if (
+        cancelled ||
+        shownRef.current ||
+        isTourActiveSync() ||
+        onboarding?.isTourActive ||
+        onboarding?.isWelcomeOpen
+      ) {
+        return;
+      }
+
+      await waitForElement(config.element, { timeoutMs: 10_000 });
+      if (
+        cancelled ||
+        shownRef.current ||
+        onboardingStorage.isHintShown(hintId) ||
+        isTourActiveSync() ||
+        onboarding?.isTourActive ||
+        onboarding?.isWelcomeOpen
+      ) {
+        return;
+      }
 
       shownRef.current = true;
       onboardingStorage.markHintShown(hintId);
@@ -51,7 +81,9 @@ export function useContextualHint(hintId: ContextualHintId, enabled = true): voi
       driverInstance.drive();
     };
 
-    const timeoutId = window.setTimeout(showHint, 600);
+    const timeoutId = window.setTimeout(() => {
+      void showHint();
+    }, 600);
 
     return () => {
       cancelled = true;

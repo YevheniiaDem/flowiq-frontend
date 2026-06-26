@@ -18,6 +18,7 @@ interface FopLimitForecastCardProps {
     incomeLimit: string;
     monthsUntilLimit: string;
     projectedUsage: string;
+    horizonMonths: string;
     limitExceeded: string;
   };
   currency: AppCurrency;
@@ -87,31 +88,47 @@ export function FopLimitForecastCard({
         {data.horizons.map((horizon) => {
           const horizonColor =
             horizon.projectedUsagePercent >= 100
-              ? "text-red-500"
+              ? "text-red-600 dark:text-red-400"
               : horizon.projectedUsagePercent >= 85
-              ? "text-amber-500"
-              : "text-emerald-500";
+              ? "text-amber-600 dark:text-amber-400"
+              : "text-emerald-600 dark:text-emerald-400";
+
+          const horizonBadgeClass = horizon.limitExceeded
+            ? "border-red-500/25 bg-red-500/10 text-red-700 dark:text-red-400"
+            : horizon.projectedUsagePercent >= 85
+              ? "border-amber-500/25 bg-amber-500/10 text-amber-800 dark:text-amber-400"
+              : "border-primary/25 bg-primary/10 text-primary";
+
+          const horizonLabel = labels.horizonMonths.replace(
+            "{count}",
+            String(horizon.months)
+          );
 
           return (
             <Card
               key={horizon.months}
               className={cn(
                 "rounded-xl border-border/50 bg-card/50 p-4 backdrop-blur-sm",
-                horizon.limitExceeded && "border-red-500/30"
+                horizon.limitExceeded && "border-red-500/30 bg-red-500/[0.03]"
               )}
             >
-              <Badge className="mb-2 rounded-md bg-muted text-xs">
-                {horizon.months} {labels.projectedUsage.split(" ")[0] || "mo"}
+              <Badge
+                className={cn(
+                  "mb-3 rounded-md border px-2 py-0.5 text-[11px] font-semibold tracking-wide",
+                  horizonBadgeClass
+                )}
+              >
+                {horizonLabel}
               </Badge>
-              <p className="text-xs text-muted-foreground">{labels.projectedUsage}</p>
-              <p className={cn("text-lg font-bold", horizonColor)}>
+              <p className="text-xs font-medium text-muted-foreground">{labels.projectedUsage}</p>
+              <p className={cn("mt-1 text-2xl font-bold tabular-nums", horizonColor)}>
                 {horizon.projectedUsagePercent.toFixed(1)}%
               </p>
-              <p className="mt-1 text-[10px] text-muted-foreground">
+              <p className="mt-1.5 text-xs tabular-nums text-foreground/80">
                 {formatCurrency(horizon.projectedAnnualIncome, currency, locale)}
               </p>
               {horizon.limitExceeded && (
-                <p className="mt-1 text-[10px] font-medium text-red-500">
+                <p className="mt-2 text-xs font-semibold text-red-600 dark:text-red-400">
                   {labels.limitExceeded}
                 </p>
               )}

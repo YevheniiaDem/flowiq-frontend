@@ -46,23 +46,26 @@ export function KvedExplorer() {
                 initial={{ opacity: 0, x: -8 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ duration: 0.2, delay: index * 0.02 }}
-                className="flex items-start justify-between gap-3 rounded-lg border border-border/30 bg-muted/20 p-3 transition-colors hover:border-primary/20 hover:bg-muted/40"
+                className="flex items-center justify-between gap-3 rounded-lg border border-border/30 bg-muted/20 p-3 transition-colors hover:border-primary/20 hover:bg-muted/40"
               >
-                <div className="flex items-start gap-3">
+                <div className="flex min-w-0 items-center gap-3">
                   <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-md bg-primary/10 font-mono text-xs font-semibold text-primary">
                     {kved.code.split(".")[0]}
                   </div>
-                  <div>
-                    <p className="text-sm font-medium">
+                  <div className="min-w-0">
+                    <p className="text-sm font-medium leading-snug">
                       <span className="font-mono text-primary">{kved.code}</span>
                       {" — "}
                       {kved.name}
                     </p>
                   </div>
                 </div>
-                <Badge variant="outline" className="shrink-0 rounded-md text-[10px]">
-                  <Tag className="mr-1 h-2.5 w-2.5" />
-                  {kved.category}
+                <Badge
+                  variant="outline"
+                  className="inline-flex h-auto min-h-6 shrink-0 items-center gap-1 self-center rounded-md px-2 py-1 text-[10px] leading-snug"
+                >
+                  <Tag className="h-3 w-3 shrink-0" />
+                  <span>{kved.category}</span>
                 </Badge>
               </motion.div>
             ))}

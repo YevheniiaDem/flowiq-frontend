@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import type { ImportJob } from "@/src/features/imports/types";
 import { activationStorage } from "../services/activationStorage";
+import { helpGuideStorage } from "../services/helpGuideStorage";
 import { trackEvent } from "../services/productAnalytics";
 import { useActivation } from "./useActivationContext";
 
@@ -49,7 +50,7 @@ export function useFirstImportSuccess(jobs: ImportJob[], enabled = true) {
 
   const viewTransactions = () => {
     dismiss();
-    markChecklistItem("review_transactions");
+    helpGuideStorage.setPending("transactions_guide");
     router.push("/transactions");
   };
 

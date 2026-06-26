@@ -22,6 +22,7 @@ import {
   EmptyState,
   getDemoDashboardData,
   useDemoWorkspace,
+  usePendingHelpGuide,
 } from "@/src/features/onboarding";
 import {
   AIInsight,
@@ -57,6 +58,8 @@ export function DashboardView() {
   const [forecastSnapshot, setForecastSnapshot] = useState<ForecastSnapshot | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+
+  usePendingHelpGuide("checklist", !loading);
 
   const loadDemoData = useCallback(() => {
     const demo = getDemoDashboardData(language);
@@ -113,6 +116,14 @@ export function DashboardView() {
 
   useEffect(() => {
     loadDashboard();
+  }, [loadDashboard]);
+
+  useEffect(() => {
+    const handleProfileUpdated = () => {
+      void loadDashboard();
+    };
+    window.addEventListener("flowiq:profile-updated", handleProfileUpdated);
+    return () => window.removeEventListener("flowiq:profile-updated", handleProfileUpdated);
   }, [loadDashboard]);
 
   if (loading) {

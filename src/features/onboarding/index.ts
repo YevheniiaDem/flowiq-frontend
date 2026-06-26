@@ -13,6 +13,7 @@ export { WhatsNewModal } from "./components/WhatsNewModal";
 export { useOnboarding, useOnboardingOptional } from "./hooks/useOnboardingContext";
 export { useActivation, useActivationOptional, useDemoWorkspace } from "./hooks/useActivationContext";
 export { useContextualHint } from "./hooks/useContextualHint";
+export { usePendingHelpGuide } from "./hooks/usePendingHelpGuide";
 export { usePageActivation } from "./hooks/usePageActivation";
 export { useFirstImportSuccess } from "./hooks/useFirstImportSuccess";
 
@@ -24,7 +25,7 @@ export { getDemoDashboardData } from "./services/demoWorkspaceData";
 export { CHECKLIST_ITEMS } from "./config/checklistItems";
 export { WHATS_NEW_RELEASES, getLatestRelease } from "./config/whatsNew";
 
-export type { ContextualHintId, OnboardingContextValue } from "./types";
+export type { ContextualHintId, HelpGuideId, OnboardingContextValue } from "./types";
 export type {
   ChecklistItemId,
   CelebrationId,

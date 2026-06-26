@@ -25,7 +25,7 @@ export function FopEligibilityChecker() {
   } = useEligibilityChecker();
 
   return (
-    <section id="fop-eligibility-checker">
+    <section id="fop-eligibility-checker" data-testid="business-guide-eligibility">
       <div className="mb-3">
         <div className="flex items-center gap-2">
           <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-gradient-to-br from-primary/20 to-accent/20">

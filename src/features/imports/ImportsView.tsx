@@ -7,6 +7,7 @@ import { usePreferences } from "@/src/shared/context/PreferencesContext";
 import {
   useContextualHint,
   useFirstImportSuccess,
+  usePendingHelpGuide,
   FirstImportSuccessModal,
   EmptyState,
 } from "@/src/features/onboarding";
@@ -21,6 +22,7 @@ export function ImportsView() {
   const { jobs, stats, loading, uploading, error, uploadFile } = useImports();
 
   useContextualHint("imports", !loading);
+  usePendingHelpGuide("import_guide", !loading);
   const firstImport = useFirstImportSuccess(jobs, !loading);
 
   const statusLabels = useMemo(

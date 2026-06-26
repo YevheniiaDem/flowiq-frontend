@@ -204,6 +204,7 @@ export const en: TranslationKeys = {
       you: "You",
       assistant: "AI Accountant",
       thinking: "Analyzing your financial data...",
+      quickQuestions: "Quick questions",
       suggestions: {
         earnings: "How much did I earn in the last 3 months?",
         expenses: "What are my biggest expenses?",
@@ -219,6 +220,8 @@ export const en: TranslationKeys = {
       estimatedTaxes: "Estimated Taxes",
       daysUntilDeadline: "Days Until Tax Deadline",
       forecastTax: "Forecast Tax Amount",
+      incomeLimit: "Annual FOP income limit",
+      limitWarning: "Income limit is nearly reached. Review your forecast and tax planning.",
     },
     forecast: {
       title: "Forecast Center",
@@ -262,6 +265,8 @@ export const en: TranslationKeys = {
       currentBurden: "Current Tax Burden (YTD)",
       annualForecast: "Annual Tax Forecast",
       projected: "Projected",
+      projectedTax: "Tax forecast",
+      horizonMonths: "{count} mo",
     },
     fop: {
       title: "FOP Limit Forecast",
@@ -269,7 +274,8 @@ export const en: TranslationKeys = {
       currentUsage: "Current Limit Usage",
       incomeLimit: "Income Limit",
       monthsUntilLimit: "Months until limit",
-      projectedUsage: "Projected usage",
+      projectedUsage: "Limit usage",
+      horizonMonths: "{count} mo",
       limitExceeded: "Limit exceeded",
     },
   },
@@ -481,6 +487,139 @@ export const en: TranslationKeys = {
     helpHint: "Product guides and support resources",
     startProductTour: "Start Product Tour",
     startProductTourHint: "Replay the guided walkthrough of Flowiq features",
+    tabs: {
+      general: "General",
+      profile: "Profile",
+      security: "Security",
+      notifications: "Notifications",
+      appearance: "Appearance",
+    },
+  },
+  notificationPreferences: {
+    title: "Notification preferences",
+    subtitle: "Choose which alerts you receive and how they are delivered",
+    search: "Search notifications…",
+    masterSwitch: "All notifications",
+    enableAll: "Enable all",
+    disableAll: "Disable all",
+    resetDefaults: "Reset to defaults",
+    resetSuccess: "Notification preferences reset",
+    saveChanges: "Save changes",
+    saved: "Notification preferences saved",
+    saveError: "Failed to save notification preferences",
+    loadError: "Failed to load notification preferences",
+    unsavedChanges: "Unsaved changes",
+    noResults: "No matching notification types",
+    columnNotification: "Notification",
+    channelFuture: "Soon",
+    channels: {
+      IN_APP: "In-app",
+      EMAIL: "Email",
+      PUSH: "Push",
+      TELEGRAM: "Telegram",
+    },
+    categories: {
+      FINANCIAL: "Financial",
+      TASKS: "Tasks",
+      AI: "AI",
+      IMPORTS: "Imports",
+      REPORTS: "Reports",
+    },
+    items: {
+      financialTaxes: "Taxes",
+      financialLargeExpense: "Large expenses",
+      financialLargeIncome: "Large income",
+      financialNegativeCashFlow: "Negative cash flow",
+      financialLowBalance: "Running low on funds",
+      financialOverduePayment: "Overdue payments",
+      financialTaxWarning: "Tax warnings",
+      taskReminderToday: "Due today",
+      taskReminder3Days: "Due in 3 days",
+      taskReminderWeek: "Due in a week",
+      taskReminderOverdue: "Overdue",
+      aiAccountantRecommendations: "AI Accountant recommendations",
+      aiFinancialTips: "Financial tips",
+      aiTaxOptimization: "Tax optimization",
+      aiWarnings: "Warnings",
+      aiForecastAnomaly: "Forecast anomalies",
+      importCompleted: "Import completed",
+      importFailed: "Import failed",
+      importPartial: "Import partially successful",
+      importCsvProcessing: "CSV processing",
+      reportReady: "Report ready",
+      reportGenerationError: "Report generation error",
+      reportPdfAvailable: "PDF available",
+      reportExcelAvailable: "Excel available",
+    },
+  },
+  profile: {
+    saveChanges: "Save changes",
+    unsavedChanges: "Unsaved changes",
+    personal: {
+      title: "Personal information",
+      hint: "Name, contacts, and avatar",
+      firstName: "First name",
+      lastName: "Last name",
+      email: "Email",
+      emailHint: "Email change requires verification (coming soon)",
+      phone: "Phone number",
+      company: "FOP / company name",
+      uploadAvatar: "Upload photo",
+      avatarHint: "JPEG, PNG, WebP or GIF up to 5 MB",
+      saved: "Profile saved",
+      saveError: "Failed to save profile",
+      avatarSaved: "Avatar updated",
+      avatarError: "Failed to upload avatar",
+    },
+    fop: {
+      title: "FOP information",
+      hint: "Group, taxes, and KVED codes — affects analytics and forecasts",
+      fopGroup: "FOP group",
+      taxSystem: "Tax system",
+      vatPayer: "VAT payer",
+      taxRate: "Tax rate",
+      registrationDate: "Registration date",
+      region: "Region",
+      mainKved: "Main KVED",
+      mainKvedName: "Main KVED name",
+      kvedList: "KVED list",
+      addKved: "Add KVED",
+      removeKved: "Remove KVED",
+      saved: "FOP profile saved",
+      saveError: "Failed to save FOP profile",
+      groups: {
+        "1": "Group 1",
+        "2": "Group 2",
+        "3": "Group 3",
+        general: "General tax system",
+      },
+      taxSystems: {
+        SINGLE_TAX: "Single tax",
+        GENERAL: "General system",
+      },
+    },
+    security: {
+      changePassword: "Change password",
+      changePasswordHint: "Minimum 10 characters with uppercase, lowercase, number, and special symbol",
+      currentPassword: "Current password",
+      newPassword: "New password",
+      confirmPassword: "Confirm password",
+      passwordRules: "Min. 10 chars, upper/lowercase, number, special symbol",
+      updatePassword: "Update password",
+      passwordChanged: "Password changed successfully",
+      passwordError: "Failed to change password",
+      sessionsTitle: "Active sessions",
+      sessionsHint: "Devices where you are signed in",
+      currentDevice: "Current",
+      unknownDevice: "Unknown device",
+      loginTime: "Login time",
+      lastActivity: "Last activity",
+      logoutCurrent: "Log out current session",
+      logoutAll: "Log out all devices",
+      refreshSessions: "Refresh list",
+      noSessions: "No active sessions",
+      sessionError: "Session management error",
+    },
   },
   activation: {
     checklist: {
@@ -720,6 +859,132 @@ export const en: TranslationKeys = {
       tasks: {
         title: "Manage your tasks",
         description: "Add tasks for tax payments, reporting deadlines, and daily business operations.",
+      },
+    },
+    helpGuides: {
+      progress: "Step {current} of {total}",
+      checklist: {
+        completeTitle: "Activation complete!",
+        completeSubtitle: "You've finished all onboarding steps. Keep growing with your data.",
+        ctaAnalytics: "Open analytics",
+        ctaImport: "Import more data",
+        step1: {
+          title: "Your activation checklist",
+          description:
+            "Track onboarding progress here. Complete each step to unlock the full value of Flowiq.",
+        },
+        step2: {
+          title: "Dashboard overview",
+          description:
+            "After activation, monitor revenue, expenses, profit, and cash flow from this panel.",
+        },
+      },
+      import: {
+        step1: {
+          title: "Upload bank statements",
+          description:
+            "Drag and drop a CSV file here or use the browse button. Flowiq will parse and categorize transactions.",
+        },
+        step2: {
+          title: "Choose your file",
+          description:
+            "Supported formats: CSV from Monobank, PrivatBank, and other banks. Max file size is shown on upload.",
+        },
+        step3: {
+          title: "Review import history",
+          description:
+            "After upload, check status, row counts, and errors in the history table below.",
+        },
+      },
+      business: {
+        step1: {
+          title: "Search the knowledge base",
+          description:
+            "Ask about FOP groups, taxes, KVED codes, or compliance rules — answers come from curated articles.",
+        },
+        step2: {
+          title: "Your business profile",
+          description:
+            "See your FOP group, income limit usage, and business health at a glance.",
+        },
+        step3: {
+          title: "FOP groups overview",
+          description:
+            "Compare tax rates and income limits for FOP groups 1–3 to find the best fit.",
+        },
+        step4: {
+          title: "Eligibility checker",
+          description:
+            "Answer a few questions to see which FOP group matches your business activity and income.",
+        },
+      },
+      ai: {
+        step1: {
+          title: "Business health score",
+          description:
+            "AI evaluates your financial data and shows an overall health score with key indicators.",
+        },
+        step2: {
+          title: "AI recommendations",
+          description:
+            "Personalized tips for taxes, expenses, and growth — updated as your data changes.",
+        },
+        step3: {
+          title: "Chat with AI Accountant",
+          description:
+            "Ask questions in plain language. Use quick suggestions or type your own query.",
+        },
+        step4: {
+          title: "Tax advisor",
+          description:
+            "Get tax burden estimates, optimization hints, and deadline reminders tailored to your FOP profile.",
+        },
+      },
+      transactions: {
+        step1: {
+          title: "Transaction summary",
+          description:
+            "See total income, expenses, profit, and transaction count for the selected period.",
+        },
+        step2: {
+          title: "Search and filters",
+          description:
+            "Search by description and filter by type or date to find specific transactions quickly.",
+        },
+        step3: {
+          title: "Transactions table",
+          description:
+            "Review categories and amounts. Click a row to edit the category or transaction details.",
+        },
+      },
+      forecasts: {
+        step1: {
+          title: "Key metrics",
+          description:
+            "Overview of projected income, expenses, and cash flow based on your data.",
+        },
+        step2: {
+          title: "Forecast charts",
+          description:
+            "Compare income and expense trends to plan your budget for upcoming months.",
+        },
+      },
+      tasks: {
+        step1: {
+          title: "Create a task",
+          description:
+            "Add tasks for tax payments, reporting deadlines, and daily business operations.",
+        },
+        step2: {
+          title: "Task filters",
+          description:
+            "Filter by status and priority to focus on what matters most.",
+        },
+        step3: {
+          title: "Task list",
+          description:
+            "Mark items complete, edit deadlines, and track your tax obligations.",
+        },
       },
     },
   },

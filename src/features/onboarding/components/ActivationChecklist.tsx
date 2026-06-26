@@ -1,15 +1,18 @@
 "use client";
 
+import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { Check, ChevronRight, X, ListChecks } from "lucide-react";
+import { Check, ChevronRight, X, ListChecks, PartyPopper } from "lucide-react";
 import { Card } from "@/src/shared/components/ui/card";
 import { Button } from "@/src/shared/components/ui/button";
 import { usePreferences } from "@/src/shared/context/PreferencesContext";
 import { useOnboarding } from "../hooks/useOnboardingContext";
 import { useActivation } from "../hooks/useActivationContext";
 import { CHECKLIST_ITEMS } from "../config/checklistItems";
+import { CHECKLIST_ITEM_GUIDES } from "../config/checklistItemGuides";
 import { activationStorage } from "../services/activationStorage";
+import { helpGuideStorage } from "../services/helpGuideStorage";
 import { trackEvent } from "../services/productAnalytics";
 import type { ChecklistItemId } from "../types/activation";
 import { cn } from "@/src/shared/utils/utils";
@@ -17,10 +20,33 @@ import { cn } from "@/src/shared/utils/utils";
 export function ActivationChecklist() {
   const router = useRouter();
   const { t } = usePreferences();
-  const { startTour } = useOnboarding();
+  const { startTour, startHelpGuide } = useOnboarding();
   const { checklistState, markChecklistItem, refreshChecklist } = useActivation();
+  const [forceVisible, setForceVisible] = useState(false);
+  const cardRef = useRef<HTMLDivElement>(null);
 
-  if (activationStorage.isChecklistDismissed() || checklistState.isComplete) {
+  useEffect(() => {
+    const revealChecklist = () => {
+      activationStorage.showChecklist();
+      setForceVisible(true);
+      refreshChecklist();
+      window.setTimeout(() => {
+        cardRef.current?.scrollIntoView({ behavior: "smooth", block: "center" });
+      }, 400);
+    };
+
+    if (helpGuideStorage.peekPending() === "checklist") {
+      revealChecklist();
+    }
+
+    window.addEventListener("flowiq:checklist-focus", revealChecklist);
+    return () => window.removeEventListener("flowiq:checklist-focus", revealChecklist);
+  }, [refreshChecklist]);
+
+  const isDismissed = activationStorage.isChecklistDismissed();
+  const isComplete = checklistState.isComplete;
+
+  if (!forceVisible && (isDismissed || isComplete)) {
     return null;
   }
 
@@ -30,36 +56,56 @@ export function ActivationChecklist() {
   const progress = Math.round((completedCount / CHECKLIST_ITEMS.length) * 100);
 
   const handleItemAction = (id: ChecklistItemId, href: string) => {
+    trackEvent("onboarding_empty_state_cta_clicked", { target: id });
+
     if (id === "product_tour") {
-      startTour();
+      startTour({ fromSettings: true });
       return;
     }
+
+    const guideId = CHECKLIST_ITEM_GUIDES[id];
+    if (guideId) {
+      startHelpGuide(guideId);
+      return;
+    }
+
     router.push(href);
-    trackEvent("onboarding_empty_state_cta_clicked", { target: id });
   };
 
   const handleDismiss = () => {
     activationStorage.dismissChecklist();
+    setForceVisible(false);
     refreshChecklist();
   };
 
   return (
     <Card
+      ref={cardRef}
       data-testid="activation-checklist"
       className="rounded-xl border-primary/20 bg-gradient-to-br from-primary/5 to-accent/5 p-4 backdrop-blur-sm"
     >
       <div className="mb-3 flex items-start justify-between gap-3">
         <div className="flex items-center gap-2.5">
           <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-primary/10">
-            <ListChecks className="h-4 w-4 text-primary" />
+            {isComplete ? (
+              <PartyPopper className="h-4 w-4 text-primary" />
+            ) : (
+              <ListChecks className="h-4 w-4 text-primary" />
+            )}
           </div>
           <div>
-            <h3 className="text-sm font-semibold">{t("activation.checklist.title")}</h3>
+            <h3 className="text-sm font-semibold">
+              {isComplete
+                ? t("onboarding.helpGuides.checklist.completeTitle")
+                : t("activation.checklist.title")}
+            </h3>
             <p className="text-xs text-muted-foreground">
-              {t("activation.checklist.subtitle", {
-                completed: completedCount,
-                total: CHECKLIST_ITEMS.length,
-              })}
+              {isComplete
+                ? t("onboarding.helpGuides.checklist.completeSubtitle")
+                : t("activation.checklist.subtitle", {
+                    completed: completedCount,
+                    total: CHECKLIST_ITEMS.length,
+                  })}
             </p>
           </div>
         </div>
@@ -73,18 +119,20 @@ export function ActivationChecklist() {
         </Button>
       </div>
 
-      <div className="mb-4">
-        <div className="mb-1 flex justify-between text-[10px] font-medium text-muted-foreground">
-          <span>{t("activation.checklist.progress")}</span>
-          <span>{progress}%</span>
+      {!isComplete && (
+        <div className="mb-4">
+          <div className="mb-1 flex justify-between text-[10px] font-medium text-muted-foreground">
+            <span>{t("activation.checklist.progress")}</span>
+            <span>{progress}%</span>
+          </div>
+          <div className="h-1.5 overflow-hidden rounded-full bg-muted">
+            <div
+              className="h-full rounded-full bg-primary transition-all duration-500"
+              style={{ width: `${progress}%` }}
+            />
+          </div>
         </div>
-        <div className="h-1.5 overflow-hidden rounded-full bg-muted">
-          <div
-            className="h-full rounded-full bg-primary transition-all duration-500"
-            style={{ width: `${progress}%` }}
-          />
-        </div>
-      </div>
+      )}
 
       <ul className="space-y-2">
         {CHECKLIST_ITEMS.map((item) => {
@@ -108,7 +156,12 @@ export function ActivationChecklist() {
                 {done ? <Check className="h-3.5 w-3.5" /> : null}
               </div>
               <div className="min-w-0 flex-1">
-                <p className={cn("text-xs font-medium", done && "text-muted-foreground line-through")}>
+                <p
+                  className={cn(
+                    "text-xs font-medium",
+                    done && "text-muted-foreground line-through"
+                  )}
+                >
                   {t(item.titleKey as never)}
                 </p>
                 {!done && (
@@ -132,6 +185,17 @@ export function ActivationChecklist() {
           );
         })}
       </ul>
+
+      {isComplete && (
+        <div className="mt-3 flex flex-wrap gap-2">
+          <Button asChild size="sm" variant="default">
+            <Link href="/analytics">{t("onboarding.helpGuides.checklist.ctaAnalytics")}</Link>
+          </Button>
+          <Button asChild size="sm" variant="outline">
+            <Link href="/imports">{t("onboarding.helpGuides.checklist.ctaImport")}</Link>
+          </Button>
+        </div>
+      )}
     </Card>
   );
 }
